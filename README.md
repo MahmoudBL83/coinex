@@ -169,4 +169,106 @@ Certainly! Here's an example of API documentation for the `/api/v1/user_info/` r
 
 - Unauthorized: If the request does not include a valid access token in the `Authorization` header. Status code: 401
 
-Please note that this is just a basic example, and you may need to include additional details or modify it based on your specific requirements. It's important to provide clear explanations of the endpoint, its method, headers, response structure, and any error conditions.
+# API Documentation
+
+## Deposit Endpoint
+
+- URL: `/api/v1/deposit/`
+- Methods: POST, GET
+- Authentication: Login required
+
+### POST Request
+
+- Description: Process a cryptocurrency deposit.
+- Body:
+  - `symbol` (string): The symbol of the cryptocurrency.
+  - `network` (string): The network to deposit the cryptocurrency on.
+
+### GET Request
+
+- Description: Render the deposit page.
+- Response: HTML template with the list of exchanges and the current user.
+
+## Transfer Endpoint
+
+- URL: `/api/v1/transfer/`
+- Methods: POST, GET
+- Authentication: Login required
+
+### POST Request
+
+- Description: Perform a cryptocurrency transfer.
+- Body:
+  - `amount` (float): The amount of cryptocurrency to transfer.
+  - `side` (string): The side of the transfer (e.g., 'buy', 'sell').
+  - `symbol` (string): The symbol of the cryptocurrency.
+
+### GET Request
+
+- Description: Render the transfer page.
+- Response: HTML template with the list of exchanges and the current user.
+
+## Withdraw Endpoint
+
+- URL: `/api/v1/withdraw/`
+- Methods: POST, GET
+- Authentication: Login required
+
+### POST Request
+
+- Description: Initiate a cryptocurrency withdrawal.
+- Body:
+  - `amount` (float): The amount of cryptocurrency to withdraw.
+  - `recipient_address` (string): The recipient's address for the withdrawal.
+  - `currency` (string): The currency to withdraw.
+  - `network` (string): The network for the withdrawal.
+
+### GET Request
+
+- Description: Render the withdrawal page.
+- Response: HTML template with the list of exchanges and the current user.
+
+## Get Supported Currencies Endpoint
+
+- URL: `/api/v1/currencies/<exchange_name>`
+- Methods: POST, GET
+- Authentication: Login required
+
+### POST Request
+
+- Description: Retrieve the list of supported currencies for a specific exchange.
+- Body: None
+
+### GET Request
+
+- Description: Retrieve the list of supported currencies for a specific exchange.
+
+## Get Supported Markets Endpoint
+
+- URL: `/api/v1/markets/<exchange_name>`
+- Methods: POST, GET
+- Authentication: Login required
+
+### POST Request
+
+- Description: Retrieve the list of supported markets (trading pairs) for a specific exchange.
+- Body: None
+
+### GET Request
+
+- Description: Retrieve the list of supported markets (trading pairs) for a specific exchange.
+
+## Get All Active Markets Endpoint
+
+- URL: `/api/v1/all_markets/<exchange_name>`
+- Methods: POST, GET
+- Authentication: Login required
+
+### POST Request
+
+- Description: Retrieve the list of all active spot markets (trading pairs) for a specific exchange.
+- Body: None
+
+### GET Request
+
+- Description: Retrieve the list of all active spot markets (trading pairs) for a specific exchange.
