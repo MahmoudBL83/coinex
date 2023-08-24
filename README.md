@@ -338,3 +338,130 @@ Certainly! Here's an example of API documentation for the `/api/v1/user_info/` r
   - Body:
     - `status` (string): "success"
     - `message` (string): A success message indicating the favorite exchange has been set.
+
+## Connect Exchange Endpoint
+
+- URL: `/api/v1/connect/`
+- Method: POST
+- Authentication: Login required
+
+### Request
+
+- Body Parameters:
+  - `api_key` (string): The API key for the exchange.
+  - `api_secret` (string): The API secret for the exchange.
+  - `exchange_name` (string): The name of the exchange.
+  - `password` (string, optional): The password for the exchange (if required).
+  - `demo` (string): Flag indicating whether the exchange should be connected in demo mode ('true' or 'false').
+
+### Response
+
+- Success Response:
+  - Status Code: 200
+  - Body:
+    - `status` (string): "success"
+    - `message` (string): A success message indicating the connection to the exchange.
+    - `ok` (boolean): True if the connection was successful.
+
+- Error Response:
+  - Status Code: 400
+  - Body:
+    - `status` (string): "error"
+    - `message` (string): An error message indicating the reason for the failure.
+
+## Disconnect Exchange Endpoint
+
+- URL: `/api/v1/disconnect/`
+- Method: POST
+- Authentication: Login required
+
+### Request
+
+- Body Parameters:
+  - `exchange_name` (string): The name of the exchange to disconnect.
+
+### Response
+
+- Success Response:
+  - Status Code: 200
+  - Body:
+    - `status` (string): "success"
+    - `message` (string): A success message indicating the disconnection from the exchange.
+
+## Set Favorite Exchange Endpoint
+
+- URL: `/api/v1/fav_exchange/`
+- Method: POST
+- Authentication: Login required
+
+### Request
+
+- Body Parameters:
+  - `exchange_name` (string): The name of the exchange to set as the favorite.
+
+### Response
+
+- Success Response:
+  - Status Code: 200
+  - Body:
+    - `status` (string): "success"
+    - `message` (string): A success message indicating the favorite exchange has been set.
+
+## Place Order Endpoint
+
+- URL: `/api/v1/order/`
+- Method: POST
+- Authentication: Login required
+
+### Request
+
+- Body Parameters:
+  - `symbol` (string): The symbol of the order.
+  - `type` (string): The type of the order (limit or market).
+  - `price` (number): The price of the order.
+  - `amount` (number): The amount of the order.
+  - `side` (string): The side of the order (buy or sell).
+
+### Response
+
+- Success Response:
+  - Status Code: 200
+  - Body:
+    - `status` (string): "success"
+    - `message` (string): A success message indicating the order placement.
+    - `ok` (boolean): True if the order was placed successfully.
+    - `order` (object): The details of the placed order.
+
+- Error Response:
+  - Status Code: 400
+  - Body:
+    - `status` (string): "error"
+    - `message` (string): An error message indicating the reason for the failure.
+
+## Cancel Order Endpoint
+
+- URL: `/api/v1/order/cancel`
+- Method: POST
+- Authentication: Login required
+
+### Request
+
+- Body Parameters:
+  - `id` (string): The ID of the order to cancel.
+  - `symbol` (string): The symbol of the order.
+
+### Response
+
+- Success Response:
+  - Status Code: 200
+  - Body:
+    - `status` (string): "success"
+    - `message` (string): A success message indicating the order cancellation.
+    - `ok` (boolean): True if the order was canceled successfully.
+    - `order` (object): The details of the canceled order.
+
+- Error Response:
+  - Status Code: 400
+  - Body:
+    - `status` (string): "error"
+    - `message` (string): An error message indicating the reason for the failure.
