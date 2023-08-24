@@ -79,4 +79,94 @@ Sure! Here's an example of API documentation for the authentication part of your
 
 - Success: Redirect to `/exchanges` (Status code: 302)
 
-Please note that this is just a basic example, and you may need to include additional details depending on your specific requirements. It's important to provide clear explanations of the endpoints, their methods, request parameters, responses, and any error conditions.
+Certainly! Here's an example of API documentation for the `/api/v1/user_info/` route:
+
+## User Info API
+
+### Retrieve User Information
+
+**Endpoint:** `/api/v1/user_info/`
+
+**Method:** `GET`
+
+**Description:** Retrieves information about the user's account and portfolio.
+
+**Headers:**
+
+| Header        | Value           |
+| ------------- | --------------- |
+| Authorization | Bearer \<token> |
+
+**Response:**
+
+```json
+{
+  "balance": {
+    "total": {
+      "BTC": 0.5,
+      "ETH": 2.0
+    }
+  },
+  "exchanges": [
+    {
+      "id": 1,
+      "name": "Binance",
+      "api_key": "**********",
+      "api_secret": "**********"
+    },
+    {
+      "id": 2,
+      "name": "Coinbase",
+      "api_key": "**********",
+      "api_secret": "**********"
+    }
+  ],
+  "open_orders": [
+    {
+      "id": "123456789",
+      "symbol": "BTC/USDT",
+      "side": "buy",
+      "price": 45000,
+      "quantity": 0.1
+    }
+  ],
+  "transactions": [
+    {
+      "id": "987654321",
+      "symbol": "ETH/USDT",
+      "type": "buy",
+      "price": 3000,
+      "quantity": 1.5
+    }
+  ],
+  "overall_profit": 1500.0,
+  "latest_30_days_profit_btc": 2500.0,
+  "latest_30_days_profit_usd": 125000.0,
+  "profit_percent_month": 5.0,
+  "profit_percent_day": 0.16666666666666666,
+  "sharpe_ratio": 1.25,
+  "deviation": 0.03,
+  "sortino_ratio": 2.5
+}
+```
+
+**Response Description:**
+
+- `balance`: The total balance of the user's account in BTC and ETH.
+- `exchanges`: A list of exchanges connected to the user's account, including their IDs, names, API keys, and API secrets.
+- `open_orders`: A list of open orders in the user's account, including their IDs, trading symbols, order side (buy/sell), price, and quantity.
+- `transactions`: A list of recent transactions in the user's account, including their IDs, trading symbols, transaction type (buy/sell), price, and quantity.
+- `overall_profit`: The overall profit or loss in the user's portfolio.
+- `latest_30_days_profit_btc`: The profit or loss in the user's portfolio in BTC over the last 30 days.
+- `latest_30_days_profit_usd`: The profit or loss in the user's portfolio in USD over the last 30 days.
+- `profit_percent_month`: The profit percentage in the user's portfolio per month.
+- `profit_percent_day`: The profit percentage in the user's portfolio per day.
+- `sharpe_ratio`: The Sharpe ratio, a measure of risk-adjusted return.
+- `deviation`: The standard deviation of the portfolio returns.
+- `sortino_ratio`: The Sortino ratio, a measure of risk-adjusted return considering only downside risk.
+
+**Error Responses:**
+
+- Unauthorized: If the request does not include a valid access token in the `Authorization` header. Status code: 401
+
+Please note that this is just a basic example, and you may need to include additional details or modify it based on your specific requirements. It's important to provide clear explanations of the endpoint, its method, headers, response structure, and any error conditions.
