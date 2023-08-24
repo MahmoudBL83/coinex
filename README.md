@@ -1,4 +1,4 @@
-# coinex
+# coinex API Documentation
 
 Sure! Here's an example of API documentation for the authentication part of your code:
 
@@ -169,8 +169,6 @@ Certainly! Here's an example of API documentation for the `/api/v1/user_info/` r
 
 - Unauthorized: If the request does not include a valid access token in the `Authorization` header. Status code: 401
 
-# API Documentation
-
 ## Deposit Endpoint
 
 - URL: `/api/v1/deposit/`
@@ -272,3 +270,71 @@ Certainly! Here's an example of API documentation for the `/api/v1/user_info/` r
 ### GET Request
 
 - Description: Retrieve the list of all active spot markets (trading pairs) for a specific exchange.
+
+## Connect Exchange Endpoint
+
+- URL: `/api/v1/connect/`
+- Method: POST
+- Authentication: Login required
+
+### Request
+
+- Body Parameters:
+  - `api_key` (string): The API key for the exchange.
+  - `api_secret` (string): The API secret for the exchange.
+  - `exchange_name` (string): The name of the exchange.
+  - `password` (string, optional): The password for the exchange (if required).
+  - `demo` (string): Flag indicating whether the exchange should be connected in demo mode ('true' or 'false').
+
+### Response
+
+- Success Response:
+  - Status Code: 200
+  - Body:
+    - `status` (string): "success"
+    - `message` (string): A success message indicating the connection to the exchange.
+    - `ok` (boolean): True if the connection was successful.
+
+- Error Response:
+  - Status Code: 400
+  - Body:
+    - `status` (string): "error"
+    - `message` (string): An error message indicating the reason for the failure.
+
+## Disconnect Exchange Endpoint
+
+- URL: `/api/v1/disconnect/`
+- Method: POST
+- Authentication: Login required
+
+### Request
+
+- Body Parameters:
+  - `exchange_name` (string): The name of the exchange to disconnect.
+
+### Response
+
+- Success Response:
+  - Status Code: 200
+  - Body:
+    - `status` (string): "success"
+    - `message` (string): A success message indicating the disconnection from the exchange.
+
+## Set Favorite Exchange Endpoint
+
+- URL: `/api/v1/fav_exchange/`
+- Method: POST
+- Authentication: Login required
+
+### Request
+
+- Body Parameters:
+  - `exchange_name` (string): The name of the exchange to set as the favorite.
+
+### Response
+
+- Success Response:
+  - Status Code: 200
+  - Body:
+    - `status` (string): "success"
+    - `message` (string): A success message indicating the favorite exchange has been set.
