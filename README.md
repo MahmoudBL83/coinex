@@ -1,467 +1,298 @@
-# coinex API Documentation
-
-Sure! Here's an example of API documentation for the authentication part of your code:
-
-## Authentication API
-
-### Login
-
-**Endpoint:** `/login`
-
-**Method:** `POST`
-
-**Description:** Authenticates a user and logs them into the system.
-
-**Request Body:**
-
-| Parameter | Type   | Required | Description            |
-| --------- | ------ | -------- | ---------------------- |
-| email     | string | Yes      | User's email address   |
-| password  | string | Yes      | User's password        |
-| remember  | string | No       | Flag to remember login |
-
-**Response:**
-
-- Success: Redirect to `/exchanges` (Status code: 302)
-- Failure: Flash message with "Invalid email or password" (Status code: 200)
-
-### Register
-
-**Endpoint:** `/register`
-
-**Method:** `POST`
-
-**Description:** Registers a new user in the system.
-
-**Request Body:**
-
-| Parameter        | Type   | Required | Description                     |
-| ---------------- | ------ | -------- | ------------------------------- |
-| email            | string | Yes      | User's email address            |
-| password         | string | Yes      | User's password                 |
-| confirm_password | string | Yes      | Confirmation of user's password |
-
-**Response:**
-
-- Success: Flash message with "Registration successful" and redirect to `/login` (Status code: 302)
-- Failure:
-  - Passwords do not match: Flash message with "Passwords do not match" and redirect to `/register` (Status code: 302)
-  - Email already taken: Flash message with "Email already taken" and redirect to `/register` (Status code: 302)
-
-### Reset Password
-
-**Endpoint:** `/reset_password`
-
-**Method:** `POST`
-
-**Description:** Sends a password reset email to the user.
-
-**Request Body:**
-
-| Parameter | Type   | Required | Description          |
-| --------- | ------ | -------- | -------------------- |
-| email     | string | Yes      | User's email address |
-
-**Response:**
-
-- Success: Flash message with "Instructions sent to email" and redirect to `/login` (Status code: 302)
-- Failure: Flash message with "Email not found" (Status code: 200)
-
-### Logout
-
-**Endpoint:** `/logout`
-
-**Method:** `GET`
-
-**Description:** Logs out the currently authenticated user.
-
-**Response:**
-
-- Success: Redirect to `/exchanges` (Status code: 302)
-
-Certainly! Here's an example of API documentation for the `/api/v1/user_info/` route:
-
-## User Info API
-
-### Retrieve User Information
-
-**Endpoint:** `/api/v1/user_info/`
-
-**Method:** `GET`
-
-**Description:** Retrieves information about the user's account and portfolio.
-
-**Headers:**
-
-| Header        | Value           |
-| ------------- | --------------- |
-| Authorization | Bearer \<token> |
-
-**Response:**
-
-```json
-{
-  "balance": {
-    "total": {
-      "BTC": 0.5,
-      "ETH": 2.0
-    }
-  },
-  "exchanges": [
-    {
-      "id": 1,
-      "name": "Binance",
-      "api_key": "**********",
-      "api_secret": "**********"
-    },
-    {
-      "id": 2,
-      "name": "Coinbase",
-      "api_key": "**********",
-      "api_secret": "**********"
-    }
-  ],
-  "open_orders": [
-    {
-      "id": "123456789",
-      "symbol": "BTC/USDT",
-      "side": "buy",
-      "price": 45000,
-      "quantity": 0.1
-    }
-  ],
-  "transactions": [
-    {
-      "id": "987654321",
-      "symbol": "ETH/USDT",
-      "type": "buy",
-      "price": 3000,
-      "quantity": 1.5
-    }
-  ],
-  "overall_profit": 1500.0,
-  "latest_30_days_profit_btc": 2500.0,
-  "latest_30_days_profit_usd": 125000.0,
-  "profit_percent_month": 5.0,
-  "profit_percent_day": 0.16666666666666666,
-  "sharpe_ratio": 1.25,
-  "deviation": 0.03,
-  "sortino_ratio": 2.5
-}
-```
-
-**Response Description:**
-
-- `balance`: The total balance of the user's account in BTC and ETH.
-- `exchanges`: A list of exchanges connected to the user's account, including their IDs, names, API keys, and API secrets.
-- `open_orders`: A list of open orders in the user's account, including their IDs, trading symbols, order side (buy/sell), price, and quantity.
-- `transactions`: A list of recent transactions in the user's account, including their IDs, trading symbols, transaction type (buy/sell), price, and quantity.
-- `overall_profit`: The overall profit or loss in the user's portfolio.
-- `latest_30_days_profit_btc`: The profit or loss in the user's portfolio in BTC over the last 30 days.
-- `latest_30_days_profit_usd`: The profit or loss in the user's portfolio in USD over the last 30 days.
-- `profit_percent_month`: The profit percentage in the user's portfolio per month.
-- `profit_percent_day`: The profit percentage in the user's portfolio per day.
-- `sharpe_ratio`: The Sharpe ratio, a measure of risk-adjusted return.
-- `deviation`: The standard deviation of the portfolio returns.
-- `sortino_ratio`: The Sortino ratio, a measure of risk-adjusted return considering only downside risk.
-
-**Error Responses:**
-
-- Unauthorized: If the request does not include a valid access token in the `Authorization` header. Status code: 401
-
-## Deposit Endpoint
-
-- URL: `/api/v1/deposit/`
-- Methods: POST, GET
-- Authentication: Login required
-
-### POST Request
-
-- Description: Process a cryptocurrency deposit.
-- Body:
-  - `symbol` (string): The symbol of the cryptocurrency.
-  - `network` (string): The network to deposit the cryptocurrency on.
-
-### GET Request
-
-- Description: Render the deposit page.
-- Response: HTML template with the list of exchanges and the current user.
-
-## Transfer Endpoint
-
-- URL: `/api/v1/transfer/`
-- Methods: POST, GET
-- Authentication: Login required
-
-### POST Request
-
-- Description: Perform a cryptocurrency transfer.
-- Body:
-  - `amount` (float): The amount of cryptocurrency to transfer.
-  - `side` (string): The side of the transfer (e.g., 'buy', 'sell').
-  - `symbol` (string): The symbol of the cryptocurrency.
-
-### GET Request
-
-- Description: Render the transfer page.
-- Response: HTML template with the list of exchanges and the current user.
-
-## Withdraw Endpoint
-
-- URL: `/api/v1/withdraw/`
-- Methods: POST, GET
-- Authentication: Login required
-
-### POST Request
-
-- Description: Initiate a cryptocurrency withdrawal.
-- Body:
-  - `amount` (float): The amount of cryptocurrency to withdraw.
-  - `recipient_address` (string): The recipient's address for the withdrawal.
-  - `currency` (string): The currency to withdraw.
-  - `network` (string): The network for the withdrawal.
-
-### GET Request
-
-- Description: Render the withdrawal page.
-- Response: HTML template with the list of exchanges and the current user.
-
-## Get Supported Currencies Endpoint
-
-- URL: `/api/v1/currencies/<exchange_name>`
-- Methods: POST, GET
-- Authentication: Login required
-
-### POST Request
-
-- Description: Retrieve the list of supported currencies for a specific exchange.
-- Body: None
-
-### GET Request
-
-- Description: Retrieve the list of supported currencies for a specific exchange.
-
-## Get Supported Markets Endpoint
-
-- URL: `/api/v1/markets/<exchange_name>`
-- Methods: POST, GET
-- Authentication: Login required
-
-### POST Request
-
-- Description: Retrieve the list of supported markets (trading pairs) for a specific exchange.
-- Body: None
-
-### GET Request
-
-- Description: Retrieve the list of supported markets (trading pairs) for a specific exchange.
-
-## Get All Active Markets Endpoint
-
-- URL: `/api/v1/all_markets/<exchange_name>`
-- Methods: POST, GET
-- Authentication: Login required
-
-### POST Request
-
-- Description: Retrieve the list of all active spot markets (trading pairs) for a specific exchange.
-- Body: None
-
-### GET Request
-
-- Description: Retrieve the list of all active spot markets (trading pairs) for a specific exchange.
-
-## Connect Exchange Endpoint
-
-- URL: `/api/v1/connect/`
-- Method: POST
-- Authentication: Login required
-
-### Request
-
-- Body Parameters:
+# API Routes
+
+## Login
+
+- **URL:** `/login`
+- **Methods:** `GET`, `POST`
+- **Description:** This route is used for user authentication and login.
+- **Request Parameters:**
+  - `email` (string): The user's email.
+  - `password` (string): The user's password.
+  - `remember` (optional, boolean): Indicates whether to remember the user's session.
+- **Response:**
+  - If the login is successful, the user will be redirected to the `exchanges` route.
+  - If the login fails, an error message will be flashed and the user will be redirected to the `sign-in.html` template.
+
+## Verify OTP
+
+- **URL:** `/verify-otp`
+- **Methods:** `GET`, `POST`
+- **Description:** This route is used for OTP (One-Time Password) verification.
+- **Request Parameters:**
+  - `otp` (string): The OTP entered by the user.
+- **Response:**
+  - If the OTP is valid, the user will be redirected to the `exchanges` route.
+  - If the OTP is invalid, an error message will be flashed and the user will be redirected to the `verify_otp2.html` template.
+
+## Resend OTP
+
+- **URL:** `/resend_otp`
+- **Methods:** `GET`
+- **Description:** This route is used to resend the OTP to the user's email.
+- **Response:**
+  - If the email is found in the session, a new OTP will be generated and sent to the user's email.
+  - If the email is not found in the session, the user will be redirected to the `verify_otp` route.
+
+## Register
+
+- **URL:** `/register`
+- **Methods:** `GET`, `POST`
+- **Description:** This route is used for user registration.
+- **Request Parameters:**
+  - `email` (string): The user's email.
+  - `firstName` (string): The user's first name.
+  - `lastName` (string): The user's last name.
+  - `password` (string): The user's password.
+  - `confirm_password` (string): The confirmation password.
+- **Response:**
+  - If the registration is successful, the user will be redirected to the `login` route.
+  - If there are any errors (e.g., passwords do not match or email already taken), appropriate error messages will be flashed, and the user will be redirected to the `register` route.
+
+## Reset Password (Token)
+
+- **URL:** `/reset_password/<token>`
+- **Methods:** `GET`, `POST`
+- **Description:** This route is used for resetting the user's password using a token.
+- **Request Parameters:**
+  - `password` (string): The new password.
+  - `confirm_password` (string): The confirmation password.
+- **Response:**
+  - If the password reset is successful, a success message will be returned as JSON.
+  - If there are any errors (e.g., passwords do not match or invalid/expired token), an appropriate error message will be returned as JSON.
+
+## Reset Password
+
+- **URL:** `/reset_password`
+- **Methods:** `GET`, `POST`
+- **Description:** This route is used for initiating the password reset process.
+- **Request Parameters:**
+  - `email` (string): The user's email.
+- **Response:**
+  - If the email is found, instructions will be sent to the user's email.
+  - If the email is not found, an error message will be returned as JSON.
+
+## Logout
+
+- **URL:** `/logout`
+- **Methods:** `GET`
+- **Description:** This route is used for user logout.
+- **Response:**
+  - The user will be logged out and redirected to the `exchanges` route.
+
+## User Stats
+
+- **URL:** `/api/v1/user_stats/`
+- **Methods:** `GET`, `POST`
+- **Description:** This route is used to retrieve user statistics and information.
+- **Request Parameters:**
+  - `exchange_name` (optional, string): The name of the exchange for which to retrieve data.
+  - `user_id` (optional, int): The ID of the user for whom to retrieve data.
+- **Response:**
+  - Returns a JSON object containing the user's exchanges, open orders, transactions, balances, profits, ratios, and deviation.
+
+## Edit User Info
+
+- **URL:** `/api/v1/edit_user_info/`
+- **Methods:** `POST`
+- **Description:** This route is used to edit the user's profile image.
+- **Request Parameters:**
+  - `data` (string): The user's new profile image, encoded as UTF-8.
+- **Response:**
+  - Updates the user's profile image in the database.
+
+## Reset Stats
+
+- **URL:** `/api/v1/reset_stats/`
+- **Methods:** `GET`
+- **Description:** This route is used to reset the user's statistics.
+- **Response:**
+  - Returns a JSON object with a success message indicating that the user's stats have been reset.
+
+## Assets
+
+- **URL:** `/api/v1/assets/`
+- **Methods:** `GET`
+- **Description:** This route is used to retrieve the user's assets and balances.
+- **Query Parameters:**
+  - `exchange` (string): The name of the exchange for which to retrieve assets. Use "all" to get assets from all exchanges.
+- **Response:**
+  - Returns a JSON object containing the user's assets, including currency, free balance, used balance, total balance, price, and equivalent USD value.
+
+## Get Exchanges
+
+- **URL:** `/api/v1/exchanges/`
+- **Methods:** `GET`
+- **Description:** This route is used to retrieve all exchanges linked to the user's account.
+- **Response:**
+  - Returns a JSON object containing the user's linked exchanges.
+
+## Connect Exchange
+
+- **URL:** `/api/v1/connect/`
+- **Methods:** `POST`
+- **Description:** This route is used to connect to a new exchange by providing API credentials.
+- **Request Parameters:**
   - `api_key` (string): The API key for the exchange.
   - `api_secret` (string): The API secret for the exchange.
-  - `exchange_name` (string): The name of the exchange.
-  - `password` (string, optional): The password for the exchange (if required).
-  - `demo` (string): Flag indicating whether the exchange should be connected in demo mode ('true' or 'false').
+  - `exchange_name` (string): The name of the exchange to connect to.
+  - `password` (string): The password for the exchange (optional).
+  - `demo` (boolean): Whether to use the exchange's sandbox/demo mode (optional).
+- **Response:**
+  - Returns a JSON object with the status of the connection attempt.
 
-### Response
+## Disconnect Exchange
 
-- Success Response:
-  - Status Code: 200
-  - Body:
-    - `status` (string): "success"
-    - `message` (string): A success message indicating the connection to the exchange.
-    - `ok` (boolean): True if the connection was successful.
+- **URL:** `/api/v1/disconnect/`
+- **Methods:** `POST`
+- **Description:** This route is used to disconnect from a linked exchange.
+- **Request Parameters:**
+  - `exchange_name` (string): The name of the exchange to disconnect from.
+- **Response:**
+  - Returns a JSON object with the status of the disconnection attempt.
 
-- Error Response:
-  - Status Code: 400
-  - Body:
-    - `status` (string): "error"
-    - `message` (string): An error message indicating the reason for the failure.
+## Favorite Exchange
 
-## Disconnect Exchange Endpoint
-
-- URL: `/api/v1/disconnect/`
-- Method: POST
-- Authentication: Login required
-
-### Request
-
-- Body Parameters:
-  - `exchange_name` (string): The name of the exchange to disconnect.
-
-### Response
-
-- Success Response:
-  - Status Code: 200
-  - Body:
-    - `status` (string): "success"
-    - `message` (string): A success message indicating the disconnection from the exchange.
-
-## Set Favorite Exchange Endpoint
-
-- URL: `/api/v1/fav_exchange/`
-- Method: POST
-- Authentication: Login required
-
-### Request
-
-- Body Parameters:
+- **URL:** `/api/v1/fav_exchange/`
+- **Methods:** `POST`
+- **Description:** This route is used to set a favorite exchange for the user.
+- **Request Parameters:**
   - `exchange_name` (string): The name of the exchange to set as the favorite.
+- **Response:**
+  - Returns a JSON object confirming that the specified exchange is now the user's favorite.
 
-### Response
+## Trading
 
-- Success Response:
-  - Status Code: 200
-  - Body:
-    - `status` (string): "success"
-    - `message` (string): A success message indicating the favorite exchange has been set.
+1. `place_order()`:
+   - Route: `/api/v1/order/` (POST method)
+   - Functionality: Places an order on the cryptocurrency exchange.
+   - Parameters:
+     - `symbol`: Symbol of the order.
+     - `type`: Type of the order (limit or market).
+     - `order_price`: Price of the order (optional).
+     - `trigger_price`: Trigger price for conditional orders (optional).
+     - `amount`: Amount of the order.
+     - `side`: Side of the order (buy or sell).
+   - Returns: JSON response with the order details if successful, or an error message if an exception occurs.
 
-## Connect Exchange Endpoint
+2. `cancel_order()`:
+   - Route: `/api/v1/order/cancel` (POST method)
+   - Functionality: Cancels an order on the cryptocurrency exchange.
+   - Parameters:
+     - `id`: ID of the order.
+     - `symbol`: Symbol of the order.
+   - Returns: JSON response indicating whether the cancellation was successful or not.
 
-- URL: `/api/v1/connect/`
-- Method: POST
-- Authentication: Login required
+3. `history_open_orders()`:
+   - Route: `/api/v1/history/open_orders/` (GET and POST methods)
+   - Functionality: Retrieves the user's open orders history from the cryptocurrency exchange.
+   - Returns: returns JSON response with paginated open orders.
 
-### Request
+4. `history_orders()`:
+   - Route: `/api/v1/history/orders/` (GET and POST methods)
+   - Functionality: Retrieves the user's closed orders history from the cryptocurrency exchange.
+   - Returns: returns JSON response with paginated closed orders.
 
-- Body Parameters:
-  - `api_key` (string): The API key for the exchange.
-  - `api_secret` (string): The API secret for the exchange.
-  - `exchange_name` (string): The name of the exchange.
-  - `password` (string, optional): The password for the exchange (if required).
-  - `demo` (string): Flag indicating whether the exchange should be connected in demo mode ('true' or 'false').
+4. `history_trades()`:
+   - Route: `/api/v1/history/trades/` (GET and POST methods)
+   - Functionality: Retrieves the user's trades history from the cryptocurrency exchange.
+   - Returns: returns JSON response with paginated closed orders.
 
-### Response
+Sure! Here's the API documentation for the routes mentioned in the code:
 
-- Success Response:
-  - Status Code: 200
-  - Body:
-    - `status` (string): "success"
-    - `message` (string): A success message indicating the connection to the exchange.
-    - `ok` (boolean): True if the connection was successful.
+---
 
-- Error Response:
-  - Status Code: 400
-  - Body:
-    - `status` (string): "error"
-    - `message` (string): An error message indicating the reason for the failure.
+## Get Smart Trades
 
-## Disconnect Exchange Endpoint
-
-- URL: `/api/v1/disconnect/`
-- Method: POST
-- Authentication: Login required
-
-### Request
-
-- Body Parameters:
-  - `exchange_name` (string): The name of the exchange to disconnect.
-
-### Response
-
-- Success Response:
-  - Status Code: 200
-  - Body:
-    - `status` (string): "success"
-    - `message` (string): A success message indicating the disconnection from the exchange.
-
-## Set Favorite Exchange Endpoint
-
-- URL: `/api/v1/fav_exchange/`
-- Method: POST
-- Authentication: Login required
+Retrieves all smart trades for the current user.
 
 ### Request
 
-- Body Parameters:
-  - `exchange_name` (string): The name of the exchange to set as the favorite.
+- Method: GET
+- URL: `/api/v1/smart_trades/`
 
 ### Response
 
-- Success Response:
-  - Status Code: 200
-  - Body:
-    - `status` (string): "success"
-    - `message` (string): A success message indicating the favorite exchange has been set.
+- Body:
+  ````json
+  {
+    "smart_trades": [
+      {
+        "trade_type": "string",
+        "exchange": "string",
+        "base_currency": "string",
+        "quote_currency": "string",
+        "units": "float",
+        "amount": "float",
+        "user_id": "integer",
+        "buy_price": "float",
+        "buy_trigger_price": "float",
+        "stop_loss": "string",
+        "take_profit": "string",
+        "take_profit_quantities": "array",
+        "tpTriggerType": "string",
+        "order_type": "string",
+        "buy_order_id": "integer",
+        "trailing_order_id": "integer",
+        "trailing_take_profit": "string",
+        "trailing_deviation": "float",
+        "trailing_stop_loss": "string",
+        "stop_loss_price_percent": "float",
+        "stop_loss_price": "float",
+        "stop_loss_type": "string",
+        "stop_loss_time_out": "string",
+        "stop_loss_time_out_time": "integer",
+        "deal_started": "boolean"
+      },
+      ...
+    ]
+  }
+  ```
 
-## Place Order Endpoint
+---
 
-- URL: `/api/v1/order/`
-- Method: POST
-- Authentication: Login required
+## Create Smart Trade
+
+Creates a new smart trade.
 
 ### Request
 
-- Body Parameters:
-  - `symbol` (string): The symbol of the order.
-  - `type` (string): The type of the order (limit or market).
-  - `price` (number): The price of the order.
-  - `amount` (number): The amount of the order.
-  - `side` (string): The side of the order (buy or sell).
-
-### Response
-
-- Success Response:
-  - Status Code: 200
-  - Body:
-    - `status` (string): "success"
-    - `message` (string): A success message indicating the order placement.
-    - `ok` (boolean): True if the order was placed successfully.
-    - `order` (object): The details of the placed order.
-
-- Error Response:
-  - Status Code: 400
-  - Body:
-    - `status` (string): "error"
-    - `message` (string): An error message indicating the reason for the failure.
-
-## Cancel Order Endpoint
-
-- URL: `/api/v1/order/cancel`
 - Method: POST
-- Authentication: Login required
-
-### Request
-
-- Body Parameters:
-  - `id` (string): The ID of the order to cancel.
-  - `symbol` (string): The symbol of the order.
+- URL: `/api/v1/smart_trades/`
+- Body:
+  ````json
+  {
+    "trade_type": "string",
+    "symbol": "string",
+    "price": "float",
+    "triggerPrice": "float",
+    "buy_type": "string",
+    "amount": "float",
+    "take_profits": "array",
+    "tpTriggerType": "string",
+    "tpTriggerPxType": "string",
+    "stop_loss": "string",
+    "take_profit": "string",
+    "stop_loss_type": "string",
+    "stop_loss_trigger_price": "float",
+    "stop_loss_price": "float",
+    "stop_loss_price_percent": "float",
+    "trailing_take_profit": "string",
+    "trailing_stop_loss": "string",
+    "trailing_deviation": "float",
+    "stop_loss_time_out": "string",
+    "stop_loss_time_out_time": "integer",
+    "exchange": "string"
+  }
+  ```
 
 ### Response
 
-- Success Response:
-  - Status Code: 200
-  - Body:
-    - `status` (string): "success"
-    - `message` (string): A success message indicating the order cancellation.
-    - `ok` (boolean): True if the order was canceled successfully.
-    - `order` (object): The details of the canceled order.
+- Body:
+  ````json
+  {
+    "message": "string",
+    "ok": "boolean"
+  }
+  ```
 
-- Error Response:
-  - Status Code: 400
-  - Body:
-    - `status` (string): "error"
-    - `message` (string): An error message indicating the reason for the failure.
+---
