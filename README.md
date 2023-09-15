@@ -197,9 +197,7 @@
    - Functionality: Retrieves the user's trades history from the cryptocurrency exchange.
    - Returns: returns JSON response with paginated closed orders.
 
-Sure! Here's the API documentation for the routes mentioned in the code:
 
----
 
 ## Get Smart Trades
 
@@ -295,7 +293,6 @@ Creates a new smart trade.
   }
   ```
 
----
 
 ## Edit Smart Trade
 - Route: `/api/v1/smart_trades/edit/<int:smart_trade_id>`
@@ -475,9 +472,7 @@ I apologize for the misunderstanding. Here's the updated Markdown document with 
 }
 ```
 
-Sure! Here are the additional API routes documented in Markdown format:
 
-```markdown
 ### Bots
 
 - URL: `/bots/`
@@ -533,7 +528,6 @@ This route renders the 'bots_create.html' template, passing along the pairs, not
 }
 ```
 
-This route toggles the state of the specified bot based on the provided bot_id and state.
 
 ### Delete Bot
 
