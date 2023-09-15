@@ -1,0 +1,299 @@
+{% extends 'base.html' %}    
+{% block title %}Coinex | Bots{% endblock %}
+{% block content %}
+      <div class="container-fluid content-inner pb-0" style="padding:0">
+            <div class="wrapper">
+                <div class="container-fluid content-inner pb-0">
+                <div class="row g-4">
+                    <div class="col-12">
+                        <a href="/bot_create"><button type="button" class="btn btn-outline-primary" style="width:100%">Create Bot</button></a>
+                    </div>
+                    {% for bot in bots|reverse %}
+                    <div class="col-sm-12 col-md-6 col-lg-4">
+                        <div class="card mb-0 botCard" id="{{bot.id}}">
+                            <div class="symbol-imgs">
+                                <img src="https://s3-symbol-logo.tradingview.com/crypto/XTVC{{bot.quote_currency}}--big.svg" style="position: absolute;right: -8px;bottom: 16px;" class="img-fluid avatar avatar-50 avatar-rounded" alt="img60"> 
+                                <img src="https://s3-symbol-logo.tradingview.com/crypto/XTVC{{bot.base_currency}}--big.svg" class="img-fluid avatar avatar-50 avatar-rounded" alt="img60" style="margin-left: -36px;"> 
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">{{bot.name}}</h5>
+                                <p class="card-text">
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" style="width: {% if bot.isActive %}33%;{% else %}0%{% endif %}" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </p>
+                            </div>
+                            <ul class="list-group list-group-flush bots" style="border-radius: 8px;margin: 0 10px;">
+                                <li class="list-group-item" style="border-bottom: 2px solid #ffffff09!important">Exchange: <span class="bot_exchange">{{bot.exchange}}</span></li>
+                                <li class="list-group-item" style="border-bottom: 2px solid #ffffff09!important">Opened Trades: <span class="bot_total_trades">{{bot.total_trades}}</span></li>
+                                <li class="list-group-item" style="border-bottom: 2px solid #ffffff09!important">Amount: <span><span class="bot_amount">{{bot.amount}}</span> {{bot.base_currency}}</span></li>
+                                <li class="list-group-item" style="border-bottom: 2px solid #ffffff09!important">Filled Amount: <span><span class="bot_units">{{bot.units}}</span> {{bot.base_currency}}</span></li>
+                                <li class="list-group-item" style="border-bottom: 2px solid #ffffff09!important">Buy Price: <span class="bot_buy_price">{{bot.buy_price}} {{bot.quote_currency}}</span></li>
+                                <li class="list-group-item">Profit: <span><span class="sell_price">{{bot.sell_price}}</span> {{bot.quote_currency}}</span></li>
+                            </ul>
+                            <div style="height: 300px;display: none;">
+                                <canvas></canvas>
+                            </div>
+                            <div class="smartTradeProgress_bot" style="height: 153px;
+                            padding: 46px 0;
+                            margin: auto;">
+                                
+                            </div>
+                            
+                            <div class="card-footer text-muted" style="display: flex;justify-content: space-between;align-items: center;">
+                                <span>2 days ago</span>
+                                <div style="display: flex;align-items: center;gap: 15px;">   
+                                    <div style="margin-right:0;transform: scale(1.3);display: flex;align-items: center;margin: 0;" class="form-check form-switch form-check-inline">
+                                        <input class="form-check-input toggleBot" type="checkbox" id="switch2">
+                                    </div>  
+                                    <svg class="deleteBot" style="cursor:pointer;" width="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                    <path d="M20.708 6.23975H3.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                    <path d="M17.4406 6.23973C16.6556 6.23973 15.9796 5.68473 15.8256 4.91573L15.5826 3.69973C15.4326 3.13873 14.9246 2.75073 14.3456 2.75073H10.1126C9.53358 2.75073 9.02558 3.13873 8.87558 3.69973L8.63258 4.91573C8.47858 5.68473 7.80258 6.23973 7.01758 6.23973" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    </svg>                      
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% if bots|count == 0 %}
+                    <div class="col-12">
+                        <div class="card mb-0" style="background: transparent;
+                        width: 100%;
+                        padding: 50px 0;">
+                            <img src="/static/images/robot-blank-sign.jpg" style="max-width: 232px;margin:25px auto;filter:grayscale(1)">
+                            <span style="display: block;text-align: center;font-size: 20px;font-weight: 600;">No Bots Found</span>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                <br>
+                <br>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    </script>
+  </body>
+  <!-- Wrapper End-->
+    <!-- offcanvas start -->
+
+    <!-- Backend Bundle JavaScript -->
+    <script src="/static/assets/js/libs.min.js"></script>
+    <!-- widgetchart JavaScript -->
+    <script src="/static/assets/js/charts/widgetcharts.js"></script>
+    <!-- fslightbox JavaScript -->
+    <script src="/static/assets/js/fslightbox.js"></script>
+    <!-- app JavaScript -->
+    <script src="/static/assets/js/app.js"></script>
+    <!-- apexchart JavaScript -->
+    <script src="/static/assets/js/charts/apexcharts.js"></script>
+    <script>
+        document.querySelector('#sidebar').querySelectorAll("a.nav-link")[3].classList.add("active")
+        document.querySelectorAll(".toggleBot").forEach(e=>{
+            e.addEventListener("change",function(){
+                /*if (e.checked){
+                    e.closest(".card").querySelector(".progress-bar").style.width = "33%"
+                }else{
+                    e.closest(".card").querySelector(".progress-bar").style.width = "0%"
+                }*/
+                let botId = e.closest(".botCard").id
+                let status = e.checked
+                fetch('/api/v1/toggle_bot',{
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        bot_id: botId,
+                        state: status
+                    })
+                }).then(res=>{
+                    console.log(res)
+                })
+            })
+        })
+
+        document.querySelectorAll(".deleteBot").forEach(e=>{
+            e.addEventListener("click",function(){
+                swal({
+                    title: "Are you sure?",
+                    text: "Once delete, you will not be able to recover it!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then(async (willDelete) => {
+                    if (willDelete) {
+                        e.closest(".botCard").parentElement.remove()
+                        await fetch('/api/v1/delete_bot',{
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                bot_id: e.closest(".botCard").id,
+                            })
+                        })
+                    } 
+                });
+            })
+        })
+
+        /************get bot stats*************/
+        let charts = []
+
+        async function get_bot_stats_id(e){
+            await fetch(`/api/v1/get_bot_stats?bot_id=${e.id}`)
+                .then(res=>res.json())
+                .then(async res=>{
+                    let price_now;
+                    if(charts.length>0 || true){
+                        //let chart = charts[i]
+                        //let price_now;
+                        //chart.options.plugins.annotation.annotations[0].value = res.stop_loss_price;
+                        //chart.options.scales.y.min = res.stop_loss_price - 300;
+                        await fetch(`/api/v1/live_price?exchange=${res.exchange}&pair=${res.base_currency}&market=${res.quote_currency}&stream=false`)
+                        .then(res=>res.json())
+                        .then(res=>{
+                            price_now = res;
+                        })
+                        //chart.options.plugins.annotation.annotations[1].value = price_now;
+                        //if(res.tp_price)
+                        //chart.options.plugins.annotation.annotations[2].value = res.tp_price;
+                        //chart.options.scales.y.max = Math.max(price_now,res.tp_price) + 300;
+                        //chart.update();
+
+                    }
+                    e.querySelector(".smartTradeProgress_bot").innerHTML = ''
+                    e.querySelector(".smartTradeProgress_bot").insertAdjacentHTML(`beforeend`,`
+                        <div class="smartTradeProgress">
+                            <div class="smartTradeCurrentContainer" style="position: relative;">
+                                <div class="smartTradeCurrent" style="position: absolute;left: ${Math.min((res.buy_price - res.stop_loss_price) * 200 / (parseFloat(res.tp_price) - parseFloat(res.stop_loss_price)),200)}px;bottom: 0;width:0;">
+                                    <span>Buy Price ${res.buy_price}</span>   
+                                </div>
+                                <div class="smartTradeCurrent" style="position: absolute;left: ${Math.min((price_now - res.stop_loss_price) * 200 / (parseFloat(res.tp_price) - parseFloat(res.stop_loss_price)),200)}px;">
+                                    <span>Current ${price_now}</span>  
+                                </div>
+                            </div>
+                            <div class="smartTradeLine">
+                            </div>
+                            <div class="smartTradeTPContainer" style="position: relative;">
+                                <div class="smartTradeTP" style="height:40px;position:absolute;left:0;top:0;border-color: #f23645;width:0;"><span>SL ${res.stop_loss_price}</span></div>
+                                <div class="smartTradeTP" style="height:40px;border-color: #23635e;">
+                                    <span>TP ${res.tp_price}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `)
+                    
+                    e.querySelector(".bot_units").innerHTML = res.amount - res.units
+                    e.querySelector(".sell_price").innerHTML = res.sell_price
+                    e.querySelector(".bot_total_trades").innerHTML = res.total_trades
+                    e.querySelector(".progress-bar").style.width = `${(res.amount - res.units)/res.amount}%`
+                    if(res.isActive){
+                        e.querySelector(".toggleBot").checked = true
+                        
+                    }else{
+                        e.querySelector(".toggleBot").checked = false
+                        //e.querySelector(".progress-bar").style.width = `0%`
+                    }
+                })
+                .finally(()=>{
+                    get_bot_stats_id(e)
+                })
+        }
+
+        function get_bot_stats(){
+            document.querySelectorAll(".botCard").forEach(async (e,i)=>{
+                get_bot_stats_id(e)
+            })
+        }
+
+
+
+        get_bot_stats()
+
+        // Create the chart
+        function createCanvasChart(canvas){
+            let chart = new Chart(canvas, {
+            type: 'line',
+            data: {
+                labels: ['Time'],
+                datasets: []
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                annotation: {
+                    annotations: [
+                        {
+                            type: 'line',
+                            mode: 'horizontal',
+                            scaleID: 'y',
+                            value: 200,
+                            borderColor: 'red',
+                            borderWidth: 2,
+                            label: {
+                            backgroundColor: 'red',
+                            content: 'Value: 200',
+                            enabled: true
+                            }
+                        },
+                        {
+                            type: 'line',
+                            mode: 'horizontal',
+                            scaleID: 'y',
+                            value: 100,
+                            borderColor: 'blue',
+                            borderWidth: 2,
+                            label: {
+                            backgroundColor: 'red',
+                            content: 'Value: 100',
+                            enabled: true
+                            }
+                        },
+                        {
+                            type: 'line',
+                            mode: 'horizontal',
+                            scaleID: 'y',
+                            value: 150,
+                            borderColor: 'green',
+                            borderWidth: 2,
+                            label: {
+                            backgroundColor: 'red',
+                            content: 'Value: 100',
+                            enabled: true
+                            }
+                        }
+                    ]
+                }
+                },
+                scales: {
+                    x: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Time'
+                        }
+                    },
+                    y: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Price',
+                        },
+                        ticks: {
+                        // forces step size to be 50 units
+                            stepSize: 50
+                        }
+                    }
+                }
+            }
+            });
+            return chart
+        }
+        
+    </script>
+</html>
+{% endblock %}

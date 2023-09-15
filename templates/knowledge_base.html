@@ -1,0 +1,69 @@
+{% extends 'base.html' %}    
+{% block title %}Coinex | Knowledge Base{% endblock %}
+{% block content %}
+      <div class="container-fluid content-inner pb-0" style="padding:0">
+        <div>  
+            <div class="wrapper" style="padding: 50px;">
+                <div class="row">
+                    <div class="container">
+                        <h1 class="my-4">
+                            <span>Advice and answers from the COINEX Team</span>
+                        </h1>
+                        <input type="text" class="form-control" id="search_kb" placeholder="Search for articles...">
+        
+                    </div>
+                </div>
+                <div class="row g-4" style="margin-bottom: 60px;margin-top:30px;">
+                {% for cat in cats %}
+                {% if cat.posts.all()|count > 0 %}
+                    <div class="col-sm-12 col-md-6 col-lg-4 categoryCard">
+                        <div class="card mb-0 botCard">
+                            <div class="card-header"><h5 class="card-title">{{cat.title}}</h5></div>
+                            <!--span style="border-radius: 8px;margin: 0 20px;">Choosing a subscription, experiencing payment issues, and questions about subscriptions overall.</span-->
+
+                            <div class="card-footer text-muted" style="display: flex;justify-content: space-between;align-items: center;    padding: 20px 20px;">
+                                <a href="{{url_for('kb_cat',category_id=cat.id)}}" style="width:100%"><button type="button" class="btn btn-outline-primary subBut" style="width:100%;">{{cat.posts.all()|count}} articles</button></a>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+                {% endfor %}
+                </div>
+            </div>
+          </div>
+    </div>
+
+    </script>
+  </body>
+  <!-- Wrapper End-->
+    <!-- offcanvas start -->
+
+    <!-- Backend Bundle JavaScript -->
+    <script src="/static/assets/js/libs.min.js"></script>
+    <!-- widgetchart JavaScript -->
+    <script src="/static/assets/js/charts/widgetcharts.js"></script>
+    <!-- fslightbox JavaScript -->
+    <script src="/static/assets/js/fslightbox.js"></script>
+    <!-- app JavaScript -->
+    <script src="/static/assets/js/app.js"></script>
+    <!-- apexchart JavaScript -->
+    <script src="/static/assets/js/charts/apexcharts.js"></script>
+
+    <script>
+        document.querySelector('#sidebar').querySelectorAll("a.nav-link")[9].classList.add("active")
+        search_kb.addEventListener("input",function(){
+            //search in categoryCard elements titles
+            var input = this.value.toLowerCase();
+            var categoryCards = document.querySelectorAll(".categoryCard");
+            categoryCards.forEach(function(card){
+                var title = card.querySelector(".card-title").innerText.toLowerCase();
+                if(title.includes(input)){
+                    card.style.display = "block";
+                }else{
+                    card.style.display = "none";
+                }
+            })
+        })
+    </script>
+</html>
+{% endblock %}

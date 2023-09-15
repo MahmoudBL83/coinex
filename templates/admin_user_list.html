@@ -1,0 +1,180 @@
+{% include 'base_admin.html' %}
+      <div class="container-fluid content-inner pb-0">
+<div>
+   <div class="row">
+      <div class="col-sm-12">
+         <div class="card">
+           <div class="card-header">
+               <h4 class="card-title text-white">Users Datatable</h4>
+            </div>
+            <div class="d-flex mt-3 ms-4 me-4 justify-content-between">
+              <!--select class="form-select-custom" style="padding:10px 15px 10px 15px;color:#fff;background-color:#202022;background-repeat: no-repeat;
+                background-position: right 1rem center;
+                
+                background-size: 16px 12px;
+                border: 1px solid #69697a;
+                border-radius: .5rem;" id="validationDefault04" required>
+                <option selected disabled value="">10</option>
+                <option>20</option>
+                <option>30</option>
+                <option>40</option>
+            </select-->
+               <div class="form-outline">
+  <input type="search" id="form1" class="form-control ms-1" placeholder="Search.."
+  aria-label="Search" />
+</div>
+            </div>
+             <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead class="">
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Syb Type</th>
+                                <th>Balance USD</th>
+                                <th>Balance BTC</th>
+                                <th style="text-align: end;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                    <div class="d-flex justify-content-between flex-wrap">
+                        <div class="dataTables_info" id="example_info" role="status" aria-live="polite">Showing 1 to 10 of {{ users|count }} entries</div>
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination" id="pagination">
+                                <li class="page-item">
+                                    <a class="page-link" href="#" aria-label="Previous">
+                                        <span aria-hidden="true">
+                                            <svg width="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M15.5 19L8.5 12L15.5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                            </svg>
+                                        </span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                
+             </div>
+         </div>
+      </div>
+   </div>
+</div>
+      </div>
+          </main>
+     
+    <!-- Wrapper End-->
+    <!-- offcanvas start -->
+
+    <!-- Backend Bundle JavaScript -->
+    <script src="/static/assets/js/libs.min.js"></script>
+    <!-- widgetchart JavaScript -->
+    <script src="/static/assets/js/charts/widgetcharts.js"></script>
+    <!-- fslightbox JavaScript -->
+    <script src="/static/assets/js/fslightbox.js"></script>
+    <!-- app JavaScript -->
+    <script src="/static/assets/js/app.js"></script>
+    <!-- apexchart JavaScript -->
+    <script src="/static/assets/js/charts/apexcharts.js"></script>
+
+    <script>
+        async function send_custom_notification(id){
+            message = prompt("Enter your message");
+            await fetch("/api/admin/v1/send_custom_notification", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    user_id: id,
+                    message: message,
+                }),
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.ok) {
+                    swal("Success", data.message, "success");
+                } else swal("Error", data.message, "error");
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+        }
+    </script>
+    <script>
+        var users = JSON.parse('{{ users|tojson }}'.slice(1,-1));
+        var itemsPerPage = 10;
+        var totalPages = Math.ceil(users.length / itemsPerPage);
+        var currentPage = 1;
+    
+        function paginateUsers(page) {
+            var startIndex = (page - 1) * itemsPerPage;
+            var endIndex = startIndex + itemsPerPage;
+            var paginatedUsers = users.slice(startIndex, endIndex);
+    
+            // Update the table body with paginated users
+            var tableBody = document.querySelector('tbody');
+            tableBody.innerHTML = '';
+    
+            paginatedUsers.forEach(function (user) {
+                var row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${user.firstName} ${user.lastName}</td>
+                    <td>${user.email}</td>
+                    <td>${user.subType}</td>
+                    <td>${parseFloat(user.balance_usd).toFixed(2)}</td>
+                    <td>${parseFloat(user.balance_btc).toFixed(2)}</td>
+                    <td style="direction: rtl;">
+                        <button class="btn btn-sm btn-outline-primary" onclick="send_custom_notification('${user.id}')">Send Notification</button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+    
+            // Update the pagination links
+            var pagination = document.getElementById('pagination');
+            pagination.innerHTML = '';
+    
+            var prevButton = createPaginationButton('Previous', currentPage - 1);
+            pagination.appendChild(prevButton);
+    
+            for (var i = 1; i <= totalPages; i++) {
+                var pageButton = createPaginationButton(i, i);
+                pagination.appendChild(pageButton);
+            }
+    
+            var nextButton = createPaginationButton('Next', currentPage + 1);
+            pagination.appendChild(nextButton);
+        }
+    
+        function createPaginationButton(label, page) {
+            var li = document.createElement('li');
+            var link = document.createElement('a');
+            link.classList.add('page-link');
+            link.href = '#';
+            link.textContent = label;
+    
+            li.classList.add('page-item');
+            if (label === currentPage) {
+                li.classList.add('active');
+            }
+    
+            link.addEventListener('click', function (event) {
+                event.preventDefault();
+                if (page >= 1 && page <= totalPages) {
+                    currentPage = page;
+                    paginateUsers(currentPage);
+                }
+            });
+    
+            li.appendChild(link);
+            return li;
+        }
+    
+        paginateUsers(currentPage);
+    </script>
+  </body>
+</html>

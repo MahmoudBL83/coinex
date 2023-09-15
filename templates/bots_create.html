@@ -1,0 +1,1425 @@
+{% extends 'base.html' %}    
+{% block title %}Coinex | Bot Create{% endblock %}
+{% block content %}
+      <div class="container-fluid content-inner pb-0" style="padding:0">
+            <div class="wrapper">
+                <div class="container-fluid content-inner pb-0">
+                <div class="row" id="bot_create_container">
+                    <div class="col-lg-8 col-12">
+                        <div class="row">
+                            <!--------------signals_start-------------->
+                            <div class="col-xs-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="tablesWrapper-kg4MJrFB tabletVertical-kg4MJrFB">
+                                            <div class="container-hvDpy38G tableWithAction-kg4MJrFB tabletVertical-hvDpy38G">
+                                                <div class="tableWrapper-hvDpy38G">
+                                                    <table class="table-hvDpy38G">
+                                                        <tbody id="top_signals_buy">
+                                                            <tr class="header-hvDpy38G">
+                                                                <th class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">Symbol</th>
+                                                                <th class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">Signal</th>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="container-hvDpy38G maTable-kg4MJrFB tableWithAction-kg4MJrFB tabletVertical-kg4MJrFB tabletVertical-hvDpy38G">
+                                                <div class="tableWrapper-hvDpy38G">
+                                                    <table class="table-hvDpy38G">
+                                                        <tbody id="top_signals_sell">
+                                                            <tr class="header-hvDpy38G">
+                                                                <th class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">Symbol</th>
+                                                                <th class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">Signal</th>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--------------signals_end-------------->
+                            
+                            <div class="col-xs-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5>Main Settings</h5>   
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-9">
+                                                <label for="">Name</label>
+                                                <input type="text" class="form-control" id="bot_name" value="My Awesome Bot">
+                                                <!--label for="floatingInput">Name</label-->
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label for="">Bot type</label>
+                                                <div class="form-block-center">
+                                                    <div class="btn-group btn-check-group" id="pair_type" pair_type="Single" role="group" aria-label="Basic checkbox toggle button group">
+                                                        <input type="checkbox" class="btn-check">
+                                                        <label class="btn btn-sm btn-secondary active rounded-start">Single</label>
+                                                        <input type="checkbox" class="btn-check" id="">
+                                                        <label class="btn btn-sm btn-secondary rounded-end" for="">Multi</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+        
+                            <div class="col-xs-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5>Pairs</h5>
+                                    </div>
+
+                                    <div class="card-body">
+                                        <select class="form-select pair_type_single" id="selectedPairBot">
+                                            {% for pair in pairs %}
+                                            <option value="{{pair}}">{{pair}}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <div class="form-control pair_type_multi hidden" style="height: fit-content;position: relative;min-height: 40px;">
+                                            <select class="form-select pair_type_single" id="selectedPairBot_multi" style="position: absolute;color: #202022;
+                                            width: 100%;
+                                            left: 0px;
+                                            height: 100%;
+                                            top: 0;
+                                            border: 0;">
+                                                {% for pair in pairs %}
+                                                <option value="{{pair}}" style="color: white;">{{pair}}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <div class="buttons-block custom-select-buttons" id="multi_pairs_select"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+        
+                            <div class="col-xs-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5>Strategy</h5>
+                                    </div>
+
+                                    <div class="card-body">
+                                        <div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label for="">Strategy</label>
+                                                    <div class="form-block-center">
+                                                        <div class="btn-group btn-check-group" id="strategy" strategy="Long" role="group" aria-label="Basic checkbox toggle button group">
+                                                            <input type="checkbox" class="btn-check">
+                                                            <label class="btn btn-sm btn-secondary active rounded-start">Long</label>
+                                                            <input type="checkbox" class="btn-check" id="">
+                                                            <label class="btn btn-sm btn-secondary rounded-end" for="">Short</label>
+                                                         </div> 
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="">Profit currency</label>
+                                                    <div class="form-block-center">
+                                                        <div class="btn-group btn-check-group" id="profit_currency" profit_currency="Quote" role="group" aria-label="Basic checkbox toggle button group">
+                                                            <input type="checkbox" class="btn-check">
+                                                            <label class="btn btn-sm btn-secondary active rounded-start">Quote</label>
+                                                            <input type="checkbox" class="btn-check" id="">
+                                                            <label class="btn btn-sm btn-secondary rounded-end" for="">Base</label>
+                                                         </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label for="">Base order size</label>
+                                                    <div class="row">
+                                                        <div class="input-group">
+                                                            <span class="input-group-text">
+                                                                <select class="form-select pairs_amount_selector" id="amount_type">
+
+                                                                </select>
+                                                            </span>
+                                                            <input class="price_val form-control price_input" id="deal_start_amount" type="number" value="0" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="">Start order type</label>
+                                                    <div class="form-block-center">
+                                                        <div class="btn-group btn-check-group" id="start_order_type" start_order_type="Market" role="group" aria-label="Basic checkbox toggle button group">
+                                                            <input type="checkbox" class="btn-check">
+                                                            <label class="btn btn-sm btn-secondary active rounded-start">Market</label>
+                                                            <input type="checkbox" class="btn-check" id="">
+                                                            <label class="btn btn-sm btn-secondary rounded-end" for="">Limit</label>
+                                                         </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+        
+                            <div class="col-xs-12">
+                                <div class="card" id="indicators_conds">
+                                    <div class="card-header">
+                                        <h5>Deal start condition</h5>
+                                    </div>
+
+                                    <div class="card-body">
+                                        <div id="conds"></div>
+                                        <button type="button" onclick="addCond(this)" class="btn btn-outline-primary" style="width:100%">Add condition (works on the "AND" condition)</button>
+                                    </div>
+                                </div>
+                            </div>
+        
+                            <div class="col-xs-12">
+                                <div class="card" id="tp_indicators_conds">
+                                    <div class="card-header">
+                                        <h5>Take profit</h5>
+                                    </div>
+
+                                    <div class="card-body">
+                                        <div class="btn-group btn-check-group" id="take_profit_type" take_profit_type="Percent %" role="group" aria-label="Basic checkbox toggle button group">
+                                            <input type="checkbox" class="btn-check">
+                                            <label class="btn btn-sm btn-secondary active rounded-start">Percent %</label>
+                                            <input type="checkbox" class="btn-check" id="">
+                                            <label class="btn btn-sm btn-secondary rounded-end" for="">Conditions</label>
+                                         </div>
+                                         <br>
+                                         <br>
+                                         <div class="row" id="take_profit_type_percent">
+                                            <div class="col-12 col-sm-6">
+                                                <div class="form-floating mb-3">
+                                                    <input type="number" class="form-control total_input" id="tp_percent" value="10">
+                                                    <label for="floatingInput">Target profit (%)</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-sm-6">
+                                                <div class="form-floating mb-3">
+                                                    <select class="form-control total_input" id="tp_percent_type">
+                                                        <option value="base">Percentage From Base Order</option>
+                                                        <option value="volume" selected>Percentage From Total Volume</option>
+                                                    </select>
+                                                    <label for="floatingInput">Target profit type</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-12" style="background: #fffcfc0f;padding: 26px;margin: 0 15px;width: calc(100% - 30px);">
+                                                <div class="mb-3 form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox" id="trailing_take_profit_bool" checked="">
+                                                    <label class="form-check-label" for="flexSwitchCheckChecked">Trailing Take Profit</label>
+                                                </div>
+                                                <div class="input-group">
+                                                    <input class="form-control price_input" id="trailing_deviation" type="number" step="0.1" value="2" />
+                                                    <span class="input-group-text market_curr">%</span>
+                                                </div>
+                                            </div>  
+                                         </div>
+
+                                         <div class="row hidden" id="take_profit_type_conditions">
+                                            <div class="col-12">
+                                                <div id="conds"></div>
+                                                <div class="row" id="">
+                                                    <div class="col-12" style="margin-bottom: 10px;">
+                                                        <span>Minimum Profit
+                                                            <div class="mb-3 form-check form-switch" style="display: inline;margin-left: 15px;">
+                                                                <input class="form-check-input" type="checkbox" id="min_profit">
+                                                            </div>
+                                                        </span>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <div class="form-floating mb-3">
+                                                            <input type="number" class="form-control total_input" id="min_profit_percent" value="10">
+                                                            <label for="floatingInput">Minimum Profit (%)</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <div class="form-floating mb-3">
+                                                            <select class="form-control total_input" id="min_profit_type">
+                                                                <option value="base">Percentage From Base Order</option>
+                                                                <option value="volume" selected="">Percentage From Total Volume</option>
+                                                            </select>
+                                                            <label for="floatingInput">Minimum Profit type</label>
+                                                        </div>
+                                                    </div> 
+                                                 </div>
+                                                <button type="button" onclick="addCond(this)" class="btn btn-outline-primary" style="width:100%">Add condition (works on the "AND" condition)</button>
+                                            </div>
+                                         </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5>Stop Loss
+                                            <div class="mb-3 form-check form-switch" style="display: inline;margin-left: 15px;">
+                                                <input class="form-check-input" type="checkbox" id="stop_loss_bool">
+                                            </div>
+                                        </h5>
+                                    </div>
+
+                                    <div class="card-body hidden">
+                                         <div class="row">
+                                            <div class="col-6">
+                                                <div class="form-floating mb-3">
+                                                    <input type="number" class="form-control total_input" id="stop_loss_price_percent" value="5">
+                                                    <label for="floatingInput">Stop Loss</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-floating mb-3">
+                                                    <select id="close_deal_action" class="form-control">
+                                                        <option value="1">Close Deal</option>
+                                                        <option value="2">Close Deal & Stop Bot</option>
+                                                    </select>
+                                                    <label for="floatingInput">Stop Loss action</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-12" style="background: #fffcfc0f;padding: 26px;margin: 0 15px;width: calc(100% - 30px);">
+                                                <div class="mb-3 form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox" id="stop_loss_time_out_bool" checked="">
+                                                    <label class="form-check-label" for="flexSwitchCheckChecked">Stop Loss timeout</label>
+                                                </div>
+                                                <div class="input-group">
+                                                    <input class="form-control price_input" id="stop_loss_time_out_time" type="number" step="0.1" value="300" />
+                                                    <span class="input-group-text market_curr">Sec</span>
+                                                </div>
+                                            </div>     
+                                            
+                                            <div class="col-12" style="background: #fffcfc0f;padding: 26px;margin: 0 15px;margin-top: 20px;width: calc(100% - 30px);">
+                                                <div class="mb-3 form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox" id="trailing_stop_loss_bool" checked="">
+                                                    <label class="form-check-label" for="flexSwitchCheckChecked">Trailing Stop Loss</label>
+                                                </div>
+                                            </div>
+                                         </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5>Safety Orders</h5>
+                                    </div>
+
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-12" style="margin-bottom: 20px;">
+                                                <div class="input-group">
+                                                    <span class="input-group-text">
+                                                        <select class="form-select  pairs_amount_selector" id="safety_orders_size_type"></select>
+                                                    </span>
+                                                    <input class="price_val form-control price_input" id="safety_orders_size" type="number" value="0" style="height: 60px;">
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="compact-controls compact-controls_justify_center compact-controls_align_center">
+                                                    <div class="compact-controls__item_two-thirds">
+                                                        <div class="form-group">
+                                                            <div class="input-group">
+                                                                <label for="">Price deviation to open safety orders (% from initial order)</label>
+                                                                <input class="form-range take_profit_price_range" id="safety_orders_deviation_range" step="0.01" type="range" value="1" min="0.2" max="10">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="compact-controls__item_one-third compact-controls__item_expand-if-one">
+                                                        <div class="form-group">
+                                                            <div class="input-group">
+                                                                <input class="form-control take_profit_price" id="safety_orders_deviation" type="text" value="1">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-12">
+                                                <div class="compact-controls compact-controls_justify_center compact-controls_align_center">
+                                                    <div class="compact-controls__item_two-thirds">
+                                                        <div class="form-group">
+                                                            <div class="input-group">
+                                                                <label for="">Max safety orders count</label>
+                                                                <input class="form-range take_profit_price_range" id="safety_orders_count_range" step="1" type="range" value="4" min="0" max="200">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="compact-controls__item_one-third compact-controls__item_expand-if-one">
+                                                        <div class="form-group">
+                                                            <div class="input-group">
+                                                                <input class="form-control take_profit_price" id="safety_orders_count" type="text" value="4">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12">
+                                                <div class="compact-controls compact-controls_justify_center compact-controls_align_center">
+                                                    <div class="compact-controls__item_two-thirds">
+                                                        <div class="form-group">
+                                                            <div class="input-group">
+                                                                <label for="">Max active safety orders count</label>
+                                                                <input class="form-range take_profit_price_range" id="safety_orders_count_active_range" step="1" type="range" value="4" min="0" max="20">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="compact-controls__item_one-third compact-controls__item_expand-if-one">
+                                                        <div class="form-group">
+                                                            <div class="input-group">
+                                                                <input class="form-control take_profit_price" id="safety_orders_count_active" type="text" value="4">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12">
+                                                <div class="compact-controls compact-controls_justify_center compact-controls_align_center">
+                                                    <div class="compact-controls__item_two-thirds">
+                                                        <div class="form-group">
+                                                            <div class="input-group">
+                                                                <label for="">Safety order volume scale</label>
+                                                                <input class="form-range take_profit_price_range" id="safety_orders_size_scale_range" step="0.1" type="range"  value="1" min="0.1" max="10">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="compact-controls__item_one-third compact-controls__item_expand-if-one">
+                                                        <div class="form-group">
+                                                            <div class="input-group">
+                                                                <input class="form-control take_profit_price" id="safety_orders_size_scale" type="text" value="1">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12">
+                                                <div class="compact-controls compact-controls_justify_center compact-controls_align_center">
+                                                    <div class="compact-controls__item_two-thirds">
+                                                        <div class="form-group">
+                                                            <div class="input-group">
+                                                                <label for="">Safety order step scale</label>
+                                                                <input class="form-range take_profit_price_range" id="safety_orders_deviation_scale_range" step="0.1" type="range" value="1" min="0.1" max="10">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="compact-controls__item_one-third compact-controls__item_expand-if-one">
+                                                        <div class="form-group">
+                                                            <div class="input-group">
+                                                                <input class="form-control take_profit_price" id="safety_orders_deviation_scale" type="text" value="1">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5>Advanced Settings</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="form-floating mb-3">
+                                                    <input type="number" class="form-control total_input" id="min_volume">
+                                                    <label for="floatingInput">Don't start deal(s) if the daily volume is less than</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-sm-6">
+                                                <div class="form-floating mb-3">
+                                                    <input type="number" class="form-control total_input" id="min_price" value="">
+                                                    <label for="floatingInput">Minimum price to open deal</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-sm-6">
+                                                <div class="form-floating mb-3">
+                                                    <input type="number" class="form-control total_input" id="max_price" value="">
+                                                    <label for="floatingInput">Maximum price to open deal</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-sm-6">
+                                                <div class="input-group">
+                                                    <input class="form-control price_input" type="number" step="0.1" id="cooldown_between_deals" placeholder="Cooldown between deals">
+                                                    <span class="input-group-text market_curr">Sec</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-sm-6">
+                                                <div class="form-floating mb-3">
+                                                    <input type="number" class="form-control total_input" id="open_deals_and_stop" value="">
+                                                    <label for="floatingInput">Open х deals & stop</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5>Close deal after timeout 
+                                            <div class="mb-3 form-check form-switch" style="display: inline;margin-left: 15px;">
+                                                <input class="form-check-input" type="checkbox" id="close_deal_bool">
+                                            </div>
+                                        </h5>
+                                        
+                                    </div>
+                                    <div class="card-body hidden">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label for="">The time after which, deal will be closed automatically</label>
+                                                <div class="row">
+                                                    <div class="input-group">
+                                                        <span class="input-group-text market_curr">
+                                                            <select class="form-select" id="timeout_type">
+                                                                <option value="1">Hrs</option>
+                                                                <option value="2">Min</option>
+                                                                <option value="3">Days</option>
+                                                            </select>
+                                                        </span>
+                                                        <input class="price_val form-control price_input" type="number" value="0" id="timeout">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+        
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-12" id="bot-info-col" style="">
+                        <div class="card" id="bot_info_first_card">
+                            <div class="card-header">
+                                <h5>Bot Info</h5>
+                            </div>
+                            <div class="card-body">
+                                <div style="display: flex;justify-content: space-between;gap:30px;">
+                                    <div>Balance</div>
+                                    <div id="botInfo_bal" style="white-space: nowrap;"></div>
+                                </div>
+                                <br>
+                                <div style="display: flex;justify-content: space-between;gap:30px;">
+                                    <div>Max amount for bot usage<br> (Based on current rate)</div>
+                                    <div id="botInfo_amount_used" style="white-space: nowrap;"></div>
+                                </div>
+                                <br>
+                                <div style="display: flex;justify-content: space-between;gap:30px;">
+                                    <div>Max safety order price deviation</div>
+                                    <div id="botInfo_deviation" style="white-space: nowrap;"></div>
+                                </div>
+                                <br>
+                                <div style="display: flex;justify-content: space-between;gap:30px;">
+                                    <div>% of total balance to be used by the bot</div>
+                                    <div id="botInfo_balTotUsed"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-success" type="button" id="createBot" style="width:100%">
+                            <span>Create Bot</span>
+                            <svg class="rotate-45" width="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19.75 11.7256L4.75 11.7256" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M13.7002 5.70124L19.7502 11.7252L13.7002 17.7502" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                        </button>
+                    </div>
+                </div>
+                
+                
+                <br>
+                <br>
+            </div>
+            
+          </div>
+        </div>
+    </div>
+
+    </script>
+  </body>
+  <!-- Wrapper End-->
+    <!-- offcanvas start -->
+
+    <!-- Backend Bundle JavaScript -->
+    <script src="/static/assets/js/libs.min.js"></script>
+    <!-- widgetchart JavaScript -->
+    <script src="/static/assets/js/charts/widgetcharts.js"></script>
+    <!-- fslightbox JavaScript -->
+    <script src="/static/assets/js/fslightbox.js"></script>
+    <!-- app JavaScript -->
+    <script src="/static/assets/js/app.js"></script>
+    <!-- apexchart JavaScript -->
+    <script src="/static/assets/js/charts/apexcharts.js"></script>
+    <script>
+        document.querySelector('#sidebar').querySelectorAll("a.nav-link")[3].classList.add("active")
+        async function getLiveBalance(){
+            await fetch(`/api/v1/live_balance?exchange=${selectedExchangeMain.value}&symbol=${strategy.getAttribute("strategy")=="Long"?(pair_type.getAttribute("pair_type")=="Single"?selectedPairBot.value.split("/")[1]:document.querySelector(".pair-tag.pair-tag_small")?.getAttribute("pair").split("/")[1]):(pair_type.getAttribute("pair_type")=="Single"?selectedPairBot.value.split("/")[0]:document.querySelector(".pair-tag.pair-tag_small")?.getAttribute("pair").split("/")[0])}`)
+            .then(res=>res.json())
+            .then(res=>{
+                document.body.setAttribute("live_balance",res)
+                if(pair_type.getAttribute("pair_type")=="Single")
+                    botInfo_bal.innerHTML = res.toFixed(2) + " " + (strategy.getAttribute("strategy")=="Long"?selectedPairBot.value.split("/")[1]:selectedPairBot.value.split("/")[0])
+                else
+                    botInfo_bal.innerHTML = res.toFixed(2) + " " + (strategy.getAttribute("strategy")=="Long"?document.querySelector(".pair-tag.pair-tag_small")?.getAttribute("pair").split("/")[1]:document.querySelector(".pair-tag.pair-tag_small")?.getAttribute("pair").split("/")[0])
+            })
+            .finally(()=>{
+                getLiveBalance()
+            })
+        }
+        getLiveBalance()
+
+        async function getLivePrice(){
+            if(strategy.getAttribute("strategy")=="Long" || true)
+            await fetch(`/api/v1/live_price?exchange=${selectedExchangeMain.value}&market=${selectedPairBot.value.split("/")[1]}&pair=${selectedPairBot.value.split("/")[0]}`)
+            .then(res=>{
+                getLivePrice()
+            })
+            else
+            await fetch(`/api/v1/live_price?exchange=${selectedExchangeMain.value}&market=${selectedPairBot.value.split("/")[0]}&pair=${selectedPairBot.value.split("/")[1]}`)
+            .then(res=>{
+                getLivePrice()
+            })
+        }
+        getLivePrice()
+
+        setInterval(function(){
+            safety_amount = 0
+            for (let i = 0; i < self.safety_orders_count.value; i++) {
+                if(safety_orders_size_type.value == 1){
+                    safety_orders_size_edit = parseFloat(safety_orders_size.value)
+                }
+                else if(safety_orders_size_type.value == 2){
+                    safety_orders_size_edit = parseFloat(safety_orders_size.value) * document.body.getAttribute("live_price")
+                }
+                else{
+                    safety_orders_size_edit = document.body.getAttribute("live_balance") * parseFloat(safety_orders_size.value) / 100
+                }
+                safety_amount += parseFloat(safety_orders_size_edit) * Math.pow(parseFloat(self.safety_orders_size_scale.value),i)
+            }
+            if (strategy.getAttribute("strategy")=="Long")
+                if(amount_type.value == 1){
+                    deal_start_amount_edit = parseFloat(deal_start_amount.value)
+                }
+                else if(amount_type.value == 2){
+                    deal_start_amount_edit = parseFloat(deal_start_amount.value) * document.body.getAttribute("live_price")
+                }
+                else{
+                    deal_start_amount_edit = document.body.getAttribute("live_balance") * parseFloat(deal_start_amount.value) / 100
+                }
+            else
+                if(amount_type.value == 2){
+                    deal_start_amount_edit = parseFloat(deal_start_amount.value)
+                }
+                else if(amount_type.value == 1){
+                    deal_start_amount_edit = parseFloat(deal_start_amount.value) * document.body.getAttribute("live_price")
+                }
+                else{
+                    deal_start_amount_edit = document.body.getAttribute("live_balance") * parseFloat(deal_start_amount.value) / 100
+                }
+
+            botInfo_amount_used.innerHTML = ((parseFloat(deal_start_amount_edit) + safety_amount)*(pair_type.getAttribute('pair_type').toLowerCase()!="single"?document.querySelectorAll(".pair-tag.pair-tag_small").length:1)).toFixed(2) + " " + (strategy.getAttribute("strategy")=="Long"?selectedPairBot.value.split("/")[1]:selectedPairBot.value.split("/")[0])
+        },100)
+
+        setInterval(function(){
+            botInfo_deviation.innerHTML = (parseFloat(self.safety_orders_deviation.value) * parseFloat(self.safety_orders_deviation_scale.value)).toFixed(2) + "%"
+            botInfo_balTotUsed.innerHTML = (parseFloat(botInfo_amount_used.innerHTML) / parseFloat(botInfo_bal.innerHTML) * 100).toFixed(2) + "%"
+        },100)
+
+        stop_loss_bool.addEventListener("change",function(){
+            if (this.checked){
+                this.closest('.card').querySelector(".card-body").classList.remove("hidden")
+            }else{
+                this.closest('.card').querySelector(".card-body").classList.add("hidden")
+            }
+        })
+
+        close_deal_bool.addEventListener("change",function(){
+            if (this.checked){
+                this.closest('.card').querySelector(".card-body").classList.remove("hidden")
+            }else{
+                this.closest('.card').querySelector(".card-body").classList.add("hidden")
+            }
+        })
+
+        function addCond(element_clicked){
+            element_clicked.previousElementSibling.insertAdjacentHTML('beforeend',`
+            <div class="cond-container">
+                <div class="row">
+                    <div class="col-2">
+                        <div class="form-floating mb-3">
+                            <select class="form-control selectCond" id="floatingInput">
+                                <option value=""></option>
+                                <option value="RSI">RSI</option>
+                                <option value="MACD">MACD</option>
+                                <option value="Stochastic">Stochastic</option>
+                                <option value="Ultimate Oscillator">Ultimate Oscillator</option>
+                                <option value="Bollinger Bands">Bollinger Bands</option>
+                                <option value="Commodity Channel Index">Commodity Channel Index</option>
+                                <option value="Average Directional Index">Average Directional Index</option>
+                            </select>
+                            <label for="floatingInput">Indicator</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            `)
+            document.querySelectorAll(".selectCond").forEach((el)=>{
+                el.addEventListener("change",()=>{
+                    el.closest(".cond-container").querySelectorAll(".cond-elem").forEach(e=>{
+                        e.remove()
+                    })
+                    el.parentElement.parentElement.classList = htmlCondsCode[el.value][0]
+                    el.parentElement.parentElement.insertAdjacentHTML('afterend',htmlCondsCode[el.value][1])
+                    el.closest(".cond-container").setAttribute("indicator" , el.value)
+                    document.querySelectorAll(".removeCondContainer").forEach(e=>{
+                        e.addEventListener("click", function(){
+                            e.closest(".cond-container").remove()
+                        })
+                    })
+                })
+            })
+            
+        }
+
+        createBot.addEventListener("click",function(){
+            if(parseFloat(botInfo_balTotUsed.innerHTML)>100){
+                swal('Error', "You can't use more than 100% of your balance", 'error');
+                return
+            }
+            let oldHTML = this.innerHTML
+            this.setAttribute("disabled","disabled")
+            this.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span class="visually-hidden">Loading...</span>'
+            indicators = []
+            tpIndicators = []
+            indicators_conds.querySelectorAll(".cond-container").forEach(e=>{
+                conds = {}
+                e.querySelectorAll(".cond-elem").forEach(e=>{
+                    if (e.querySelector("input"))
+                    conds[e.getAttribute("cond-elem-label")] = e.querySelector("input").value
+                    if (e.querySelector("select"))
+                    conds[e.getAttribute("cond-elem-label")] = e.querySelector("select").value
+                })
+                indicators.push({
+                    "indicator":e.getAttribute("indicator"),
+                    "conds":conds
+                })
+            })
+            tp_indicators_conds.querySelectorAll(".cond-container").forEach(e=>{
+                conds = {}
+                e.querySelectorAll(".cond-elem").forEach(e=>{
+                    if (e.querySelector("input"))
+                    conds[e.getAttribute("cond-elem-label")] = e.querySelector("input").value
+                    if (e.querySelector("select"))
+                    conds[e.getAttribute("cond-elem-label")] = e.querySelector("select").value
+                })
+                tpIndicators.push({
+                    "indicator":e.getAttribute("indicator"),
+                    "conds":conds
+                })
+            })
+            let symbols_multi_arr = []
+            document.querySelectorAll('.pair-tag.pair-tag_small').forEach(e=>{
+                symbols_multi_arr.push(e.getAttribute("pair"))
+            })
+            const data = {
+                name:bot_name.value,
+                symbol: selectedPairBot.value,
+                symbols:symbols_multi_arr,
+                pair_type: pair_type.getAttribute("pair_type"),
+                amount: parseFloat(deal_start_amount.value),
+                start_order_type: start_order_type.getAttribute("start_order_type"),
+                exchange_name: selectedExchangeMain.value,
+                conds:indicators,
+                tp_conds:tpIndicators,
+                tp_type:take_profit_type.getAttribute("take_profit_type"), 
+                tp_percent:parseFloat(document.querySelector("#tp_percent").value),
+                tp_percent_type:document.querySelector("#tp_percent_type").value,
+                profit_currency:profit_currency.getAttribute("profit_currency"),
+                trailing_take_profit: trailing_take_profit_bool.checked,
+                trailing_deviation: trailing_deviation.value,
+                trailing_stop_loss: trailing_stop_loss_bool.checked,
+                stop_loss_price_percent: stop_loss_price_percent.value,
+                stop_loss_time_out: stop_loss_time_out_bool.checked,
+                stop_loss_time_out_time: stop_loss_time_out_time.value,
+                Close_deal_after_timeout: close_deal_bool.checked,
+                timeout: timeout.value,
+                timeout_type:timeout_type.value,
+                amount_type:amount_type.value,
+                safety_orders_size: self.safety_orders_size.value,
+                safety_orders_size_type: self.safety_orders_size_type.value,
+                safety_orders_size_scale: self.safety_orders_size_scale.value,
+                safety_orders_deviation: self.safety_orders_deviation.value,
+                safety_orders_deviation_scale: self.safety_orders_deviation_scale.value,
+                safety_orders_count: self.safety_orders_count.value,
+                safety_orders_count_max_active: self.safety_orders_count_active.value,
+                max_price: max_price.value,
+                min_price: min_price.value,
+                min_volume: min_volume.value,
+                min_profit: min_profit.checked,
+                min_profit_type: min_profit_type.value,
+                min_profit_percent: min_profit_percent.value,
+                strategy: strategy.getAttribute("strategy"),
+                close_deal_action: close_deal_action.value,
+                cooldown_between_deals: cooldown_between_deals.value,
+                open_deals_and_stop: open_deals_and_stop.value,
+            };
+            console.log(data)
+
+            fetch('/api/v1/create_bot/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+            .then((response) => response.json())
+            .then(data => {
+                // Show a success message with SweetAlert
+                if (data.ok) {
+                    // the request was successful, handle the data here
+                    swal('Success', data.message, 'success');
+                } else {
+                    // the server returned an error status code, handle the error here
+                    swal('Failed', data.message, 'error');
+                }
+            })
+            .catch(error => {
+                swal('Error', error.message, 'error');
+            })
+            .finally(() => {
+                this.innerHTML = oldHTML
+                this.removeAttribute("disabled")
+            });
+        })
+
+        function selectedPairBotSelect(){
+            document.querySelectorAll(".pairs_amount_selector").forEach(function(e){
+                e.innerHTML = ""
+                if(pair_type.getAttribute("pair_type")=="Single"){
+                    e.insertAdjacentHTML('beforeend',`
+                        <option value="1">${selectedPairBot.value.split("/")[1]}</option>
+                        <option value="2">${selectedPairBot.value.split("/")[0]}</option>
+                        <option value="3">% (${selectedPairBot.value.split("/")[1]})</option>
+                    `)
+                }
+                else{
+                    e.insertAdjacentHTML('beforeend',`
+                        <option value="1">${document.querySelector(".pair-tag.pair-tag_small")?.getAttribute("pair").split("/")[1]}</option>
+                        <option value="3">% (${document.querySelector(".pair-tag.pair-tag_small")?.getAttribute("pair").split("/")[1]})</option>
+                    `)
+                }
+                
+            })
+        }
+
+        safety_orders_deviation_scale_range.addEventListener("input",function(){
+            safety_orders_deviation_scale.value = this.value
+        })
+
+        safety_orders_deviation_scale.addEventListener("input",function(){
+            safety_orders_deviation_scale_range.value = this.value
+        })
+
+        safety_orders_size_scale_range.addEventListener("input",function(){
+            safety_orders_size_scale.value = this.value
+        })
+
+        safety_orders_size_scale.addEventListener("input",function(){
+            safety_orders_size_scale_range.value = this.value
+        })  
+
+        safety_orders_count_active_range.addEventListener("input",function(){
+            safety_orders_count_active.value = this.value
+        })
+
+        safety_orders_count_active.addEventListener("input",function(){
+            safety_orders_count_active_range.value = this.value
+        })
+
+        safety_orders_count_range.addEventListener("input",function(){
+            safety_orders_count.value = this.value
+        })
+
+        safety_orders_count.addEventListener("input",function(){
+            safety_orders_count_range.value = this.value
+        })
+
+        safety_orders_deviation_range.addEventListener("input",function(){
+            safety_orders_deviation.value = this.value
+        })
+
+        safety_orders_deviation.addEventListener("input",function(){
+            safety_orders_deviation_range.value = this.value
+        })
+
+        selectedPairBotSelect()
+        
+        selectedPairBot.addEventListener("change",selectedPairBotSelect)
+
+        htmlCondsCode = {
+            "RSI":[2,`
+                <div class="row">
+                    <div class="col-10 row">
+                    <div class="col-3 cond-elem" cond-elem-label="RSI Length">
+                        <div class="form-floating mb-3">
+                            <input type="number" class="form-control total_input" value="7" id="floatingInput">
+                            <label for="floatingInput">RSI Length</label>
+                        </div>
+                    </div>
+                    <div class="col-3 cond-elem" cond-elem-label="Timeframe">
+                        <div class="form-floating mb-3">
+                            <select class="form-control total_input" id="floatingInput">
+                                <option value="1m">1m</option>
+                                <option value="3m" selected>3m</option>
+                                <option value="5m">5m</option>
+                                <option value="15m">15m</option>
+                                <option value="30m">30m</option>
+                                <option value="1h">1h</option>
+                                <option value="2h">2h</option>
+                                <option value="4h">4h</option>
+                                <option value="6h">6h</option>
+                                <option value="12h">12h</option>
+                                <option value="1d">1d</option>
+                                <option value="1w">1w</option>
+                            </select>
+                                
+                            <label for="floatingInput">Timeframe</label>
+                        </div>
+                    </div>
+                    <div class="col-3 cond-elem" cond-elem-label="Condition">
+                        <div class="form-floating mb-3">
+                            <select class="form-control total_input" id="floatingInput">
+                                <option value="Greater than">Greater than</option>
+                                <option value="Less than" selected>Less than</option>
+                                <option value="Crossing Up">Crossing Up</option>
+                                <option value="Crossing Down">Crossing Down</option>
+                            </select>
+                            <label for="floatingInput">Condition</label>
+                        </div>
+                    </div>
+                    <div class="col-3 cond-elem" cond-elem-label="Signal Value">
+                        <div class="form-floating mb-3">
+                            <input type="number" class="form-control total_input" value="30" id="floatingInput">
+                            <label for="floatingInput">Signal Value</label>
+                        </div>
+                    </div>
+                </div>
+                    <div class="col-2 cond-elem">
+                        <div class="removeCondContainer form-floating mb-3" style="border:1px solid #313135;border-radius:4px;display:flex;justify-content:center;align-items:center;cursor:pointer;background: #30282f;">
+                            <img src="/static/images/close.png" style="height:55px;filter:invert(1);padding: 11px 0;">
+                        </div>
+                    </div>
+                </div>
+                    `],
+
+            "MACD":[12,`
+            <div class="row">
+                <div class="col-10 row">
+                    <div class="col-4 cond-elem" cond-elem-label="Fast Length">
+                        <div class="form-floating mb-3">
+                            <input type="number" class="form-control total_input" value="12" id="floatingInput">
+                            <label for="floatingInput">Fast Length</label>
+                        </div>
+                    </div>
+                    <div class="col-4 cond-elem" cond-elem-label="Slow Length">
+                        <div class="form-floating mb-3">
+                            <input type="number" class="form-control total_input" value="26" id="floatingInput">
+                            <label for="floatingInput">Slow Length</label>
+                        </div>
+                    </div>
+                    <div class="col-4 cond-elem" cond-elem-label="Signal Length">
+                        <div class="form-floating mb-3">
+                            <input type="number" class="form-control total_input" value="9" id="floatingInput">
+                            <label for="floatingInput">Signal Length</label>
+                        </div>
+                    </div>
+                    <div class="col-4 cond-elem" cond-elem-label="MACD Trigger">
+                        <div class="form-floating mb-3">
+                            <select class="form-control total_input" id="floatingInput">
+                                <option value="Crossing Up">Crossing Up</option>
+                                <option value="Crossing Down" selected>Crossing Down</option>
+                            </select>
+                            <label for="floatingInput">MACD Trigger</label>
+                        </div>
+                    </div>
+                    <div class="col-4 cond-elem" cond-elem-label="Line Trigger">
+                        <div class="form-floating mb-3">
+                            <select class="form-control total_input" id="floatingInput">
+                                <option value="Less Than 0">Less Than 0</option>
+                                <option value="Greater Than 0" selected>Greater Than 0</option>
+                            </select>
+                            <label for="floatingInput">Line Trigger</label>
+                        </div>
+                    </div>
+                    <div class="col-4 cond-elem" cond-elem-label="Timeframe">
+                        <div class="form-floating mb-3">
+                            <select class="form-control total_input" id="floatingInput">
+                                <option value="1m">1m</option>
+                                <option value="3m" selected>3m</option>
+                                <option value="5m">5m</option>
+                                <option value="15m">15m</option>
+                                <option value="30m">30m</option>
+                                <option value="1h">1h</option>
+                                <option value="2h">2h</option>
+                                <option value="4h">4h</option>
+                                <option value="6h">6h</option>
+                                <option value="12h">12h</option>
+                                <option value="1d">1d</option>
+                                <option value="1w">1w</option>
+                            </select>
+                            
+                            <label for="floatingInput">Timeframe</label>
+                        </div>
+                    </div>
+                </div>
+                    <div class="col-2 cond-elem">
+                        <div class="removeCondContainer form-floating mb-3" style="border:1px solid #313135;border-radius:4px;display:flex;justify-content:center;align-items:center;cursor:pointer;background: #30282f;">
+                            <img src="/static/images/close.png" style="height:55px;filter:invert(1);padding: 11px 0;">
+                        </div>
+                    </div>
+                </div>
+
+                    `],
+                "Stochastic":[12,`
+                <div class="row">
+                    <div class="col-10 row">
+                <div class="col-4 cond-elem" cond-elem-label="K Length">
+                        <div class="form-floating mb-3">
+                            <input type="number" class="form-control total_input" value="14" id="floatingInput">
+                            <label for="floatingInput">K Length</label>
+                        </div>
+                    </div>
+                    <div class="col-4 cond-elem" cond-elem-label="K Smoothing">
+                        <div class="form-floating mb-3">
+                            <input type="number" class="form-control total_input" value="1" id="floatingInput">
+                            <label for="floatingInput">K Smoothing</label>
+                        </div>
+                    </div>
+                    <div class="col-4 cond-elem" cond-elem-label="D Smoothing">
+                        <div class="form-floating mb-3">
+                            <input type="number" class="form-control total_input" value="3" id="floatingInput">
+                            <label for="floatingInput">D Smoothing</label>
+                        </div>
+                    </div>
+                    <div class="col-4 cond-elem" cond-elem-label="K Condition">
+                        <div class="form-floating mb-3">
+                            <select class="form-control total_input" id="floatingInput">
+                                <option value="Greater than">Greater than</option>
+                                <option value="Less than" selected>Less than</option>
+                                <option value="Crossing Up">Crossing Up</option>
+                                <option value="Crossing Down">Crossing Down</option>
+                            </select>
+                            
+                            <label for="floatingInput">K Condition</label>
+                        </div>
+                    </div>
+                    <div class="col-4 cond-elem" cond-elem-label="K Signal Value">
+                        <div class="form-floating mb-3">
+                            <input type="number" class="form-control total_input" value="20" id="floatingInput">
+                            <label for="floatingInput">K Signal Value</label>
+                        </div>
+                    </div>
+                    <div class="col-4 cond-elem" cond-elem-label="Condition">
+                        <div class="form-floating mb-3">
+                            <select class="form-control total_input" id="floatingInput">
+                                <option value="K Crossing Up D">K Crossing Up D</option>
+                                <option value="K Crossing Down D" selected>K Crossing Down D</option>
+                            </select>
+                            <label for="floatingInput">Condition</label>
+                        </div>
+                    </div>
+                    <div class="col-4 cond-elem" cond-elem-label="Timeframe">
+                        <div class="form-floating mb-3">
+                            <select class="form-control total_input" id="floatingInput">
+                                <option value="1m">1m</option>
+                                <option value="3m" selected>3m</option>
+                                <option value="5m">5m</option>
+                                <option value="15m">15m</option>
+                                <option value="30m">30m</option>
+                                <option value="1h">1h</option>
+                                <option value="2h">2h</option>
+                                <option value="4h">4h</option>
+                                <option value="6h">6h</option>
+                                <option value="12h">12h</option>
+                                <option value="1d">1d</option>
+                                <option value="1w">1w</option>
+                            </select>
+                            <label for="floatingInput">Timeframe</label>
+                        </div>
+                    </div>
+                </div>
+                    <div class="col-2 cond-elem">
+                        <div class="removeCondContainer form-floating mb-3" style="border:1px solid #313135;border-radius:4px;display:flex;justify-content:center;align-items:center;cursor:pointer;background: #30282f;">
+                            <img src="/static/images/close.png" style="height:55px;filter:invert(1);padding: 11px 0;">
+                        </div>
+                    </div>
+                </div>
+
+                `],
+                "Commodity Channel Index":[2,`
+                <div class="row">
+                    <div class="col-10 row">
+                <div class="col-3 cond-elem" cond-elem-label="RSI Length">
+                        <div class="form-floating mb-3">
+                            <input type="number" class="form-control total_input" value="20" id="floatingInput">
+                            <label for="floatingInput">Length</label>
+                        </div>
+                    </div>
+                    <div class="col-3 cond-elem" cond-elem-label="Timeframe">
+                        <div class="form-floating mb-3">
+                            <select class="form-control total_input" id="floatingInput">
+                                <option value="1m">1m</option>
+                                <option value="3m" selected>3m</option>
+                                <option value="5m">5m</option>
+                                <option value="15m">15m</option>
+                                <option value="30m">30m</option>
+                                <option value="1h">1h</option>
+                                <option value="2h">2h</option>
+                                <option value="4h">4h</option>
+                                <option value="6h">6h</option>
+                                <option value="12h">12h</option>
+                                <option value="1d">1d</option>
+                                <option value="1w">1w</option>
+                            </select>
+                                
+                            <label for="floatingInput">Timeframe</label>
+                        </div>
+                    </div>
+                    <div class="col-3 cond-elem" cond-elem-label="Condition">
+                        <div class="form-floating mb-3">
+                            <select class="form-control total_input" id="floatingInput">
+                                <option value="Greater Than">Greater Than</option>
+                                <option value="Less Than" selected>Less Than</option>
+                                <option value="Crossing Up">Crossing Up</option>
+                                <option value="Crossing Down">Crossing Down</option>
+                            </select>
+                            <label for="floatingInput">Condition</label>
+                        </div>
+                    </div>
+                    <div class="col-3 cond-elem" cond-elem-label="Signal Value">
+                        <div class="form-floating mb-3">
+                            <input type="number" class="form-control total_input" value="-100" id="floatingInput">
+                            <label for="floatingInput">Signal Value</label>
+                        </div>
+                    </div>
+                </div>
+                    <div class="col-2 cond-elem">
+                        <div class="removeCondContainer form-floating mb-3" style="border:1px solid #313135;border-radius:4px;display:flex;justify-content:center;align-items:center;cursor:pointer;background: #30282f;">
+                            <img src="/static/images/close.png" style="height:55px;filter:invert(1);padding: 11px 0;">
+                        </div>
+                    </div>
+                </div>
+
+                `],
+                "Ultimate Oscillator":[2,`
+                <div class="row">
+                    <div class="col-10 row">
+                    <div class="col-3 cond-elem" cond-elem-label="Fast Length">
+                        <div class="form-floating mb-3">
+                            <input type="number" class="form-control total_input" value="7" id="floatingInput">
+                            <label for="floatingInput">Fast Length</label>
+                        </div>
+                    </div>
+                    <div class="col-3 cond-elem" cond-elem-label="Middle Length">
+                        <div class="form-floating mb-3">
+                            <input type="number" class="form-control total_input" value="14" id="floatingInput">
+                            <label for="floatingInput">Middle Length</label>
+                        </div>
+                    </div>
+                    <div class="col-3 cond-elem" cond-elem-label="Slow Length">
+                        <div class="form-floating mb-3">
+                            <input type="number" class="form-control total_input" value="28" id="floatingInput">
+                            <label for="floatingInput">Slow Length</label>
+                        </div>
+                    </div>
+                    <div class="col-3 cond-elem" cond-elem-label="Condition">
+                        <div class="form-floating mb-3">
+                            <select class="form-control total_input" id="floatingInput">
+                                <option value="Greater than">Greater than</option>
+                                <option value="Less than" selected>Less than</option>
+                                <option value="Crossing Up">Crossing Up</option>
+                                <option value="Crossing Down">Crossing Down</option>
+                            </select>
+                            <label for="floatingInput">Condition</label>
+                        </div>
+                    </div>
+                    <div class="col-3 cond-elem" cond-elem-label="Signal Value">
+                        <div class="form-floating mb-3">
+                            <input type="number" class="form-control total_input" value="-100" id="floatingInput">
+                            <label for="floatingInput">Signal Value</label>
+                        </div>
+                    </div>
+                    <div class="col-3 cond-elem" cond-elem-label="Timeframe">
+                        <div class="form-floating mb-3">
+                            <select class="form-control total_input" id="floatingInput">
+                                <option value="1m">1m</option>
+                                <option value="3m" selected>3m</option>
+                                <option value="5m">5m</option>
+                                <option value="15m">15m</option>
+                                <option value="30m">30m</option>
+                                <option value="1h">1h</option>
+                                <option value="2h">2h</option>
+                                <option value="4h">4h</option>
+                                <option value="6h">6h</option>
+                                <option value="12h">12h</option>
+                                <option value="1d">1d</option>
+                                <option value="1w">1w</option>
+                            </select>
+                            <label for="floatingInput">Timeframe</label>
+                        </div>
+                    </div>
+                </div>
+                    <div class="col-2 cond-elem">
+                        <div class="removeCondContainer form-floating mb-3" style="border:1px solid #313135;border-radius:4px;display:flex;justify-content:center;align-items:center;cursor:pointer;background: #30282f;">
+                            <img src="/static/images/close.png" style="height:55px;filter:invert(1);padding: 11px 0;">
+                        </div>
+                    </div>
+                </div>
+
+                    `],
+
+                "Bollinger Bands":[2,`
+                <div class="row">
+                    <div class="col-10 row">
+                    <div class="col-3 cond-elem" cond-elem-label="BB% Period">
+                        <div class="form-floating mb-3">
+                            <input type="number" class="form-control total_input" value="20" id="floatingInput">
+                            <label for="floatingInput">BB% Period</label>
+                        </div>
+                    </div>
+                    <div class="col-3 cond-elem" cond-elem-label="Deviation">
+                        <div class="form-floating mb-3">
+                            <input type="number" class="form-control total_input" value="2" id="floatingInput">
+                            <label for="floatingInput">Deviation</label>
+                        </div>
+                    </div>
+                    <div class="col-3 cond-elem" cond-elem-label="Timeframe">
+                        <div class="form-floating mb-3">
+                            <select class="form-control total_input" id="floatingInput">
+                                <option value="1m">1m</option>
+                                <option value="3m" selected>3m</option>
+                                <option value="5m">5m</option>
+                                <option value="15m">15m</option>
+                                <option value="30m">30m</option>
+                                <option value="1h">1h</option>
+                                <option value="2h">2h</option>
+                                <option value="4h">4h</option>
+                                <option value="6h">6h</option>
+                                <option value="12h">12h</option>
+                                <option value="1d">1d</option>
+                                <option value="1w">1w</option>
+                            </select>
+                                
+                            <label for="floatingInput">Timeframe</label>
+                        </div>
+                    </div>
+                    <div class="col-3 cond-elem" cond-elem-label="Condition">
+                        <div class="form-floating mb-3">
+                            <select class="form-control total_input" id="floatingInput">
+                                <option value="Greater Than">Greater Than</option>
+                                <option value="Less Than" selected>Less Than</option>
+                                <option value="Crossing Up">Crossing Up</option>
+                                <option value="Crossing Down">Crossing Down</option>
+                            </select>
+                            <label for="floatingInput">Condition</label>
+                        </div>
+                    </div>
+                    <div class="col-3 cond-elem" cond-elem-label="Signal Value">
+                        <div class="form-floating mb-3">
+                            <input type="number" class="form-control total_input" value="0" id="floatingInput">
+                            <label for="floatingInput">Signal Value</label>
+                        </div>
+                    </div>
+                </div>
+                    <div class="col-2 cond-elem">
+                        <div class="removeCondContainer form-floating mb-3" style="border:1px solid #313135;border-radius:4px;display:flex;justify-content:center;align-items:center;cursor:pointer;background: #30282f;">
+                            <img src="/static/images/close.png" style="height:55px;filter:invert(1);padding: 11px 0;">
+                        </div>
+                    </div>
+                </div>
+                `],
+
+                "Average Directional Index":[2,`
+                <div class="row">
+                    <div class="col-10 row">
+                <div class="col-3 cond-elem" cond-elem-label="ADX and DI Length">
+                        <div class="form-floating mb-3">
+                            <input type="number" class="form-control total_input" value="14" id="floatingInput">
+                            <label for="floatingInput">ADX and DI Length</label>
+                        </div>
+                    </div>
+                    <div class="col-3 cond-elem" cond-elem-label="Timeframe">
+                        <div class="form-floating mb-3">
+                            <select class="form-control total_input" id="floatingInput">
+                                <option value="1m">1m</option>
+                                <option value="3m" selected>3m</option>
+                                <option value="5m">5m</option>
+                                <option value="15m">15m</option>
+                                <option value="30m">30m</option>
+                                <option value="1h">1h</option>
+                                <option value="2h">2h</option>
+                                <option value="4h">4h</option>
+                                <option value="6h">6h</option>
+                                <option value="12h">12h</option>
+                                <option value="1d">1d</option>
+                                <option value="1w">1w</option>
+                            </select>
+                                
+                            <label for="floatingInput">Timeframe</label>
+                        </div>
+                    </div>
+                    <div class="col-3 cond-elem" cond-elem-label="Condition">
+                        <div class="form-floating mb-3">
+                            <select class="form-control total_input" id="floatingInput">
+                                <option value="Greater Than">Greater Than</option>
+                                <option value="Less Than" selected>Less Than</option>
+                                <option value="Crossing Up">Crossing Up</option>
+                                <option value="Crossing Down">Crossing Down</option>
+
+                            </select>
+                            <label for="floatingInput">Condition</label>
+                        </div>
+                    </div>
+                    <div class="col-3 cond-elem" cond-elem-label="Signal Value">
+                        <div class="form-floating mb-3">
+                            <input type="number" class="form-control total_input" value="50" id="floatingInput">
+                            <label for="floatingInput">Signal Value</label>
+                        </div>
+                    </div>
+                </div>
+                    <div class="col-2 cond-elem">
+                        <div class="removeCondContainer form-floating mb-3" style="border:1px solid #313135;border-radius:4px;display:flex;justify-content:center;align-items:center;cursor:pointer;background: #30282f;">
+                            <img src="/static/images/close.png" style="height:55px;filter:invert(1);padding: 11px 0;">
+                        </div>
+                    </div>
+                </div>
+
+                    `],
+        }
+
+        document.querySelectorAll(".btn-check-group").forEach(elm=>{
+            elm.querySelectorAll(".btn-check").forEach(e=>{  
+                e.nextElementSibling.addEventListener("click",function(){
+                    elm.setAttribute(elm.id,this.innerHTML)
+                    elm.querySelectorAll("label").forEach(e=>{
+                        e.classList.remove("active")
+                    })
+                    e.nextElementSibling.classList.add("active")
+                    if(elm.id == "take_profit_type"){
+                        if(elm.getAttribute("take_profit_type")=="Percent %"){
+                            take_profit_type_percent.classList.remove("hidden")
+                            take_profit_type_conditions.classList.add("hidden")
+                        }
+                        else{
+                            take_profit_type_percent.classList.add("hidden")
+                            take_profit_type_conditions.classList.remove("hidden")
+                        }
+                    }
+                    if(elm.id == "pair_type"){
+                        if(elm.getAttribute("pair_type")=="Single"){
+                            document.querySelector(".pair_type_single").classList.remove("hidden")
+                            document.querySelector(".pair_type_multi").classList.add("hidden")
+                        }
+                        else{
+                            document.querySelector(".pair_type_single").classList.add("hidden")
+                            document.querySelector(".pair_type_multi").classList.remove("hidden")
+                        }
+                        selectedPairBotSelect()
+                    }
+                })
+            })
+        })
+
+        get_indicators_signals()
+
+        async function get_indicators_signals(){
+            await fetch(`/api/v1/indicators_signals?exchange=${selectedExchangeMain.value}&interval=${localStorage.getItem('interval')||"15m"}`)
+            .then(res=>res.json())
+            .then(res=>{
+                top_signals_buy.innerHTML = `<tr class="header-hvDpy38G">
+                                                <th class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">Symbol</th>
+                                                <th class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">Signal</th>
+                                            </tr>`
+                top_signals_sell.innerHTML = `<tr class="header-hvDpy38G">
+                                                <th class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">Symbol</th>
+                                                <th class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">Signal</th>
+                                            </tr>`
+                for(let x of res[0].slice(0,10)){
+                    top_signals_buy.insertAdjacentHTML("beforeend",`
+                        <tr class="row-hvDpy38G" style="">
+                            <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">
+                                <span>${x.symbol}</span>
+                            </td>
+                            <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G"><span class="text-success">buy ${x.buy_percentage.toFixed(0)}%</span></td>
+                        </tr>
+                    `)
+                }
+                for(let x of res[1].slice(0,10)){
+                    top_signals_sell.insertAdjacentHTML("beforeend",`
+                        <tr class="row-hvDpy38G" style="">
+                            <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">
+                                <span>${x.symbol}</span>
+                            </td>
+                            <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G"><span class="text-danger">sell ${x.sell_percentage.toFixed(0)}%</span></td>
+                        </tr>
+                    `)
+                }
+                get_indicators_signals()
+            })
+        }
+
+        selectedPairBot_multi.addEventListener("change",function(){
+            multi_pairs_select.insertAdjacentHTML('beforeend',`
+                <div class="pair-tag pair-tag_small" pair='${this.value}'>
+                    <span class="pair-text">
+                        <img src="https://s3-symbol-logo.tradingview.com/crypto/XTVC${this.value.split("/")[0]}--big.svg" class="currency-icon image pair-text__icon" alt="ACA">
+                        <span class="pair-text__text">${this.value.split("/")[0]}<span class="pair-text__second-currency">/${this.value.split("/")[1]}</span>
+                        </span>
+                    </span>
+                    <span class="delete" style="cursor:pointer;">
+                        <svg width="16px" height="16px" class="svg-icon" viewBox="0 0 16 16" fill="none">
+                            <path fill="currentColor" d="M8 6.536L14.234.303a1.035 1.035 0 011.464 1.464L9.464 7.999l6.233 6.233a1.035 1.035 0 01-1.464 1.463L8.001 9.463l-6.234 6.234a1.035 1.035 0 01-1.464-1.464L6.537 8 .304 1.767A1.035 1.035 0 111.767.303l6.234 6.233z"></path>
+                        </svg>
+                    </span>
+                </div>
+            `)
+            selectedPairBotSelect()
+            document.querySelectorAll(".delete").forEach(e=>{
+                e.addEventListener("click",function(){
+                    this.parentElement.remove()
+                    if(!document.querySelectorAll(".pair-tag_small").length){
+                        selectedPairBot_multi.querySelectorAll("option").forEach(e=>{
+                            e.classList.remove("hidden")
+                        })
+                    }
+                })
+            })
+            this.querySelectorAll("option").forEach(e=>{
+                if(e.value.split("/")[1] != this.value.split("/")[1]){
+                    e.classList.add("hidden")
+                }
+                else{
+                    e.classList.remove("hidden")
+                }
+            })
+        })
+
+
+
+        
+
+        
+        
+
+
+    </script>
+</html>
+{% endblock %}

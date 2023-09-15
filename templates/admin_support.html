@@ -1,0 +1,165 @@
+{% include 'base_admin.html' %}
+      <div class="container-fluid content-inner pb-0">
+        <div class="row">
+        <div class="col-lg-3">
+            <div class="card">
+              <div class="card-header">
+                 <div class="header-title" style="background: #ffffff08;padding: 10px;border-radius: 4px;">
+                    <h4 class="card-title">Tickets</h4>
+                 </div>
+              </div>
+              <div class="card-body" id="tickets_list" style="max-height: 310px;overflow-y: scroll;margin-top: 14px;"></div>
+           </div>
+         </div>
+        <div class="col-lg-9 hidden" id="ticket_details_chat">
+            <div class="profile-content tab-content">
+         <div id="profile-feed" class="tab-pane fade active show">
+            <div class="card" id="ticketMessages">
+               <div class="card-header d-flex align-items-center justify-content-between pb-4">
+                  <div class="header-title">
+                     <div class="d-flex flex-wrap">
+                        <div class="media-support-user-img me-3">
+                           <img class="rounded-pill img-fluid avatar-60 bg-soft-danger" id="ticketMessages_img" src="" alt="">
+                        </div>
+                        <div class="media-support-info mt-2">
+                           <h5 class="mb-0" id="ticketMessages_username"></h5>
+                        </div>
+                     </div>
+                  </div>                        
+               </div>
+               <div class="card-body p-0">
+                  <div class="comment-area p-3">
+                     <p id="ticketMessages_subject"></p>
+                     <hr>
+                     <ul class="list-inline p-0 m-0" id="ticketMessages_list"></ul>
+                     <form id='sendMessageForm' class="comment-text d-flex align-items-center mt-3">
+                        <input type="text" class="form-control rounded" id='message_content' name="content" placeholder="...">
+                     </form>
+                  </div>                              
+               </div>
+            </div>                             
+               </div>
+            </div>
+         </div>
+      </div>
+    </div>
+      </main>
+     
+    <!-- Wrapper End-->
+    <!-- offcanvas start -->
+
+    <!-- Backend Bundle JavaScript -->
+    <script src="/static/assets/js/libs.min.js"></script>
+    <!-- widgetchart JavaScript -->
+    <script src="/static/assets/js/charts/widgetcharts.js"></script>
+    <!-- fslightbox JavaScript -->
+    <script src="/static/assets/js/fslightbox.js"></script>
+    <!-- app JavaScript -->
+    <script src="/static/assets/js/app.js"></script>
+    <!-- apexchart JavaScript -->
+    <script src="/static/assets/js/charts/apexcharts.js"></script>
+   
+    <script>
+      setInterval(()=>{
+         getTickets()
+      }, 2000)
+
+      async function getTickets() {
+        await fetch('{{url_for("admin_support_tickets_get")}}')
+        .then((response) => response.json())
+        .then((tickets)=>{
+         tickets_list.innerHTML = ""
+         for(let ticket of tickets){
+               tickets_list.insertAdjacentHTML('beforeend', `
+                     <div ticket_id=${ticket.id} user_id=${ticket.user_id} data-testid="conversation-list-item" class="ez972386 intercom-1x83fso e13m0kgk1 alert alert-${ticket.messages.at(-1).is_admin?'primary':'success'} d-flex align-items-center" role="button" tabindex="0" onclick='openTicketMessages(this,${ticket.id})' style="border-radius: 5px;">
+                        <div class="intercom-fup3w2 e13m0kgk2">
+                              <div size="36" shape="circle" class="intercom-kokwv7 evxuo3e0">
+                                 <img id="ticket_user_img" src="${ticket.user.img}" alt="${ticket.user.firstName} profile">
+                              </div>
+                        </div>
+                        <div class="intercom-1ya2i8a e13m0kgk0">
+                              <div class="intercom-1gb1rig ez972381">
+                                 <div class="intercom-dv934d ez972380">
+                                    <span class="intercom-13impe" class="ticket_subject">${ticket.subject}</span>
+                                 </div>
+                                 <div class="intercom-t6mohh ez972384">
+                                    <div class="intercom-sv4aw ez972385" class="ticket_username">${ticket.user.firstName} ${ticket.user.lastName}</div>
+                                    <div>${ticket.updated_at}</div>
+                                 </div>
+                              </div>
+                        </div>
+                        <div class="intercom-t3a5jf e13m0kgk5">
+                              <i color="linkColor" size="16" class="intercom-1c2cktu e1fransm0">
+                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M5.42773 4.70898C5.46387 4.85254 5.53809 4.98828 5.65039 5.10059L8.54932 8L5.64893 10.9004C5.31689 11.2324 5.31689 11.7705 5.64893 12.1025C5.98096 12.4336 6.51904 12.4336 6.85107 12.1025L10.3516 8.60059C10.5591 8.39355 10.6367 8.10449 10.585 7.83691C10.5537 7.67578 10.4761 7.52246 10.3516 7.39844L6.85254 3.89941C6.52051 3.56738 5.98242 3.56738 5.65039 3.89941C5.43066 4.11816 5.35645 4.42871 5.42773 4.70898Z" fill="#ffffff"></path>
+                                 </svg>
+                              </i>
+                        </div>
+                     </div>
+                  `
+               );
+            }
+            
+        })
+      }
+
+      let ticketBoxInterval = null
+
+      async function openTicketMessages(self,ticket_id){
+         ticket_details_chat.classList.remove("hidden")
+         await fetch(`/admin/support/messages?ticket_id=${ticket_id}`)
+         .then(res => res.json())
+         .then(res=>{
+            messagesList = ``
+            for (let message of res){
+               messagesList += `
+                  <li class="mb-2" message_id=${message.id}>
+                     <div class="d-flex">
+                        <img src="${message.is_admin?"/static/assets/images/avatars/03.png":message.user.img}" alt="userimg" class="avatar-50  rounded-pill img-fluid">
+                        <div class="ms-3">
+                           <h6 class="mb-1">${message.is_admin?"Support":message.user.firstName+" "+message.user.lastName}</h6>
+                           <p class="mb-1">${message.content}</p>
+                        </div>
+                     </div>
+                  </li>
+               `
+            }
+            ticketMessages_list.setAttribute("ticket_id", ticket_id)
+            ticketMessages_list.setAttribute("user_id", res[0].user.id)
+            if(self.querySelector(".ticket_subject"))
+            ticketMessages_subject.innerHTML = self.querySelector(".ticket_subject").innerHTML
+            ticketMessages_list.innerHTML = ``
+
+            ticketMessages_username.innerHTML = res[0].user.firstName+" "+res[0].user.lastName
+            ticketMessages_img.src = ticket_user_img.src
+            ticketMessages_list.insertAdjacentHTML('beforeend', messagesList)
+            
+         })
+         .finally(()=>{
+            if (ticketBoxInterval) clearInterval(ticketBoxInterval)
+            ticketBoxInterval = setInterval(()=>{
+               openTicketMessages(self,ticket_id)
+            }, 1000)
+         })
+      }
+
+      sendMessageForm.addEventListener("keypress", async function(event) {
+               if (event.keyCode === 13) {
+                  event.preventDefault();
+                  await fetch(`/admin/support/tickets/${ticketMessages_list.getAttribute("ticket_id")}/messages`,{
+                     method: "POST",
+                     headers: {
+                        'Content-Type': 'application/json'
+                     },
+                     body: JSON.stringify({
+                        content: message_content.value,
+                        is_admin:true,
+                        user_id:ticketMessages_list.getAttribute("user_id"),
+                     })
+                  })
+               }
+            });
+    </script>
+    
+  </body>
+</html>

@@ -1,0 +1,76 @@
+{% extends 'base.html' %}    
+{% block title %}Coinex | Knowledge Base{% endblock %}
+{% block content %}
+      <div class="container-fluid content-inner pb-0" style="padding:0">
+        <div>  
+            <div class="wrapper" style="padding: 50px;">
+                <div class="row">
+                    <div class="container">
+                        <h1 class="my-4">
+                            <span>{{category.title}} Articles</span>
+                        </h1>
+                        <input type="text" class="form-control" id="search_kb" placeholder="Search for articles...">
+                        
+                    </div>
+                </div>
+                <div class="row" style="margin-top:30px;">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb" style="background: transparent;">
+                            <li class="breadcrumb-item"><a href="{{url_for('kb')}}">Knowledge Base</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">{{category.title}}</li>
+                        </ol>
+                    </nav>
+                </div>
+                <div class="row g-4" style="margin-bottom: 60px;margin-top:0px;">
+                    {% for article in articles %}
+                    <div class="col-sm-12 col-md-6 col-lg-4 postCard">
+                        <div class="card mb-0 botCard">
+                            <div class="card-header"><h5 class="card-title">{{article.title}}</h5></div>
+                            <!--span style="border-radius: 8px;margin: 0 20px;">{{article.content|safe}}</span-->
+                            <div class="card-footer text-muted" style="display: flex;justify-content: space-between;align-items: center;padding: 20px 20px;">
+                                <a href="{{url_for('kb_post',post_id=article.id)}}" style="width:100%">
+                                    <button type="button" class="btn btn-outline-primary subBut" style="width:100%;">View</button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+          </div>
+    </div>
+
+    </script>
+  </body>
+  <!-- Wrapper End-->
+    <!-- offcanvas start -->
+
+    <!-- Backend Bundle JavaScript -->
+    <script src="/static/assets/js/libs.min.js"></script>
+    <!-- widgetchart JavaScript -->
+    <script src="/static/assets/js/charts/widgetcharts.js"></script>
+    <!-- fslightbox JavaScript -->
+    <script src="/static/assets/js/fslightbox.js"></script>
+    <!-- app JavaScript -->
+    <script src="/static/assets/js/app.js"></script>
+    <!-- apexchart JavaScript -->
+    <script src="/static/assets/js/charts/apexcharts.js"></script>
+
+    <script>
+        document.querySelector('#sidebar').querySelectorAll("a.nav-link")[9].classList.add("active")
+        search_kb.addEventListener("input",function(){
+            //search in postCard elements titles
+            var input = this.value.toLowerCase();
+            var postCards = document.querySelectorAll(".postCard");
+            postCards.forEach(function(card){
+                var title = card.querySelector(".card-title").innerText.toLowerCase();
+                if(title.includes(input)){
+                    card.style.display = "block";
+                }else{
+                    card.style.display = "none";
+                }
+            })
+        })
+    </script>
+</html>
+{% endblock %}

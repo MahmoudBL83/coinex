@@ -1,0 +1,2665 @@
+{% extends 'base.html' %}    
+{% block title %}Coinex | Trade{% endblock %}
+{% block head %}
+<script src="https://s3.tradingview.com/tv.js"></script>
+{% endblock %}
+{% block content %}
+      <div class="container-fluid content-inner pb-0">
+        <div class="row">
+            <div class="col-xl-12 d-md-block">
+                <div class="card mb-xl-0">
+                   <div class="card-body">
+                      <div class="d-flex justify-content-between flex-wrap" style="align-items: center;gap:25px;">
+                         <div class="d-flex smartTradeHeader row">
+                            <!--div class="form-floating mb-3 col-lg-4">
+                                <select class="form-select form-select-lg mb-3" id="selectedExchangeMain.value" value='{{exchange or "BTC"}}'>
+                                    {% for exchange2 in exchanges %}
+                                    {% if exchange2.name == exchange and exchange2 %}
+                                    <option value="{{exchange2.name}}" selected>{{exchange2.name}}</option>
+                                    {% else %}
+                                    <option value="{{exchange2.name}}">{{exchange2.name}}</option>
+                                    {% endif %}
+                                    {% endfor %}
+                                </select>
+                                <label for="floatingInput">Exchange</label>
+                            </div-->
+                            <!--div class="form-floating mb-3 col-lg-4">
+                                <select class="form-select form-select-lg mb-3 currencies" disabled id="selectedMarket">
+                                </select>
+                                <label for="floatingInput">Market</label>
+                            </div-->
+                            <div class="form-floating mb-3 col-lg-12" style="margin: 0!important;">
+                                <select class="form-select form-select-lg mb-3 currencies" id="selectedPair" style="margin: 0!important;" value='{{symbol or "BTC/USDT"}}'>
+                                    {% for pair in pairs %}
+                                    <option value="{{pair}}">{{pair}}</option>
+                                    {% endfor %}
+                                </select>
+                                <label for="floatingInput">Trading Pair</label>
+                            </div>
+                         </div>
+                         <div class="d-flex" style="gap:20px;flex-wrap: wrap;">
+                            <div>
+                                <div class="text-muted">Price</div>
+                                <div class="mb-0" id="crypto_price"></div>
+                            </div>
+                            <div>
+                                <div class="text-muted">24h low</div>
+                                <div class="mb-0" id="crypto_24hlow"></div>
+                            </div>
+                            <div>
+                                <div class="text-muted">24h high</div>
+                                <div class="mb-0" id="crypto_24hhigh"></div>
+                            </div>
+                            <div>
+                                <div class="text-muted">24h volume</div>
+                                <div class="mb-0" id="crypto_24hvolume"></div>
+                            </div>
+                            <div>
+                                <div class="text-muted">24h turnover</div>
+                                <div class="mb-0" id="crypto_24hturnover"></div>
+                            </div>
+                            <div>
+                                <div class="text-muted">24h Change</div>
+                                <div class="mb-0" id="crypto_24hchange"></div>
+                            </div>
+                            
+                         </div>
+                      </div>
+                   </div>
+                </div>     
+             </div>
+        </div>
+        <br>
+        <div class="row">
+            <div>
+                <!--------------signals_start-------------->
+                <div class="card">
+                    <div class="card-body">
+                        <div class="tablesWrapper-kg4MJrFB tabletVertical-kg4MJrFB">
+                            <div class="container-hvDpy38G tableWithAction-kg4MJrFB tabletVertical-hvDpy38G">
+                                <div class="tableWrapper-hvDpy38G">
+                                    <table class="table-hvDpy38G">
+                                        <tbody id="top_signals_buy">
+                                            <tr class="header-hvDpy38G">
+                                                <th class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">Symbol</th>
+                                                <th class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">Signal</th>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="container-hvDpy38G maTable-kg4MJrFB tableWithAction-kg4MJrFB tabletVertical-kg4MJrFB tabletVertical-hvDpy38G">
+                                <div class="tableWrapper-hvDpy38G">
+                                    <table class="table-hvDpy38G">
+                                        <tbody id="top_signals_sell">
+                                            <tr class="header-hvDpy38G">
+                                                <th class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">Symbol</th>
+                                                <th class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">Signal</th>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--------------signals_end-------------->
+
+            <div class="card">
+                <div class="card-body">
+                    <!-- Indicators BEGIN -->
+        
+        <div class="technicals-root" data-props-id="98W3fn">
+            <div class="container-SCxmJPkt noScroll-webkit" style="overflow: scroll;">
+                <section class="container-Ma_i1vJp">
+                    <div class="container-lu7Cy9jC">
+                        <div class="tabs-kg4MJrFB" style="margin-bottom: 30px;">
+                            <div class="scroll-wrap-mf1FlhVw enable-scroll-mf1FlhVw" data-name="square-tabs-buttons">
+                                <div class="intervals">
+                                    <div class="interval" data-interval="1m">1m</div>
+                                    <div class="interval" data-interval="3m">3m</div>
+                                    <div class="interval" data-interval="5m">5m</div>
+                                    <div class="interval" data-interval="15m">15m</div>
+                                    <div class="interval" data-interval="30m">30m</div>
+                                    <div class="interval" data-interval="1h">1h</div>
+                                    <div class="interval" data-interval="2h">2h</div>
+                                    <div class="interval" data-interval="4h">4h</div>
+                                    <div class="interval" data-interval="6h">6h</div>
+                                    <div class="interval" data-interval="12h">12h</div>
+                                    <div class="interval" data-interval="1d">1d</div>
+                                    <div class="interval" data-interval="1w">1w</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="spacing-kg4MJrFB"></div>
+                        
+                        <div class="spacing-kg4MJrFB"></div>
+                        <div class="tablesWrapper-kg4MJrFB tabletVertical-kg4MJrFB">
+                            <div class="container-hvDpy38G tableWithAction-kg4MJrFB tabletVertical-hvDpy38G">
+                                <div class="title-hvDpy38G">
+                                        Oscillators
+                                        <span class="icon-hvDpy38G">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18" width="18" height="18">
+                                                <path
+                                                    fill="currentColor"
+                                                    d="M7.56 4.5a.75.75 0 1 0-1.12 1l1.12-1zM10.5 9l.56.5a.75.75 0 0 0 0-1l-.56.5zm-4.06 3.5a.75.75 0 0 0 1.12 1l-1.12-1zm0-7l3.5 4 1.12-1-3.5-4-1.12 1zm3.5 3l-3.5 4 1.12 1 3.5-4-1.12-1z"
+                                                ></path>
+                                            </svg>
+                                        </span>
+                                </div>
+                                <div class="tableWrapper-hvDpy38G">
+                                    <table class="table-hvDpy38G">
+                                        <tbody>
+                                            <tr class="header-hvDpy38G">
+                                                <th class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">Name</th>
+                                                <th class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">Value</th>
+                                                <th class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">Action</th>
+                                            </tr>
+                                            <tr class="row-hvDpy38G">
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">
+                                                    <span>Relative Strength Index (14)</span>
+                                                </td>
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G" id="rsi_val"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></td>
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G neutralColor-hvDpy38G" id="rsi_signal"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></td>
+                                            </tr>
+                                            <tr class="row-hvDpy38G">
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">
+                                                    <span>Stochastic %K (14, 3, 3)</span>
+                                                </td>
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G" id="stoch_val"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></td>
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G neutralColor-hvDpy38G" id="stoch_signal"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></td>
+                                            </tr>
+                                            <tr class="row-hvDpy38G">
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">
+                                                    <span>Commodity Channel Index (20)</span>
+                                                </td>
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G" id="cci_val"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></td>
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G neutralColor-hvDpy38G" id="cci_signal"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></td>
+                                            </tr>
+                                            <tr class="row-hvDpy38G">
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">
+                                                    <span>Average Directional Index (14)</span>
+                                                </td>
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G" id="adx_val"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></td>
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G neutralColor-hvDpy38G" id="adx_signal"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></td>
+                                            </tr>
+                                            <tr class="row-hvDpy38G" style="">
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">
+                                                    <span>Awesome Oscillator</span>
+                                                </td>
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G" id="ao_val"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></td>
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G neutralColor-hvDpy38G" id="ao_signal"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></td>
+                                            </tr>
+                                            <tr class="row-hvDpy38G" style="">
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">
+                                                    <span>Momentum (10)</span>
+                                                </td>
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G" id="momentum_val"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></td>
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G sellColor-hvDpy38G" id="momentum_signal"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></td>
+                                            </tr>
+                                            <tr class="row-hvDpy38G">
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">
+                                                    <span>MACD Level (12, 26)</span>
+                                                </td>
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G" id="macd_val"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></td>
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G sellColor-hvDpy38G" id="macd_signal"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></td>
+                                            </tr>
+                                            <tr class="row-hvDpy38G" style="">
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">
+                                                    <span>Stochastic RSI Fast (3, 3, 14, 14)</span>
+                                                </td>
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G" id="stoch_rsi_val"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></td>
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G neutralColor-hvDpy38G" id="stoch_rsi_signal"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></td>
+                                            </tr>
+                                            <tr class="row-hvDpy38G">
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">
+                                                    <span>Williams Percent Range (14)</span>
+                                                </td>
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G" id="wpr_val"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></td>
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G neutralColor-hvDpy38G" id="wpr_signal"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></td>
+                                            </tr>
+                                            <tr class="row-hvDpy38G" style="">
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">
+                                                    <span>Bull Bear Power</span>
+                                                </td>
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G" id="bbp_val"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></td>
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G neutralColor-hvDpy38G" id="bbp_signal"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></td>
+                                            </tr>
+                                            <tr class="row-hvDpy38G" style="">
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">
+                                                    <span>Ultimate Oscillator (7, 14, 28)</span>
+                                                </td>
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G" id="uo_val"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></td>
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G neutralColor-hvDpy38G" id="uo_signal"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="container-hvDpy38G maTable-kg4MJrFB tableWithAction-kg4MJrFB tabletVertical-kg4MJrFB tabletVertical-hvDpy38G">
+                                <div class="title-hvDpy38G">
+
+                                        Moving Averages
+                                        <span class="icon-hvDpy38G">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18" width="18" height="18">
+                                                <path
+                                                    fill="currentColor"
+                                                    d="M7.56 4.5a.75.75 0 1 0-1.12 1l1.12-1zM10.5 9l.56.5a.75.75 0 0 0 0-1l-.56.5zm-4.06 3.5a.75.75 0 0 0 1.12 1l-1.12-1zm0-7l3.5 4 1.12-1-3.5-4-1.12 1zm3.5 3l-3.5 4 1.12 1 3.5-4-1.12-1z"
+                                                ></path>
+                                            </svg>
+                                        </span>
+                                </div>
+                                <div class="tableWrapper-hvDpy38G">
+                                    <table class="table-hvDpy38G">
+                                        <tbody>
+                                            <tr class="header-hvDpy38G">
+                                                <th class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">Name</th>
+                                                <th class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">Value</th>
+                                                <th class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">Action</th>
+                                            </tr>
+                                            <tr class="row-hvDpy38G">
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">
+                                                    <span>Exponential Moving Average (10)</span>
+                                                </td>
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G" id="ema10_val"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></td>
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G sellColor-hvDpy38G" id="ema10_signal"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></td>
+                                            </tr>
+                                            <tr class="row-hvDpy38G">
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">
+                                                    <span>Simple Moving Average (10)</span>
+                                                </td>
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G" id="sma10_val"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></td>
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G sellColor-hvDpy38G" id="sma10_signal"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></td>
+                                            </tr>
+                                            <tr class="row-hvDpy38G">
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">
+                                                    <span>Exponential Moving Average (20)</span>
+                                                </td>
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G" id="ema20_val"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></td>
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G sellColor-hvDpy38G" id="ema20_signal"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></td>
+                                            </tr>
+                                            <tr class="row-hvDpy38G">
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">
+                                                    <span>Simple Moving Average (20)</span>
+                                                </td>
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G" id="sma20_val"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></td>
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G sellColor-hvDpy38G" id="sma20_signal"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></td>
+                                            </tr>
+                                            <tr class="row-hvDpy38G">
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">
+                                                    <span>Exponential Moving Average (30)</span>
+                                                </td>
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G" id="ema30_val"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></td>
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G buyColor-hvDpy38G" id="ema30_signal"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></td>
+                                            </tr>
+                                            <tr class="row-hvDpy38G">
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">
+                                                    <span>Simple Moving Average (30)</span>
+                                                </td>
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G" id="sma30_val"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></td>
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G buyColor-hvDpy38G" id="sma30_signal"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></td>
+                                            </tr>
+                                            <tr class="row-hvDpy38G">
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">
+                                                    <span>Exponential Moving Average (50)</span>
+                                                </td>
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G" id="ema50_val"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></td>
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G buyColor-hvDpy38G" id="ema50_signal"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></td>
+                                            </tr>
+                                            <tr class="row-hvDpy38G">
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">
+                                                    <span>Simple Moving Average (50)</span>
+                                                </td>
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G" id="sma50_val"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></td>
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G buyColor-hvDpy38G" id="sma50_signal"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></td>
+                                            </tr>
+                                            <tr class="row-hvDpy38G">
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">
+                                                    <span>Exponential Moving Average (100)</span>
+                                                </td>
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G" id="ema100_val"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></td>
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G buyColor-hvDpy38G" id="ema100_signal"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></td>
+                                            </tr>
+                                            <tr class="row-hvDpy38G">
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">
+                                                    <span>Simple Moving Average (100)</span>
+                                                </td>
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G" id="sma100_val"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></td>
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G buyColor-hvDpy38G" id="sma100_signal"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></td>
+                                            </tr>
+                                            <tr class="row-hvDpy38G">
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">
+                                                    <span>Exponential Moving Average (200)</span>
+                                                </td>
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G" id="ema200_val"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></td>
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G buyColor-hvDpy38G" id="ema200_signal"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></td>
+                                            </tr>
+                                            <tr class="row-hvDpy38G">
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">
+                                                    <span>Simple Moving Average (200)</span>
+                                                </td>
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G" id="sma200_val"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></td>
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G buyColor-hvDpy38G" id="sma200_signal"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></td>
+                                            </tr>
+                                            <tr class="row-hvDpy38G">
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">
+                                                    <span>Ichimoku Base Line (9, 26, 52, 26)</span>
+                                                </td>
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G" id="ichimoku_base_line_val"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></td>
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G neutralColor-hvDpy38G" id="ichimoku_base_line_signal"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></td>
+                                            </tr>
+                                            <tr class="row-hvDpy38G">
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">
+                                                    <span>Volume Weighted Moving Average (20)</span>
+                                                </td>
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G" id="vwma_val"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></td>
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G sellColor-hvDpy38G" id="vwma_signal"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></td>
+                                            </tr>
+                                            <tr class="row-hvDpy38G">
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">
+                                                    <span>Hull Moving Average (9)</span>
+                                                </td>
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G" id="hma_val"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></td>
+                                                <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G sellColor-hvDpy38G" id="hma_signal"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body" style="display:flex;" id="chart-container-parent">
+                        <div id="chart-container" style="flex-basis: 90%;position: relative;">
+                            
+                        </div>
+                        <div class="cup__orders">
+                            <div class="cup__row cup__headers" style='background: #ffffff0f;
+                            gap: 8px;
+                            padding: 0;
+                            border-radius: 6px;'>
+                                <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+                                    <input type="checkbox" class="btn-check" id="">
+                                    <label style="text-align: end;" class="btn btn-sm btn-secondary" for="">PRICE</label>
+                
+                                    <input type="checkbox" class="btn-check" id="">
+                                    <label style="text-align: end;" class="btn btn-sm btn-secondary " for="">TOTAL</label>
+                
+                                    <input type="checkbox" class="btn-check" id="">
+                                    <label style="text-align: end;" class="btn btn-sm btn-secondary" for="">AMOUNT</label>
+                                 </div>
+                            </div>
+                            <div id="last_trades" style="text-align: center;background: #ffffff0d;"></div>
+                        </div>
+                    </div>
+                </div>
+             </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-lg-12 btn-check-group" style="margin-bottom: 32px;" id="chooseSmartTrade">
+                <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+                    <input type="checkbox" class="btn-check" data-pag="quickBuySell">
+                    <label class="btn btn-sm btn-secondary active rounded-start" for="btncheck1" data-pag="quickBuySell">Buy/Sell</label>
+
+                    <input type="checkbox" class="btn-check" id="smartTrade2" data-pag="smartTrade">
+                    <label class="btn btn-sm btn-secondary " for="btncheck2" data-pag="smartTrade">Smart Trade</label>
+
+                    <input type="checkbox" class="btn-check" id="smartBuy" data-pag="smartTrade">
+                    <label class="btn btn-sm btn-secondary" for="btncheck3" data-pag="smartTrade">Smart Buy</label>
+
+                    <input type="checkbox" class="btn-check" id="smartSell" data-pag="smartTrade">
+                    <label class="btn btn-sm btn-secondary" for="btncheck4" data-pag="smartTrade">Smart Sell</label>
+
+                    <input type="checkbox" class="btn-check" id="smartCover" data-pag="smartTrade">
+                    <label class="btn btn-sm btn-secondary rounded-end" for="btncheck4" data-pag="smartTrade">Smart Cover</label>
+                 </div>
+            </div>
+        </div>
+
+        <div class="row data-pag" id="quickBuySell">
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between flex-wrap align-items-center" style="background: #ffffff08;gap:8px;
+                    padding: 20px;
+                    margin: 37px 37px 0 37px;
+                    border-radius: 6px;">
+                        <div class="header-title">
+                            <h4 class="card-title">Quick Trading</h4>        
+                        </div>
+                        <div class="d-flex" style="flex-direction: row;
+                        align-items: flex-end;
+                        margin-bottom: 0px;
+                        background: #ffffff1a;
+                        padding: 10px;
+                        border-radius: 4px;
+                        gap: 18px;">
+                            <div id="balance2">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                            <div id="balance3">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+
+                        <div class="col-lg-12">
+                            <div class="content-block">
+                                <div class="content-block__header" style="display:flex;justify-content:space-between;align-items:center;">
+                                    <div class="content-block__title">Units</div>
+                                </div>
+                                <div class="content-block__body">
+                                    <div class="form-wrapper form-wrapper_vertical">
+                                        <div class="form-wrapper__content">
+                                            <div class="sc-bXdNzS bxoWTQ">
+                                                <div class="has-error-custom">
+                                                    <div class="">
+                                                        <div class="input-group">
+                                                            <input class="form-control units_input buy_units_val_quick smartTradeInput" type="text" value="0">
+                                                            <span class="input-group-text quote_curr">TESTPM</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="content-block">
+                                <div id="buy_price_header_quick" class="content-block__header"><div class="content-block__title">Buy Price</div></div>
+                                <div class="content-block__body">
+                                    <div class="form-wrapper form-wrapper_vertical">
+                                        <div class="form-wrapper__content">
+                                            <div class="form-block-center">
+                                                <div class="btn-group btn-check-group buy_type_group_quick" id="buy_type_quick" buy_type_quick="cond." role="group" aria-label="Basic checkbox toggle button group">
+                                                    <input type="checkbox" class="btn-check">
+                                                    <label class="btn btn-sm btn-secondary rounded-start">limit</label>
+                               
+                                                    <input type="checkbox" class="btn-check" id="">
+                                                    <label class="btn btn-sm btn-secondary" for="">market</label>
+                               
+                                                    <input type="checkbox" class="btn-check" id="">
+                                                    <label class="btn btn-sm btn-secondary rounded-end active" for="">cond.</label>
+                                                 </div>
+
+                                                <span class="control-label control-label_after-input" id="buy_type_group_label_quick">Triggers when the price reaches the set level</span>
+                                            </div>
+                                            <div>
+                                                <div class="">
+                                                    <div class="">
+                                                        <div class="input-group">
+                                                            <input class="price_val form-control price_input buy_price_val_quick" type="number" value="0">
+                                                            <span class="input-group-text market_curr">USDT</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-block-center" style="margin-top: 20px;">
+                                                <div class="btn-group btn-check-group  cond_buy_type_group_quick" id="cond_buy_type_quick" cond_buy_type_quick="cond.limit" role="group" aria-label="Basic checkbox toggle button group">
+                                                    <input type="checkbox" class="btn-check" id="">
+                                                    <label class="btn btn-sm btn-secondary active rounded-start" for="">Cond. Limit Order</label>
+                               
+                                                    <input type="checkbox" class="btn-check" id="">
+                                                    <label class="btn btn-sm btn-secondary " for="">Cond. Market Order</label>
+
+                                                 </div>
+                                                <span class="control-label control-label_after-input" id="cond_buy_type_group_label_quick">Will be executed at market rates when the conditional order triggers</span>
+                                            </div>
+                                            <div class="">
+                                                <label class="control-label">Order price</label>
+                                                <div class="input-group">
+                                                    <input class="form-control trigger_price_val_quick" type="text" value="0">
+                                                    <span class="input-group-text market_curr">USDT</span>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="content-block">
+                                <div class="content-block__header"><div class="content-block__title">Total</div></div>
+                                <div class="content-block__body">
+                                    <div class="form-wrapper form-wrapper_vertical">
+                                        <div class="form-wrapper__content">
+                                            <div class="has-error-custom">
+                                                <div class="">
+                                                    <div class="input-group">
+                                                        <input class="form-control total_input" type="text" value="0">
+                                                        <span class="input-group-text market_curr">USDT</span>
+                                                    </div>
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="content-block" style="margin-top: 20px;">
+                                <div class="d-grid gap-card grid-cols-2">
+                                    <button class="btn btn-success" id="quickBuy">
+                                        <span>BUY</span>
+                                        <svg class="rotate-45" width="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19.75 11.7256L4.75 11.7256" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M13.7002 5.70124L19.7502 11.7252L13.7002 17.7502" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                                    </button>
+                                    <button class="btn btn-danger" id="quickSell">
+                                        <span>SELL</span>
+                                        <svg class="rotate-45" width="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4.25 12.2744L19.25 12.2744" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M10.2998 18.2988L4.2498 12.2748L10.2998 6.24976" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                                    </button>
+                                 </div>
+                            </div>
+                        </div>
+
+                        <!--form class="col-lg-12">
+                            <div class="form-floating mb-3">
+                                <select name="order_type" class="form-control" id="order_type">
+                                    <option value="limit">limit</option>
+                                    <option value="market">market</option>
+                                </select>
+                                <label for="floatingInput">Order Type</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="number" class="form-control units_input" id="floatingInput" name="amount">
+                                <label for="floatingInput">Units</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="number" class="form-control price_val price_input" id="price_input" name="price">
+                                <label for="floatingInput">Price</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="number" class="form-control total_input" id="floatingInput">
+                                <label for="floatingInput">Total</label>
+                            </div>
+                            <div class="">
+                                <div class="d-grid gap-card grid-cols-2">
+                                    <button class="btn btn-success" id="quickBuy">
+                                        <span>BUY</span>
+                                        <svg class="rotate-45" width="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19.75 11.7256L4.75 11.7256" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M13.7002 5.70124L19.7502 11.7252L13.7002 17.7502" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                                    </button>
+                                    <button class="btn btn-danger" id="quickSell">
+                                        <span>SELL</span>
+                                        <svg class="rotate-45" width="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4.25 12.2744L19.25 12.2744" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M10.2998 18.2988L4.2498 12.2748L10.2998 6.24976" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                                    </button>
+                                 </div>
+                            </div>
+                        </form-->
+                    </div>                                          
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="cup hidden-mobile hidden-mobile">
+                            <div class="cup__container">
+                                <div class="price-type-filters">
+                                    <!--div class="price-type-filters__container">
+                                        <div class="filter-icon filter-icon__ask-bid"></div>
+                                        <div class="filter-icon filter-icon__bid"></div>
+                                        <div class="filter-icon filter-icon__ask"></div>
+                                    </div-->
+                                    <div class="">
+                                        <div class="form-floating mb-3 col-lg-4">
+                                            <select class="form-control" id="selectedNumOfLastTrades" style="width:fit-content"> 
+                                                <option value="5">5</option>                           
+                                                <option value="10">10</option>            
+                                                <option value="20">20</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="cup__orders">
+                                    <div class="cup__row cup__headers" style='background: #ffffff0a;
+                                    gap: 8px;
+                                    padding: 0px;
+                                    border-radius: 6px;'>
+                                        <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+                                            <input type="checkbox" class="btn-check" id="">
+                                            <label style="text-align: end;" class="btn btn-sm btn-secondary" for="">ASK&nbsp;PRICE&nbsp;</label>
+                        
+                                            <input type="checkbox" class="btn-check" id="">
+                                            <label style="text-align: end;" class="btn btn-sm btn-secondary " for="">TOTAL</label>
+                        
+                                            <input type="checkbox" class="btn-check" id="">
+                                            <label style="text-align: end;" class="btn btn-sm btn-secondary" for="">AMOUNT</label>
+                                         </div>
+                                    </div>
+                                    <div id="sell_orders" style="">
+                                        <!--div class="cup__row cup__row--minus">
+                                            <div class="cup__progress" style="width: 50%;"></div>
+                                            <button class="button button_link button_color-info" type="button"><span class="button__text">0.06355</span></button>
+                                            <div class="cup__cell">1.55035</div>
+                                            <div class="cup__cell">24.395</div>
+                                        </div-->
+                                    </div>
+                                    <div class="cup__row cup__headers" style='background: #ffffff0a;
+                                    gap: 8px;
+                                    padding: 0px;
+                                    border-radius: 6px;'>
+                                        <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+                                            <input type="checkbox" class="btn-check" id="">
+                                            <label style="text-align: end;" class="btn btn-sm btn-secondary" for="">BID&nbsp;PRICE&nbsp;</label>
+                        
+                                            <input type="checkbox" class="btn-check" id="">
+                                            <label style="text-align: end;" class="btn btn-sm btn-secondary " for="">TOTAL</label>
+                        
+                                            <input type="checkbox" class="btn-check" id="">
+                                            <label style="text-align: end;" class="btn btn-sm btn-secondary" for="">AMOUNT</label>
+                                         </div>
+                                    </div>
+                                    <div id="buy_orders" style="">
+                                        <!--div class="cup__row cup__row--plus">
+                                            <div class="cup__progress" style="width: 30%;"></div>
+                                            <button class="button button_link button_color-info" type="button"><span class="button__text">0.06345</span></button>
+                                            <div class="cup__cell">0.17438</div>
+                                            <div class="cup__cell">2.748</div>
+                                        </div-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>                                          
+                </div>
+            </div>
+
+                
+        </div>
+        <div class="hidden data-pag" id="smartTrade" total_target_volumes="0">
+            <div class="row flex-row flex-row_stretch-md flex-row_col-indent">
+                <div class="col-md-12 col-lg-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div>
+                                <div class="content-block">
+                                    <div class="content-block__header" style="display:flex;justify-content:space-between;align-items:center;">
+                                        <div class="content-block__title">Units</div>
+                                        <div id="balance"></div>
+                                    </div>
+                                    <div class="content-block__body">
+                                        <div class="form-wrapper form-wrapper_vertical">
+                                            <div class="form-wrapper__content">
+                                                <div class="sc-bXdNzS bxoWTQ">
+                                                    <div class="has-error-custom">
+                                                        <div class="">
+                                                            <div class="input-group">
+                                                                <input class="form-control units_input buy_units_val smartTradeInput" type="text" value="0" />
+                                                                <span class="input-group-text quote_curr">USDT</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="content-block">
+                                    <div id="buy_price_header" class="content-block__header"><div class="content-block__title">Buy Price</div></div>
+                                    <div class="content-block__body">
+                                        <div class="form-wrapper form-wrapper_vertical">
+                                            <div class="form-wrapper__content">
+                                                <div class="form-block-center">
+                                                    <div class="btn-group btn-check-group buy_type_group" id="buy_type" buy_type="limit" role="group" aria-label="Basic checkbox toggle button group">
+                                                        <input type="checkbox" class="btn-check">
+                                                        <label class="btn btn-sm btn-secondary active rounded-start">limit</label>
+                                   
+                                                        <input type="checkbox" class="btn-check" id="">
+                                                        <label class="btn btn-sm btn-secondary " for="">market</label>
+                                   
+                                                        <input type="checkbox" class="btn-check" id="">
+                                                        <label class="btn btn-sm btn-secondary rounded-end" for="">cond.</label>
+                                                     </div>
+
+                                                    <span class="control-label control-label_after-input" id="buy_type_group_label">Triggers when the price reaches the set level</span>
+                                                </div>
+                                                <div>
+                                                    <div class="">
+                                                        <div class="">
+                                                            <div class="input-group">
+                                                                <input class="price_val form-control price_input buy_price_val" type="number" value="0" />
+                                                                <span class="input-group-text market_curr">USDT</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-block-center hidden">
+                                                    <div class="btn-group btn-check-group  cond_buy_type_group" id="cond_buy_type" cond_buy_type="cond.limit" role="group" aria-label="Basic checkbox toggle button group">
+                                                        <input type="checkbox" class="btn-check" id="">
+                                                        <label class="btn btn-sm btn-secondary active rounded-start" for="">Cond. Limit Order</label>
+                                   
+                                                        <input type="checkbox" class="btn-check" id="">
+                                                        <label class="btn btn-sm btn-secondary " for="">Cond. Market Order</label>
+                                   
+                                                    
+                                                     </div>
+                                                    <span class="control-label control-label_after-input" id="cond_buy_type_group_label">Will be executed at market rates when the conditional order triggers</span>
+                                                </div>
+                                                <div class="hidden">
+                                                    <label class="control-label">Order price</label>
+                                                    <div class="input-group">
+                                                        <input class="form-control trigger_price_val" type="text" value="0" />
+                                                        <span class="input-group-text market_curr">USDT</span>
+                                                    </div>
+                                                </div>
+ 
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="content-block">
+                                    <div class="content-block__header"><div class="content-block__title">Total</div></div>
+                                    <div class="content-block__body">
+                                        <div class="form-wrapper form-wrapper_vertical">
+                                            <div class="form-wrapper__content">
+                                                <div class="has-error-custom">
+                                                    <div class="">
+                                                        <div class="input-group">
+                                                            <input class="form-control total_input" type="text" value="0" />
+                                                            <span class="input-group-text market_curr">USDT</span>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-12 col-lg-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div>
+                                <div class="card-overlay">
+                                    <button class="btn btn-primary" id="set_take_profit">Set Take Profit</button>
+                                </div>
+                                <div class="content-block market">
+                                    <div class="content-block__header" style="display:flex;justify-content:space-between;align-items:center;">
+                                        <div class="content-block__title">Take Profit</div>
+                                        <div class="content-block__title-info" style="height: 18px;">
+                                            <div class="form-check form-switch form-check-inline">
+                                                <input class="form-check-input removeOverlay" type="checkbox" id="take_profit_switch">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="content-block__body">
+                                        <div class="form-wrapper form-wrapper_vertical">
+                                            <div class="form-wrapper__content">
+                                                
+                                                <div class="form-block-center">
+                                                    <div class="btn-group btn-check-group takeProfitGroup" order_type="limit" role="group" aria-label="Basic checkbox toggle button group">
+                                                        <input type="checkbox" class="btn-check" id="">
+                                                        <label class="btn btn-sm btn-secondary active rounded-start" for="">Limit Order</label>
+                                   
+                                                        <input type="checkbox" class="btn-check" id="">
+                                                        <label class="btn btn-sm btn-secondary " for="">Market Order</label>
+                                                     </div>
+                                                    <span class="control-label control-label_after-input">Will be placed on the exchange order book beforehand</span>
+                                                </div>
+
+                                                <div class="form-group style-block__steps">
+                                                    <div class="stepsell-table">
+                                                        <div class="stepsell-table__row stepsell-table__header flexbox RUBYDEV_flexbox">
+                                                            <div></div>
+                                                            <div>Price</div>
+                                                            <div>Quantity</div>
+                                                            <div></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <select class="form-select hidden" id="tpTriggerPxType">
+                                                    <option value="Bid">Bid</option>
+                                                    <option value="Ask">Ask</option>
+                                                    <option value="Last">Last</option>
+                                                </select>
+                                                <div id="smartTrade_takeProfit">
+                                                    <div class="form-group">
+                                                        <div class="input-group">
+                                                            <input type="number" class="price_val_10 form-control">
+                                                            <span class="input-group-text market_curr">USDT</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group" style="margin-bottom: 0;">
+                                                        <div class="compact-controls compact-controls_justify_center compact-controls_align_center">
+                                                            <div class="compact-controls__item_two-thirds">
+                                                                <div class="form-group">
+                                                                    <div class="input-group">
+                                                                        <input class="form-range take_profit_price_range" step="0.01" type="range" value="10" min="0.01" max="300"/>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="compact-controls__item_one-third compact-controls__item_expand-if-one">
+                                                                <div class="form-group">
+                                                                    <div class="input-group">
+                                                                        <input class="form-control take_profit_price" type="text" value="10" />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="">Volume</label>
+                                                        <div class="compact-controls compact-controls_justify_center compact-controls_align_center">
+                                                            <div class="compact-controls__item_two-thirds">
+                                                                <div class="form-group">
+                                                                    <div class="input-group">
+                                                                        <input class="form-range take_profit_volume_range" type="range" value="25" min="1" max="100"/>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="compact-controls__item_one-third compact-controls__item_expand-if-one">
+                                                                <div class="form-group">
+                                                                    <div class="input-group">
+                                                                        <input class="form-control take_profit_volume" type="text" value="25" />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-wrapper__content">
+                                                        <div class="buttons-block buttons-block_nowrap">
+                                                            <button class="buttons-block__full-width-button button disabled button_default button_sm" id="add_target" type="button" style="width: 100%;background: transparent;"><span class="button__text">Add TP Targets</span></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <br>
+                                                <br>
+                                                
+                                                <div class="form-group">
+                                                    <div style="background: #ffffff29;
+                                                    margin-bottom: 12px;
+                                                    padding: 17px;">
+                                                        <div class="mb-3 form-check form-switch">
+                                                            <input class="form-check-input" type="checkbox" id="trailing_take_profit_bool" checked="">
+                                                            <label class="form-check-label" for="flexSwitchCheckChecked">Trailing Take Profit</label>
+                                                        </div>
+                                                        <label class="control-label label-small">Follow max price with deviation (%)</label>
+                                                        <div class="disabled">
+                                                            <div class="compact-controls compact-controls_justify_center compact-controls_align_center">
+                                                                <div class="compact-controls__item_two-thirds">
+                                                                    <div class="form-group">
+                                                                        <div class="input-group"><input class="form-range take_profit_trailing_take_profit_range" type="range" value="-5" max="-1" min="-20"/></div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="compact-controls__item_one-third compact-controls__item_expand-if-one">
+                                                                    <div class="form-group">
+                                                                        <div class="input-group"><input class="form-control take_profit_trailing_take_profit" type="number" value="-5" /></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-12 col-lg-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="">
+                                <div class="card-overlay">
+                                    <button class="btn btn-primary" id="set_stop_loss">Set Stop Loss</button>
+                                </div>
+                                <div class="content-block">
+                                    <div class="content-block__header" style="display:flex;justify-content:space-between;align-items:center;">
+                                        <div class="content-block__title">Stop Loss</div>
+                                        <div class="content-block__title-info" style="height: 18px;">
+                                            <div class="form-check form-switch form-check-inline">
+                                                <input class="form-check-input removeOverlay" type="checkbox" id="stop_loss_switch">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="content-block__body">
+                                        <div class="form-wrapper form-wrapper_vertical">
+                                            <div class="form-wrapper__content">
+                                                <div class="form-block-center">
+                                                    <div class="form-block-center">
+                                                        <div class="sell_type_group btn-group btn-check-group stop_loss_type_group" role="group" aria-label="Basic checkbox toggle button group" id="stop_loss_type">
+                                                            <input type="checkbox" class="btn-check" id="">
+                                                            <label class="btn btn-sm btn-secondary active rounded-start" for="btncheck1">Cond. Limit</label>
+                                       
+                                                            <input type="checkbox" class="btn-check" id="">
+                                                            <label class="btn btn-sm btn-secondary " for="">Cond. Market</label>
+                                                         </div>
+                                                    </div>
+                                                    <span class="control-label control-label_after-input">Will be executed at actual rates when the price meets Stop Loss conditions</span>
+                                                </div>
+                                                <div class="input-group hidden">
+                                                    <select class="form-select" id="stop_loss_last_ask_bid">
+                                                        <option value="last">Last</option>
+                                                        <option value="ask">Ask</option>
+                                                        <option value="bid">Bid</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group has-error-custom" id="stop_loss_trigger_price_container">
+                                                    <div class="">
+                                                        <div class="input-group">
+                                                            <input class="form-control price_val_minus_10" id="stop_loss_trigger_price" type="text" value="" />
+                                                            <span class="input-group-text market_curr">USDT</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="">
+                                                    <div class="compact-controls compact-controls_justify_center compact-controls_align_center">
+                                                        <div class="compact-controls__item_two-thirds">
+                                                            <div class="form-group">
+                                                                <div class="input-group"><input class="form-range stop_loss_price_range" type="range" value="-4" max="-1" min="-99"/></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="compact-controls__item_one-third compact-controls__item_expand-if-one">
+                                                            <div class="form-group">
+                                                                <div class="input-group"><input class="form-control stop_loss_price" type="number" value="-4" /></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="sell_price_val">
+                                                    <div>
+                                                        <label class="control-label">Order price</label>
+                                                        <div class="input-group">
+                                                            <input class="form-control price_input" id="stop_loss_order_price" type="text" value="" />
+                                                            <span class="input-group-text market_curr">USDT</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <div style="background: #ffffff29;
+                                                margin-bottom: 12px;
+                                                padding: 17px;">
+                                                    <div class="mb-3 form-check form-switch">
+                                                        <input class="form-check-input" type="checkbox" id="stop_loss_time_out" checked="">
+                                                        <label class="form-check-label" for="flexSwitchCheckChecked">Stop Loss timeout</label>
+                                                    </div>
+                                                    <div class="input-group">
+                                                        <input class="form-control price_input" id="stop_loss_time_out_time" type="number" step="1" value="3" />
+                                                        <span class="input-group-text">Sec</span>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3 form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox" id="trailing_stop_loss_bool" checked="">
+                                                    <label class="form-check-label" for="flexSwitchCheckChecked">Trailing Stop Loss</label>
+                                                </div>
+                                                <div class="mb-3 form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked="">
+                                                    <label class="form-check-label" for="flexSwitchCheckChecked">Move to Breakeven</label>
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div> 
+            <div class="col-lg-4 col-sm-12" style="margin: auto">
+                <div class="d-grid gap-card grid-cols-1">
+                    <button class="btn btn-success" type="button" id="createTrade">
+                        <span>Create Trade</span>
+                        <svg class="rotate-45" width="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19.75 11.7256L4.75 11.7256" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M13.7002 5.70124L19.7502 11.7252L13.7002 17.7502" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                    </button>
+                </div>
+                <div class="d-grid gap-card grid-cols-1 hidden">
+                    <button class="btn btn-outline-primary" type="button" id="editTrade">
+                        <span>Edit Trade</span>
+                        <svg class="rotate-45" width="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19.75 11.7256L4.75 11.7256" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M13.7002 5.70124L19.7502 11.7252L13.7002 17.7502" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                    </button>
+                </div>
+                <br>   
+                <br>   
+            </div>  
+
+            <div class="tableWrapper-hvDpy38G" style="overflow: scroll;max-height: 571px;">
+                <table class="table-hvDpy38G">
+                    <tbody id="smartTradesHistory">
+                        <tr class="header-hvDpy38G">
+                            <th class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">Coin</th>
+                            <th class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">Date</th>
+                            <th class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">Exchange</th>
+                            <th class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">Units</th>
+                            <th class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">Filled Amount</th>
+                            <th class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">Status</th>
+                            <th class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">Actions</th>
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+                <br>
+            </div>
+        </div>
+        </div>
+      </div>  
+    </main>
+     
+    <!-- Wrapper End-->
+    <!-- offcanvas start -->
+
+    <!-- Backend Bundle JavaScript -->
+    <script src="/static/assets/js/libs.min.js"></script>
+    <!-- widgetchart JavaScript -->
+    <script src="/static/assets/js/charts/widgetcharts.js"></script>
+    <!-- fslightbox JavaScript -->
+    <script src="/static/assets/js/fslightbox.js"></script>
+    <!-- app JavaScript -->
+    <script src="/static/assets/js/app.js"></script>
+    <!-- apexchart JavaScript -->
+    <script src="/static/assets/js/charts/apexcharts.js"></script>
+    <!-- JavaScript code to handle Save Changes button click -->
+    <script>
+        document.querySelector('#sidebar').querySelectorAll("a.nav-link")[2].classList.add("active")
+        
+        $(document).ready(function() {
+        $("#saveChangesBtn").click(function() {
+            // Perform API key and API secret validation here
+            
+            // Show success message
+            $("#successModal").modal("show");
+        });
+        });
+
+        /*********************************/
+
+        selectedExchangeMain.addEventListener("change",async function(){
+            //get_currecies(this.value)
+        })
+
+        async function get_currecies(x){
+            document.querySelectorAll(".currencies").forEach(async (element,i) => {
+                element.innerHTML = '<option value=""></option>'
+                await fetch(`/api/v1/markets/${x}`)
+                .then(res=>res.json())
+                .then(res=>{
+                    element.removeAttribute("disabled")
+                    if(i==0)
+                    Object.keys(res.quote).forEach(symbol => {
+                                element.insertAdjacentHTML("beforeend",`
+                                    <option ${symbol == 'USDT'?"selected":""} value="${symbol}">${symbol}</option>
+                                `)
+                    });
+                    if(i==1)
+                    Object.keys(res.base).forEach(symbol => {
+                                element.insertAdjacentHTML("beforeend",`
+                                    <option ${symbol == '{{symbol}}'?"selected":""} value="${symbol}">${symbol}</option>
+                                `)
+                    });
+                    if(selectedPair.value == ''){
+                        selectedPair.value = 'BTC/USDT'
+                    }
+                    
+                })
+                .finally(()=>{
+                    order_book_history()
+                    last_trades_history()
+                    live_price_history()
+                    indicators()
+                })
+            });
+            
+        }
+
+        //get_currecies(selectedExchangeMain.value)
+
+        /*****************************************************/
+        if (TradingView)
+       tradingViewWidget = new TradingView.widget({
+            "width": "100%",
+            "height": 610,
+            "symbol": "OKX:BTCUSDT",
+            "interval": "1",
+            "timezone": "Asia/Riyadh",
+            "theme": "dark",
+            "style": "1",
+            "locale": "en",
+            "toolbar_bg": "#f1f3f6",
+            "enable_publishing": false,
+            "allow_symbol_change": false,
+            "container_id": "chart-container",
+            "backgroundColor":"#202022",
+            "enable_publishing": false,
+            "hide_side_toolbar": false,
+            "drawings_access": { "type": "black", "tools": [{ "name": "Regression Trend" }] },
+            "studies_access": { "type": "black", "tools": [{ "name": "MASimple@tv-basicstudies" }] },
+        });
+
+
+
+        document.querySelector("#chart-container").insertAdjacentHTML(`beforeend`,
+        `<div id="chart-overlay">
+            <span class="buy_order"></span>
+        </div>`
+        )
+        document.querySelectorAll(".btn-check-group").forEach(elm=>{
+            elm.querySelectorAll(".btn-check").forEach(e=>{  
+                e.nextElementSibling.addEventListener("click",function(){
+                    if (elm.id == "chooseSmartTrade"){
+                        document.querySelectorAll(".card-overlay").forEach(e=>{
+                            e.closest(".card-overlay").classList.remove("hidden")
+                            e.closest(".card-overlay").nextElementSibling.querySelector("input").checked = false
+                            e.closest(".card-overlay").nextElementSibling.querySelector("input").removeAttribute("checked")
+                        })
+
+                        //reset tp targets
+                        smartTrade.setAttribute("total_target_volumes",0)
+                        document.querySelector(".take_profit_volume").value = 100
+                        document.querySelector(".take_profit_volume_range").max = 100
+                        document.querySelector(".take_profit_volume_range").value = 100
+                        smartTrade_takeProfit.classList.remove("hidden")
+                        document.querySelector(".stepsell-table").innerHTML = `
+                        <div class="stepsell-table__row stepsell-table__header flexbox RUBYDEV_flexbox">
+                            <div></div>
+                            <div>Price</div>
+                            <div>Quantity</div>
+                            <div></div>
+                        </div>`
+                        
+                        createTrade.parentElement.classList.remove("hidden")
+                        editTrade.parentElement.classList.add("hidden")
+                        balance.innerHTML = `
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        `
+                        if(e.id == "smartBuy"){
+                            buy_type.classList.add("hidden")
+                            buy_type_group_label.classList.add("hidden")
+                            buy_price_header.querySelector("div").innerHTML = "Were Sold for Price"
+
+                            document.querySelector(".take_profit_price_range").min = -99
+                            document.querySelector(".take_profit_price_range").max = 0
+                            document.querySelector(".take_profit_price_range").value = -3
+                            document.querySelector(".take_profit_price").value = -3
+                            
+                            document.querySelector(".take_profit_trailing_take_profit_range").max = 1
+                            document.querySelector(".take_profit_trailing_take_profit_range").min = 20
+                            document.querySelector(".take_profit_trailing_take_profit_range").value = 5
+                            document.querySelector(".take_profit_trailing_take_profit").value = 5
+                            
+                            document.querySelector(".stop_loss_price_range").min = 0
+                            document.querySelector(".stop_loss_price_range").max = 100
+                            document.querySelector(".stop_loss_price_range").value = 4
+                            document.querySelector(".stop_loss_price").value = 4
+
+
+                        }
+                        else if(e.id == "smartSell"){
+                            buy_type.classList.add("hidden")
+                            buy_type_group_label.classList.add("hidden")
+                            buy_price_header.querySelector("div").innerHTML = "Were Bought for Price"
+
+                            document.querySelector(".take_profit_price_range").min = 0
+                            document.querySelector(".take_profit_price_range").max = 300
+                            document.querySelector(".take_profit_price_range").value = 10
+                            document.querySelector(".take_profit_price").value = 10
+                            
+                            document.querySelector(".take_profit_trailing_take_profit_range").max = -1
+                            document.querySelector(".take_profit_trailing_take_profit_range").min = -20
+                            document.querySelector(".take_profit_trailing_take_profit_range").value = -5
+                            document.querySelector(".take_profit_trailing_take_profit").value = -5
+                            
+                            document.querySelector(".stop_loss_price_range").min = -99
+                            document.querySelector(".stop_loss_price_range").max = 0
+                            document.querySelector(".stop_loss_price_range").value = -4
+                            document.querySelector(".stop_loss_price").value = -4
+                        }
+                        else if(e.id == "smartCover"){
+                            buy_type.classList.remove("hidden")
+                            buy_type_group_label.classList.remove("hidden")
+                            buy_price_header.querySelector("div").innerHTML = "Sell Price"
+
+                            document.querySelector(".take_profit_price_range").min = -99
+                            document.querySelector(".take_profit_price_range").max = 0
+                            document.querySelector(".take_profit_price_range").value = -3
+                            document.querySelector(".take_profit_price").value = -3
+                            
+                            document.querySelector(".take_profit_trailing_take_profit_range").max = 1
+                            document.querySelector(".take_profit_trailing_take_profit_range").min = 20
+                            document.querySelector(".take_profit_trailing_take_profit_range").value = 5
+                            document.querySelector(".take_profit_trailing_take_profit").value = 5
+                            
+                            document.querySelector(".stop_loss_price_range").min = 0
+                            document.querySelector(".stop_loss_price_range").max = 100
+                            document.querySelector(".stop_loss_price_range").value = 4
+                            document.querySelector(".stop_loss_price").value = 4
+                        }
+                        else if(e.id == "smartTrade2"){
+                            buy_type.classList.remove("hidden")
+                            buy_type_group_label.classList.remove("hidden")
+                            buy_price_header.querySelector("div").innerHTML = "Buy Price"
+
+                            document.querySelector(".take_profit_price_range").min = 0.01
+                            document.querySelector(".take_profit_price_range").max = 300
+                            document.querySelector(".take_profit_price_range").value = 10
+                            document.querySelector(".take_profit_price").value = 10
+                            
+                            document.querySelector(".take_profit_trailing_take_profit_range").max = -1
+                            document.querySelector(".take_profit_trailing_take_profit_range").min = -20
+                            document.querySelector(".take_profit_trailing_take_profit_range").value = -5
+                            document.querySelector(".take_profit_trailing_take_profit").value = -5
+                            
+                            document.querySelector(".stop_loss_price_range").min = -99
+                            document.querySelector(".stop_loss_price_range").max = -1
+                            document.querySelector(".stop_loss_price_range").value = -4
+                            document.querySelector(".stop_loss_price").value = -4
+                        }
+                    }
+                    if(elm.classList.contains("takeProfitGroup")){
+                        elm.setAttribute("order_type",this.innerHTML.split(" ")[0].toLowerCase())
+                        if(elm.getAttribute("order_type") == "limit"){
+                            tpTriggerPxType.classList.add("hidden")
+                        }else if(elm.getAttribute("order_type") == "market"){
+                            //tpTriggerPxType.classList.remove("hidden")
+                        }
+                    }
+                    if(elm.classList.contains("stop_loss_type_group")){
+                        elm.setAttribute("stop_loss_type",this.innerHTML.split(" ")[1].toLowerCase())
+                    }
+                    
+
+
+                    if(elm.classList.contains("buy_type_group")){
+                        let market_interval_smart_trade = setInterval(function(){
+                            if(buy_type.getAttribute("buy_type") == "market")
+                            document.querySelector('.buy_price_val').value = document.body.getAttribute("live_price")
+                        },100)
+                        elm.setAttribute("buy_type",this.innerHTML.split(" ")[0].toLowerCase())
+                        if(this.innerHTML.split(" ")[0].toLowerCase() == "limit"){
+                            document.querySelector(".buy_price_val").removeAttribute("disabled")
+                            //stop_loss_trigger_price_container.classList.remove("hidden")
+                            cond_buy_type.parentElement.classList.add("hidden")
+                            document.querySelector(".trigger_price_val").parentElement.parentElement.classList.add("hidden")
+                            buy_type_group_label.innerHTML = "Will be placed on the exchange order book. Can’t buy higher than the current price"
+                            document.querySelectorAll(".total_input")[1].closest(".content-block").classList.remove("hidden")
+                        }else if(this.innerHTML.split(" ")[0].toLowerCase() == "market"){
+                            document.querySelector(".buy_price_val").setAttribute("disabled","disabled")
+                            //stop_loss_trigger_price_container.classList.add("hidden")
+                            cond_buy_type.parentElement.classList.add("hidden")
+                            document.querySelector(".trigger_price_val").parentElement.parentElement.classList.add("hidden")
+                            //document.querySelector(".trigger_price_val").parentElement.parentElement.classList.add("hidden")
+                            buy_type_group_label.innerHTML = "Will buy at actual rates after the trade is created"
+                            //document.querySelectorAll(".total_input")[1].closest(".content-block").classList.add("hidden")
+                            
+                        }
+                        else{
+                            //stop_loss_trigger_price_container.classList.remove("hidden")
+                            document.querySelector(".buy_price_val").removeAttribute("disabled")
+                            cond_buy_type.parentElement.classList.remove("hidden")
+                            document.querySelector(".trigger_price_val").parentElement.parentElement.classList.remove("hidden")
+                            buy_type_group_label.innerHTML = "Triggers when the price reaches the set level"
+                            document.querySelectorAll(".total_input")[1].closest(".content-block").classList.remove("hidden")
+                        }
+                    }
+
+                    if(elm.classList.contains("buy_type_group_quick")){
+                        let market_interval_smart_trade = setInterval(function(){
+                            if(buy_type_quick.getAttribute("buy_type_quick") == "market")
+                            document.querySelector('.buy_price_val_quick').value = document.body.getAttribute("live_price")
+                        },100)
+                        elm.setAttribute("buy_type_quick",this.innerHTML.split(" ")[0].toLowerCase())
+                        if(this.innerHTML.split(" ")[0].toLowerCase() == "limit"){
+                            document.querySelector(".buy_price_val_quick").removeAttribute("disabled")
+                            //stop_loss_trigger_price_container.classList.remove("hidden")
+                            cond_buy_type_quick.parentElement.classList.add("hidden")
+                            document.querySelector(".trigger_price_val_quick").parentElement.parentElement.classList.add("hidden")
+                            buy_type_group_label_quick.innerHTML = "Will be placed on the exchange order book. Can’t buy higher than the current price"
+                            document.querySelectorAll(".total_input")[1].closest(".content-block").classList.remove("hidden")
+                        }else if(this.innerHTML.split(" ")[0].toLowerCase() == "market"){
+                            document.querySelector(".buy_price_val_quick").setAttribute("disabled","disabled")
+                            document.querySelector(".trigger_price_val_quick").parentElement.parentElement.classList.add("hidden")
+                            //stop_loss_trigger_price_container.classList.add("hidden")
+                            cond_buy_type_quick.parentElement.classList.add("hidden")
+                            //document.querySelector(".trigger_price_val").parentElement.parentElement.classList.add("hidden")
+                            buy_type_group_label_quick.innerHTML = "Will buy at actual rates after the trade is created"
+                            //document.querySelectorAll(".total_input")[1].closest(".content-block").classList.add("hidden")
+                            
+                        }
+                        else{
+                            //stop_loss_trigger_price_container.classList.remove("hidden")
+                            document.querySelector(".buy_price_val_quick").removeAttribute("disabled")
+                            cond_buy_type_quick.parentElement.classList.remove("hidden")
+                            document.querySelector(".trigger_price_val_quick").parentElement.parentElement.classList.remove("hidden")
+                            buy_type_group_label.innerHTML = "Triggers when the price reaches the set level"
+                            document.querySelectorAll(".total_input")[1].closest(".content-block").classList.remove("hidden")
+                        }
+                    }
+
+                    if(elm.classList.contains("sell_type_group")){
+                        elm.setAttribute("sell_type",this.innerHTML.split(" ")[0].toLowerCase())
+                        if(this.innerHTML == "Cond. Limit"){
+                            document.querySelector(".sell_price_val").classList.remove("hidden")
+                        }else{
+                            document.querySelector(".sell_price_val").classList.add("hidden")
+                        }
+                    }
+                    if(elm.classList.contains("cond_buy_type_group")){
+                        elm.setAttribute("cond_buy_type",this.innerHTML.split(" ")[0].toLowerCase()+this.innerHTML.split(" ")[1].toLowerCase())
+                        if(this.innerHTML == "Cond. Limit Order"){
+                            document.querySelector(".trigger_price_val").parentElement.parentElement.classList.remove("hidden")
+                            cond_buy_type_group_label.innerHTML = "Will be placed on the exchange order book when the conditional order triggers"
+                        }else{
+                            document.querySelector(".trigger_price_val").parentElement.parentElement.classList.add("hidden")
+                            cond_buy_type_group_label.innerHTML = "Will be executed at market rates when the conditional order triggers"
+                        }
+                    }
+                    if(elm.classList.contains("cond_buy_type_group_quick")){
+                        elm.setAttribute("cond_buy_type_quick",this.innerHTML.split(" ")[0].toLowerCase()+this.innerHTML.split(" ")[1].toLowerCase())
+                        if(this.innerHTML == "Cond. Limit Order"){
+                            document.querySelector(".trigger_price_val_quick").parentElement.parentElement.classList.remove("hidden")
+                            cond_buy_type_group_label.innerHTML = "Will be placed on the exchange order book when the conditional order triggers"
+                        }else{
+                            document.querySelector(".trigger_price_val_quick").parentElement.parentElement.classList.add("hidden")
+                            cond_buy_type_group_label.innerHTML = "Will be executed at market rates when the conditional order triggers"
+                        }
+                    }
+                    elm.querySelectorAll("label").forEach(e=>{
+                        e.classList.remove("active")
+                    })
+                    e.nextElementSibling.classList.add("active")
+                    if(e.getAttribute("data-pag")){
+                        document.querySelectorAll(".data-pag").forEach(e=>{
+                            e.classList.add('hidden')
+                        })
+                        document.querySelector(`#${e.getAttribute("data-pag")}`).classList.remove("hidden")
+                    }
+                })
+            })
+        })
+
+        /*chooseSmartTrade.querySelectorAll(".btn-check").forEach(e=>{  
+            e.addEventListener("click",function(){
+                chooseSmartTrade.querySelectorAll("label").forEach(e=>{
+                    e.classList.remove("active")
+                })
+                e.nextElementSibling.classList.add("active")
+                if(document.querySelector(`#${e.getAttribute("data-pag")}`)){
+                    document.querySelectorAll(".data-pag").forEach(e=>{
+                        e.classList.add('hidden')
+                    })
+                    document.querySelector(`#${e.getAttribute("data-pag")}`).classList.remove("hidden")
+                }
+                
+            })
+        })*/
+
+        document.querySelector("#quickBuy").addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent the form from submitting normally
+            let oldHTML = this.innerHTML
+            this.setAttribute("disabled","disabled")
+            this.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span class="visually-hidden">Loading...</span>'
+            const form = this.closest("form");
+            const data = {
+                amount: parseFloat(document.querySelector(".buy_units_val_quick").value),
+                order_price: buy_type_quick.getAttribute("buy_type_quick")!='cond.'? parseFloat(document.querySelector(".buy_price_val_quick").value||0):parseFloat(document.querySelector(".trigger_price_val_quick").value),
+                trigger_price: buy_type_quick.getAttribute("buy_type_quick")=='cond.'? parseFloat(document.querySelector(".buy_price_val_quick").value):parseFloat(document.querySelector(".trigger_price_val_quick").value),
+                type: buy_type_quick.getAttribute("buy_type_quick")=='cond.'?cond_buy_type_quick.getAttribute("cond_buy_type_quick"):buy_type_quick.getAttribute("buy_type_quick"),
+                side: "buy",
+                symbol: selectedPair.value,
+                exchange: selectedExchangeMain.value,
+            };
+            console.log(data)
+            fetch('/api/v1/order/', {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data),
+            })
+            .then(response => response.json())
+            .then(data => {
+                
+                if(data.ok){
+                    // Show a success message with SweetAlert
+                    swal('Success', data.message, 'success');
+                }
+                else{
+                    // Show an error message with SweetAlert
+                    swal('Error', data.message, 'error');
+                }
+            })
+            .catch(error => {
+                // Show an error message with SweetAlert
+                swal('Error', error.message, 'error');
+            })
+            .finally(()=>{
+                this.innerHTML = oldHTML
+                this.removeAttribute("disabled")
+            })
+        });
+
+        document.querySelector("#quickSell").addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent the form from submitting normally
+            let oldHTML = this.innerHTML
+            this.setAttribute("disabled","disabled")
+            this.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span class="visually-hidden">Loading...</span>'
+            const form = this.closest("form");
+            const data = {
+                amount: parseFloat(document.querySelector(".buy_units_val_quick").value),
+                order_price: buy_type_quick.getAttribute("buy_type_quick")!='cond.'? parseFloat(document.querySelector(".buy_price_val_quick").value||0):parseFloat(document.querySelector(".trigger_price_val_quick").value),
+                trigger_price: buy_type_quick.getAttribute("buy_type_quick")=='cond.'? parseFloat(document.querySelector(".buy_price_val_quick").value):parseFloat(document.querySelector(".trigger_price_val_quick").value),
+                type: buy_type_quick.getAttribute("buy_type_quick")=='cond.'?cond_buy_type_quick.getAttribute("cond_buy_type_quick"):buy_type_quick.getAttribute("buy_type_quick"),
+                side: "sell",
+                symbol: selectedPair.value,
+                exchange: selectedExchangeMain.value,
+            };
+            fetch('/api/v1/order/', {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.ok){
+                    // Show a success message with SweetAlert
+                    swal('Success', data.message, 'success');
+                }
+                else{
+                    // Show an error message with SweetAlert
+                    swal('Error', data.message, 'error');
+                }
+            })
+            .catch(error => {
+                // Show an error message with SweetAlert
+                swal('Error', error.message, 'error');
+            })
+            .finally(()=>{
+                this.innerHTML = oldHTML
+                this.removeAttribute("disabled")
+            })
+        });
+    </script>
+    <script>
+        
+        /*setInterval(function(){
+           // getPrice(selectedPair.value,selectedMarket.value.toUpperCase())
+            //getlastTrades(24)
+            //getOpenOrders("buy",selectedNumOfLastTrades.value)
+            //getOpenOrders("sell",selectedNumOfLastTrades.value)
+            getSmartTradesHistory()
+        },1000);*/
+        async function getPrice(pair,market){
+            await fetch(`/getPrice/?symbol=${pair}${market}&exchange=${selectedExchangeMain.value.replace("okex","okx").toUpperCase()}&interval=${localStorage.getItem('interval')||"15m"}`)
+            .then(res=>res.json())
+            .then(res=>{
+                document.querySelectorAll(".price_val").forEach(e=>{
+                    if(!e.value || e.value == 0 || order_type.value == "market")
+                    e.value = document.body.getAttribute("live_price")
+                })
+                document.querySelectorAll(".price_val_10").forEach(e=>{
+                    if(!e.value)
+                    e.value = (parseFloat(document.body.getAttribute("live_price")) + 0.1*(parseFloat(document.body.getAttribute("live_price")))).toFixed(2)
+                })
+                document.querySelectorAll(".price_val_minus_10").forEach(e=>{
+                    if(!e.value)
+                    e.value = (parseFloat(document.body.getAttribute("live_price")) - 0.04*(parseFloat(document.body.getAttribute("live_price")))).toFixed(2)
+                })
+                rsi_val.innerHTML = parseFloat(res.rsi);
+                stoch_rsi_val.innerHTML = parseFloat(res.stoch_rsi);
+                stoch_val.innerHTML = res.stoch;
+                macd_val.innerHTML = res.macd;
+                wpr_val.innerHTML = res.wpr;
+                cci_val.innerHTML = res.cci;
+                adx_val.innerHTML = res.adx;
+                ao_val.innerHTML = res.ao;
+                uo_val.innerHTML = res.uo;
+                momentum_val.innerHTML = res.momentum;
+                bbp_val.innerHTML = res.bbp_bear;
+                ema10_val.innerHTML = res.ema10;
+                ema20_val.innerHTML = res.ema20;
+                ema30_val.innerHTML = res.ema30;
+                ema50_val.innerHTML = res.ema50;
+                ema100_val.innerHTML = res.ema100;
+                ema200_val.innerHTML = res.ema200;
+                sma10_val.innerHTML = res.sma10;
+                sma20_val.innerHTML = res.sma20;
+                sma30_val.innerHTML = res.sma30;
+                sma50_val.innerHTML = res.sma50;
+                sma100_val.innerHTML = res.sma100;
+                sma200_val.innerHTML = res.sma200;
+                rsi_signal.innerHTML = res.rsi_signal;
+                stoch_rsi_signal.innerHTML = res.stoch_rsi_signal;
+                macd_signal.innerHTML = res.macd_signal;
+                wpr_signal.innerHTML = res.wpr_signal;
+                cci_signal.innerHTML = res.cci_signal;
+                adx_signal.innerHTML = res.adx_signal;
+                uo_signal.innerHTML = res.uo_signal;
+                ao_signal.innerHTML = res.ao_signal;
+                bbp_signal.innerHTML = res.bbp_signal;
+                momentum_signal.innerHTML = res.momentum_signal;
+                sma10_signal.innerHTML = res.sma10_signal;
+                sma20_signal.innerHTML = res.sma20_signal;
+                sma30_signal.innerHTML = res.sma30_signal;
+                sma50_signal.innerHTML = res.sma50_signal;
+                sma100_signal.innerHTML = res.sma100_signal;
+                sma200_signal.innerHTML = res.sma200_signal;
+                ema10_signal.innerHTML = res.ema10_signal;
+                ema20_signal.innerHTML = res.ema20_signal;
+                ema30_signal.innerHTML = res.ema30_signal;
+                ema50_signal.innerHTML = res.ema50_signal;
+                ema100_signal.innerHTML = res.ema100_signal;
+                ema200_signal.innerHTML = res.ema200_signal;
+                if(rsi_signal.innerHTML == "buy")
+                    rsi_signal.classList.add("text-success")
+                else if(rsi_signal.innerHTML == "sell")
+                    rsi_signal.classList.add("text-danger")
+                else
+                    rsi_signal.classList.add("text-warning")
+
+                if(stoch_rsi_signal.innerHTML == "buy")
+                    stoch_rsi_signal.classList.add("text-success")
+                else if(stoch_rsi_signal.innerHTML == "sell")
+                    stoch_rsi_signal.classList.add("text-danger")
+                else
+                    stoch_rsi_signal.classList.add("text-warning")
+
+                if(stoch_signal.innerHTML == "buy")
+                    stoch_signal.classList.add("text-success")
+                else if(stoch_signal.innerHTML == "sell")
+                    stoch_signal.classList.add("text-danger")
+                else
+                    stoch_signal.classList.add("text-warning")
+                if(cci_signal.innerHTML == "buy")
+                    cci_signal.classList.add("text-success")
+                else if(cci_signal.innerHTML == "sell")
+                    cci_signal.classList.add("text-danger")
+                else
+                    cci_signal.classList.add("text-warning")
+
+                if(macd_signal.innerHTML == "buy")
+                    macd_signal.classList.add("text-success")
+                else if(macd_signal.innerHTML == "sell")
+                    macd_signal.classList.add("text-danger")
+                else
+                    macd_signal.classList.add("text-warning")
+                
+                if(wpr_signal.innerHTML == "buy")
+                    wpr_signal.classList.add("text-success")
+                else if(wpr_signal.innerHTML == "sell")
+                    wpr_signal.classList.add("text-danger")
+                else
+                    wpr_signal.classList.add("text-warning")
+                
+                if(adx_signal.innerHTML == "buy")
+                    adx_signal.classList.add("text-success")
+                else if(adx_signal.innerHTML == "sell")
+                    adx_signal.classList.add("text-danger")
+                else
+                    adx_signal.classList.add("text-warning")
+                
+                if(sma10_signal.innerHTML == "buy")
+                    sma10_signal.classList.add("text-success")
+                else if(sma10_signal.innerHTML == "sell")
+                    sma10_signal.classList.add("text-danger")
+                else
+                    sma10_signal.classList.add("text-warning")
+                
+                if(sma20_signal.innerHTML == "buy")
+                    sma20_signal.classList.add("text-success")
+                else if(sma20_signal.innerHTML == "sell")
+                    sma20_signal.classList.add("text-danger")
+                else
+                    sma20_signal.classList.add("text-warning")
+                
+                if(sma30_signal.innerHTML == "buy")
+                    sma30_signal.classList.add("text-success")
+                else if(sma30_signal.innerHTML == "sell")
+                    sma30_signal.classList.add("text-danger")
+                else
+                    sma30_signal.classList.add("text-warning")
+                
+                if(sma50_signal.innerHTML == "buy")
+                    sma50_signal.classList.add("text-success")
+                else if(sma50_signal.innerHTML == "sell")
+                    sma50_signal.classList.add("text-danger")
+                else
+                    sma50_signal.classList.add("text-warning")
+
+                if(sma100_signal.innerHTML == "buy")
+                    sma100_signal.classList.add("text-success")
+                else if(sma100_signal.innerHTML == "sell")
+                    sma100_signal.classList.add("text-danger")
+                else
+                    sma100_signal.classList.add("text-warning")
+                
+                if(sma200_signal.innerHTML == "buy")
+                    sma200_signal.classList.add("text-success")
+                else if(sma200_signal.innerHTML == "sell")
+                    sma200_signal.classList.add("text-danger")
+                else
+                    sma200_signal.classList.add("text-warning")
+                
+                if(ema10_signal.innerHTML == "buy")
+                    ema10_signal.classList.add("text-success")
+                else if(ema10_signal.innerHTML == "sell")
+                    ema10_signal.classList.add("text-danger")
+                else
+                    ema10_signal.classList.add("text-warning")
+                
+                if(ema20_signal.innerHTML == "buy")
+                    ema20_signal.classList.add("text-success")
+                else if(ema20_signal.innerHTML == "sell")
+                    ema20_signal.classList.add("text-danger")
+                else
+                    ema20_signal.classList.add("text-warning")
+
+                if(ema30_signal.innerHTML == "buy")
+                    ema30_signal.classList.add("text-success")
+                else if(ema30_signal.innerHTML == "sell")
+                    ema30_signal.classList.add("text-danger")
+                else
+                    ema30_signal.classList.add("text-warning")
+
+                if(ema50_signal.innerHTML == "buy")
+                    ema50_signal.classList.add("text-success")
+                else if(ema50_signal.innerHTML == "sell")
+                    ema50_signal.classList.add("text-danger")
+                else
+                    ema50_signal.classList.add("text-warning")
+
+                if(ema100_signal.innerHTML == "buy")
+                    ema100_signal.classList.add("text-success")
+                else if(ema100_signal.innerHTML == "sell")
+                    ema100_signal.classList.add("text-danger")
+                else
+                    ema100_signal.classList.add("text-warning")
+                
+                if(ema200_signal.innerHTML == "buy")
+                    ema200_signal.classList.add("text-success")
+                else if(ema200_signal.innerHTML == "sell")
+                    ema200_signal.classList.add("text-danger")
+                else
+                    ema200_signal.classList.add("text-warning")
+                return res;
+            })
+        }
+
+        if(!localStorage.getItem("interval")){
+                localStorage.setItem("interval","15m")
+        }
+        [...document.querySelectorAll(".interval")].filter(e=>e.getAttribute('data-interval') == localStorage.getItem("interval"))[0].classList.add('active')
+        document.querySelectorAll(".interval").forEach(e=>{
+            e.addEventListener('click',()=>{
+                localStorage.setItem("interval",e.getAttribute('data-interval'));
+                [...document.querySelectorAll(".interval")].filter(e=>e.classList.contains("active")).forEach(e=>{
+                    e.classList.remove('active')
+                })
+                e.classList.add('active')
+                
+            })
+        });
+
+        /***********************total_values***********************/
+        setInterval(function(){
+            document.querySelectorAll(".total_input").forEach(e=>{
+                if(e.closest(".card-body").querySelector(".units_input").value && e.closest(".card-body").querySelector(".buy_price_val")?.value){
+                    e.value = e.closest(".card-body").querySelector(".units_input").value * e.closest(".card-body").querySelector(".price_input").value
+                }
+            })
+        },100)
+
+        /************units input*****************/
+        document.querySelectorAll(".units_input").forEach(e=>{
+            e.addEventListener('input',()=>{
+                e.closest(".card-body").querySelector(".total_input").value = e.closest(".card-body").querySelector(".price_input").value * e.value
+            })
+        })
+
+        /*****************price input**********************/
+        document.querySelectorAll(".price_input").forEach(e=>{
+            e.addEventListener('input',()=>{
+                e.closest(".card-body").querySelector(".total_input").value = e.closest(".card-body").querySelector(".units_input").value * e.value
+            })
+        })
+
+        /*****************total input**********************/
+        document.querySelectorAll(".total_input").forEach(e=>{
+            e.addEventListener('input',()=>{
+                e.closest(".card-body").querySelector(".units_input").value = e.value / e.closest(".card-body").querySelector(".price_input").value * e.value
+            })
+        })
+
+        document.querySelector(".buy_price_val").addEventListener('input',function(){
+            stop_loss_trigger_price.value = parseFloat(this.value) + parseFloat(document.querySelector(".stop_loss_price_range").value) * parseFloat(this.value)/100
+            document.querySelector(".price_val_10").value = parseFloat(this.value) + parseFloat(document.querySelector(".take_profit_price_range").value) * parseFloat(this.value)/100
+        })
+
+        document.querySelector(".price_val_10").addEventListener('input',function(){
+            if(document.querySelector(".buy_price_val").value){
+                document.querySelector(".take_profit_price").value = parseFloat(this.value) - parseFloat(document.querySelector(".buy_price_val").value)
+                document.querySelector(".take_profit_price_range").value = (parseFloat(this.value) - parseFloat(document.querySelector(".buy_price_val").value)) / parseFloat(this.value) * 100
+            }      
+        })
+
+        stop_loss_trigger_price.addEventListener('input',function(){
+            if(document.querySelector(".buy_price_val").value){
+                document.querySelector(".stop_loss_price").value = parseFloat(this.value) - parseFloat(document.querySelector(".buy_price_val").value)
+                document.querySelector(".stop_loss_price_range").value = (parseFloat(this.value) - parseFloat(document.querySelector(".buy_price_val").value)) / parseFloat(this.value) * 100
+            }      
+            if(this.value >= parseFloat(document.querySelector(".buy_price_val").value)){
+                this.classList.add("is-invalid")
+            }
+            else{
+                this.classList.remove("is-invalid")
+            }
+        })
+
+        /*****************************************************/
+
+        selectedPair.addEventListener("change",function(){
+            if (TradingView)
+                tradingViewWidget = new TradingView.widget({
+                "width": "100%",
+                "height": 610,
+                "symbol": `${selectedExchangeMain.value}:${this.value.replace("/","")}`,
+                "interval": "1",
+                "timezone": "Asia/Riyadh",
+                "theme": "dark",
+                "style": "1",
+                "locale": "en",
+                "toolbar_bg": "#f1f3f6",
+                "enable_publishing": false,
+                "allow_symbol_change": false,
+                "container_id": "chart-container",
+                "backgroundColor":"#202022",
+            });
+            sell_orders.innerHTML = "";
+            buy_orders.innerHTML = "";
+            last_trades.innerHTML = "";
+        })
+
+        selectedExchangeMain.addEventListener("change",function(){
+                tradingViewWidget = new TradingView.widget({
+                "width": "100%",
+                "height": 610,
+                "symbol": `${this.value}:${selectedPair.value.replace("/","")}`,
+                "interval": "1",
+                "timezone": "Asia/Riyadh",
+                "theme": "dark",
+                "style": "1",
+                "locale": "en",
+                "toolbar_bg": "#f1f3f6",
+                "enable_publishing": false,
+                "allow_symbol_change": false,
+                "container_id": "chart-container",
+                "backgroundColor":"#202022"
+            });
+        })
+
+        /**************************************************/
+
+        document.querySelector(".take_profit_price_range").addEventListener('input',()=>{
+            document.querySelector(".take_profit_price").value = document.querySelector(".take_profit_price_range").value
+            //document.querySelector(".price_val_10").value = parseFloat(document.body.getAttribute("price_val"))+parseFloat(document.body.getAttribute("price_val"))*(document.querySelector(".take_profit_price_range").value/100)
+            document.querySelector(".price_val_10").value = parseFloat(document.querySelector(".buy_price_val").value)+parseFloat(document.querySelector(".buy_price_val").value)*parseFloat((document.querySelector(".take_profit_price_range").value/100))
+        })
+
+        document.querySelector(".take_profit_price").addEventListener('input',()=>{
+            document.querySelector(".take_profit_price_range").value = document.querySelector(".take_profit_price").value
+            //document.querySelector(".price_val_10").value = parseFloat(document.body.getAttribute("price_val"))+parseFloat(document.body.getAttribute("price_val"))*(document.querySelector(".take_profit_price_range").value/100)
+            document.querySelector(".price_val_10").value = parseFloat(document.querySelector(".buy_price_val").value)+parseFloat(document.querySelector(".buy_price_val").value)*parseFloat((document.querySelector(".take_profit_price_range").value/100))
+        })
+
+        document.querySelector(".stop_loss_price_range").addEventListener('input',function(){
+            document.querySelector(".stop_loss_price").value = document.querySelector(".stop_loss_price_range").value
+            //document.querySelector(".price_val_minus_10").value = parseFloat(document.body.getAttribute("price_val")) + parseFloat(document.body.getAttribute("price_val"))*(document.querySelector(".stop_loss_price_range").value/100)
+            document.querySelector(".price_val_minus_10").value = parseFloat(document.querySelector(".buy_price_val").value) + parseFloat(document.querySelector(".buy_price_val").value)*parseFloat((document.querySelector(".stop_loss_price_range").value/100))
+            if(stop_loss_trigger_price.value >= parseFloat(document.querySelector(".buy_price_val").value)){
+                this.classList.add("is-invalid")
+            }
+            else{
+                this.classList.remove("is-invalid")
+            }
+        })
+
+        document.querySelector(".stop_loss_price").addEventListener('input',()=>{
+            document.querySelector(".stop_loss_price_range").value = document.querySelector(".stop_loss_price").value
+            //document.querySelector(".price_val_minus_10").value = parseFloat(document.body.getAttribute("price_val")) + parseFloat(document.body.getAttribute("price_val"))*(document.querySelector(".stop_loss_price_range").value/100)
+            document.querySelector(".price_val_minus_10").value = parseFloat(document.querySelector(".buy_price_val").value) + parseFloat(document.querySelector(".buy_price_val").value)*(document.querySelector(".stop_loss_price_range").value/100)
+        })
+
+        document.querySelector(".take_profit_volume_range").addEventListener('input',()=>{
+            document.querySelector(".take_profit_volume").value = document.querySelector(".take_profit_volume_range").value
+        })
+
+        document.querySelector(".take_profit_volume").addEventListener('input',()=>{
+            document.querySelector(".take_profit_volume_range").value = document.querySelector(".take_profit_volume").value
+        })
+
+        document.querySelector(".take_profit_trailing_take_profit_range").addEventListener('input',()=>{
+            document.querySelector(".take_profit_trailing_take_profit").value = document.querySelector(".take_profit_trailing_take_profit_range").value
+        })
+
+        document.querySelector(".take_profit_trailing_take_profit").addEventListener('input',()=>{
+            document.querySelector(".take_profit_trailing_take_profit_range").value = document.querySelector(".take_profit_trailing_take_profit").value
+        })
+
+        add_target.addEventListener("click",function(evt){
+            evt.preventDefault();
+            smartTrade.setAttribute("total_target_volumes",parseFloat(smartTrade.getAttribute("total_target_volumes"))+parseFloat(document.querySelector(".take_profit_volume").value))
+            let old = document.querySelector(".take_profit_volume").value
+            document.querySelector(".take_profit_volume").value = 100 - smartTrade.getAttribute("total_target_volumes")
+            document.querySelector(".take_profit_volume_range").max = 100 - smartTrade.getAttribute("total_target_volumes")
+            document.querySelector(".take_profit_volume_range").value = 100 - smartTrade.getAttribute("total_target_volumes")
+            if(parseFloat(smartTrade.getAttribute("total_target_volumes"))>=100){
+                smartTrade_takeProfit.classList.add("hidden")
+            }
+            document.querySelector(".stepsell-table").insertAdjacentHTML('beforeend',`
+                <div class="stepsell-table__row stepsell-table__body flexbox RUBYDEV_flexbox" style="align-items: center;">
+                    <div><span style="background: rgb(35, 198, 200);"></span></div>
+                    <div>
+                        <div class="number-bitcoin"></div>
+                        <span>${document.querySelector(".price_val_10").value}</span>&nbsp;${selectedPair.value.split("/")[0]}
+                    </div>
+                    <div>${old}%</div>
+                    <div class="RUBYDEV_max_width_fit_content"></div>
+                    <div>
+                        <button type="button" class="btn btn-xs btn-danger" onclick="removeTP(this)">X</button>
+                    </div>
+                </div>
+            `)
+        })
+
+        function removeTP(e){
+            smartTrade.setAttribute("total_target_volumes",parseFloat(smartTrade.getAttribute("total_target_volumes"))-parseFloat(e.closest(".stepsell-table__row").querySelector("div:nth-child(3)").innerHTML))
+            document.querySelector(".take_profit_volume").value = 100 - smartTrade.getAttribute("total_target_volumes")
+            document.querySelector(".take_profit_volume_range").max = 100 - smartTrade.getAttribute("total_target_volumes")
+            document.querySelector(".take_profit_volume_range").value = 100 - smartTrade.getAttribute("total_target_volumes")
+            if(parseFloat(smartTrade.getAttribute("total_target_volumes"))<100){
+                smartTrade_takeProfit.classList.remove("hidden")
+            }
+            e.closest(".stepsell-table__row").remove()
+        }
+
+        /*****************************************************/
+        getSmartTradesHistory()
+        async function getSmartTradesHistory(){
+            await fetch(`/api/v1/smart_trades/`)
+            .then(res=>res.json())
+            .then(res=>{
+                [...smartTradesHistory.querySelectorAll("tr")].filter((_,i)=>i>0).forEach(e=>{
+                    e.remove()
+                })
+                
+                res.smart_trades.reverse().forEach(e=>{
+                    TPHTML = ``
+                    const valuesArray = e.take_profit_quantities;
+                    valuesArray.forEach((e,i)=>{
+                        TPHTML += `<div class="smartTradeTP" style="height:${20*(valuesArray.length - i+1)}px;border-color: #23635e;"><span>TP ${e[0]}</span></div>`
+                    })
+                    console.log(e)
+                    if([...chooseSmartTrade.querySelectorAll("label")].filter(e=>e.classList.contains('active'))[0].innerHTML == e.trade_type)
+                    smartTradesHistory.insertAdjacentHTML('beforeend',`
+                    <tr class="row-hvDpy38G smartTradeHistoryRow smartTradeRow" jsonData=${e} id="${e.id}" style="height:${180+(valuesArray.length*20)}px;${e.isActive=="false"?(e.units!=0?'background: #ffffff0a':'background:#b7636a36'):''};">
+                        <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">
+                            <span class="smartTradeHistoryCcy">${e.quote_currency}_${e.base_currency}</span>
+                            <br>
+                            <span>${e.trade_type}</span>
+                        </td>
+                        <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">
+                            <span>Created At: <span class="timestamp">${e.created_at}</span><br>Updated At: <span class="timestamp">${e.updated_at}</span></span>
+                        </td>
+                        <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">
+                            ${e.exchange}
+                        </td>
+                        <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">
+                            ${e.amount}
+                        </td>
+                        <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">
+                            ${e.amount - e.units} (${(e.amount - e.units)/e.amount*100}%) ${e.units==0?'<span class="text-danger">Closed</span>':''}
+                        </td>
+                        <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G neutralColor-hvDpy38G">
+                            <div class="smartTradeProgress">
+                                <div class="smartTradeCurrentContainer" style="position: relative;">
+                                    <div class="smartTradeCurrent" style="position: absolute;left: ${Math.min(Math.abs((e.buy_price - e.stop_loss_price) * 200 / (parseFloat(e.take_profit_quantities[0]) - parseFloat(e.stop_loss_price))),200)}px;bottom: 0;width:0;">
+                                        <span>Buy Price ${e.buy_price}</span>   
+                                    </div>
+                                    <div class="smartTradeCurrent" style="position: absolute;left: ${Math.min(Math.abs((e.last_price - e.stop_loss_price) * 200 / (parseFloat(e.take_profit_quantities[0]) - parseFloat(e.stop_loss_price))),200)}px;">
+                                        <span>${e.units != 0?'Current':'Sell Price'} ${e.last_price}</span>  
+                                    </div>
+                                </div>
+                                <div class="smartTradeLine">
+                                </div>
+                                <div class="smartTradeTPContainer" style="position: relative;">
+                                    <div class="smartTradeTP" style="height:40px;position:absolute;left:0;top:0;border-color: #f23645;width:0;"><span>SL ${e.stop_loss_price}</span></div>
+                                    ${TPHTML}
+                                </div>
+                            </div>
+                        </td>
+                        <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G neutralColor-hvDpy38G">
+                            <!--div class="dropdown ms-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" id="dropdownMenuButton10" data-bs-toggle="dropdown" aria-expanded="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="show">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
+                                </svg>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton10" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate3d(-173px, 25px, 0px);" data-popper-placement="bottom-end">
+                                    <li><a class="dropdown-item" href="#">Open</a></li>
+                                    <li><a class="dropdown-item" href="#">Edit</a></li>
+                                    <li><button class="dropdown-item" onclick="cancelSmartTrade(${e.id})">Cancel</button></li>
+                                </ul>
+                            </div-->
+                            <div style="display:flex;flex-direction:column;gap:5px;">
+                                ${e.units>0?`
+                                    ${(e.isActive?`<button class="btn btn-sm btn-danger" onclick="closeSmartTrade(${e.id})">Pause</button>`:`<button class="btn btn-sm btn-success" onclick="openSmartTrade(${e.id})">Open</button>`)}
+                                    <button class="btn btn-sm btn-outline-info" onclick="editSmartTrade(${e.id})">Edit</button>
+                                    <button class="btn btn-sm btn-outline-danger" onclick="cancelSmartTrade(${e.id})">Cancel</button>
+                                    `
+                                    :
+                                    `
+                                    <button class="btn btn-sm btn-outline-warning" onclick="cancelSmartTrade(${e.id})">Remove</button>
+                                    `
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                `)
+                });
+                document.querySelectorAll(".timestamp").forEach(e=>{
+                    e.innerHTML =  Intl.DateTimeFormat('en-us',{
+                        year: "numeric",
+                        month: "numeric",
+                        day: "numeric",
+                        hour: "numeric",
+                        minute: "numeric",
+                        second: "numeric",
+                        hour12: false,
+                        timeZone: "America/Los_Angeles",
+                    }).format(new Date(e.innerHTML))
+                })
+                /*[...smartTradesHistory.querySelectorAll("tr")].filter((_,i)=>i>0).forEach(e=>{
+                    setInterval(async function(){
+                        await fetch(`/getPrice/?symbol=${e.querySelector("span").innerHTML.split("_")[1]}${e.querySelector("span").innerHTML.split("_")[0]}&exchange=${selectedExchangeMain.value}&interval=${localStorage.getItem('interval')||"15m"}`)
+                        .then(res=>res.json())
+                        .then(res=>{
+                            e.querySelector(".smartTradeCurrentContainer").querySelectorAll("div")[1].querySelector("span").innerText = `Current ${document.body.getAttribute("live_price")}`
+                        }) 
+                    },1000)
+                })*/
+            })
+            .finally(()=>{
+                getSmartTradesHistory()
+            })
+        }
+
+        
+
+        
+        // Define the request body for the new smart trade
+        createTrade.addEventListener("click",function(){
+            let oldHTML = this.innerHTML
+            this.setAttribute("disabled","disabled")
+            this.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span class="visually-hidden">Loading...</span>'
+            take_profit_quantities = []
+            document.querySelectorAll(".stepsell-table__row.stepsell-table__body.flexbox.RUBYDEV_flexbox").forEach((e,i)=>{
+                //take_profit_quantities[i] = [parseFloat(e.querySelectorAll("span")[1].innerText),parseFloat(e.querySelector("div:nth-child(3)").innerText.replace("%",""))/100]
+                take_profit_quantities_inner = []
+                take_profit_quantities_inner[0] = parseFloat(e.querySelectorAll("span")[1].innerText)
+                take_profit_quantities_inner[1] = parseFloat(e.querySelector("div:nth-child(3)").innerText.replace("%",""))
+                take_profit_quantities.push(take_profit_quantities_inner)
+                //take_profit_quantities[parseFloat(e.querySelectorAll("span")[1].innerText)] = parseFloat(e.querySelector("div:nth-child(3)").innerText.replace("%",""))
+            })
+
+            // Define the smart trade data
+                /*const smartTradeData = {
+                name: 'My Smart Trade',
+                strategy: 'SMA',
+                exchange: selectedExchangeMain.value,
+                    base_currency: selectedPair.value,
+                    quote_currency: selectedMarket.value,
+                allocation: 0.1,
+                conditions: { buy_threshold: 0.01, sell_threshold: 0.02 },
+                units: document.querySelector(".buy_units_val").value,
+                buy_price: document.querySelector(".buy_price_val").value,
+                stop_loss: document.querySelector(".stop_loss_price").value,
+                trailing_take_profit: document.querySelector(".take_profit_trailing_take_profit").value,
+                order_type: document.querySelector(".takeProfitGroup").getAttribute("order_type"),
+                take_profit_prices: [41000, 42000, 43000],
+                sell_amounts: [0.25, 0.25, 0.5],
+            };*/
+
+    
+            const data = {
+                trade_type:[...chooseSmartTrade.querySelectorAll("label")].filter(e=>e.classList.contains('active'))[0].innerHTML,
+                symbol: selectedPair.value,
+                amount: parseFloat(document.querySelector(".buy_units_val").value),
+                price: buy_type.getAttribute("buy_type")!='cond.'? parseFloat(document.querySelector(".buy_price_val").value||0):parseFloat(document.querySelector(".trigger_price_val").value),
+                triggerPrice: buy_type.getAttribute("buy_type")=='cond.'? parseFloat(document.querySelector(".buy_price_val").value):parseFloat(document.querySelector(".trigger_price_val").value),
+                buy_type: buy_type.getAttribute("buy_type")=='cond.'?cond_buy_type.getAttribute("cond_buy_type"):buy_type.getAttribute("buy_type"),
+                take_profits: take_profit_quantities,
+                take_profit: take_profit_switch.checked,
+                stop_loss: stop_loss_switch.checked,
+                trailing_deviation: parseFloat(document.querySelector(".take_profit_trailing_take_profit").value),
+                exchange: selectedExchangeMain.value,
+                tpTriggerType:document.querySelector(".takeProfitGroup").getAttribute("order_type"),
+                tpTriggerPxType:tpTriggerPxType.value,
+                stop_loss_type:stop_loss_type.getAttribute("stop_loss_type"),
+                stop_loss_trigger_price:document.querySelector("#stop_loss_trigger_price").value,
+                stop_loss_price:stop_loss_order_price.value||0,
+                stop_loss_price_percent:document.querySelector(".stop_loss_price").value,
+                trailing_take_profit: trailing_take_profit_bool.checked,
+                trailing_stop_loss: trailing_stop_loss_bool.checked,
+                stop_loss_time_out: stop_loss_time_out.checked,
+                stop_loss_time_out_time: stop_loss_time_out_time.value,
+            };
+
+            console.log(data)
+
+            inputsFields = [...document.querySelectorAll(".smartTradeInput")]
+
+            validData = true
+            /*inputsFields.forEach(e=>{
+                if(e.value == "" || e.value == 0){
+                    e.classList.add("is-invalid")
+                    validData = false
+                }
+                else{
+                    e.classList.remove("is-invalid")
+                }
+            })*/
+
+            if(take_profit_quantities.length == 0 && take_profit_switch.checked){
+                validData = false
+                add_target.scrollIntoView({behavior: "smooth", block: "center", inline: "nearest"})
+                add_target.style.outline = "1px solid red"
+                setTimeout(function(){
+                    add_target.style.outline = ""
+                },2000)
+            }
+
+            inputsFields.forEach(e=>{
+                e.addEventListener('input',()=>{
+                    if(e.value == "" || e.value == 0){
+                        e.classList.add("is-invalid")
+                    }
+                    else{
+                        e.classList.remove("is-invalid")
+                    }
+                })
+            })
+
+            if(validData)
+            fetch('/api/v1/smart_trades', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+            .then((response) => response.json())
+            .then(data => {
+                // Show a success message with SweetAlert
+                if (data.ok) {
+                    // the request was successful, handle the data here
+                    swal('Success', data.message, 'success');
+                } else {
+                    // the server returned an error status code, handle the error here
+                    swal('Failed', data.message, 'error');
+                }
+            })
+            .catch(error => {
+                swal('Error', error.message, 'error');
+            })
+            .finally(()=>{
+                this.innerHTML = oldHTML
+                this.removeAttribute("disabled")
+            });
+            else{
+                this.innerHTML = oldHTML
+                this.removeAttribute("disabled")
+            }
+                
+        })
+
+        editTrade.addEventListener("click",async function(){
+            
+            let oldHTML = this.innerHTML
+            this.setAttribute("disabled","disabled")
+            this.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span class="visually-hidden">Loading...</span>'
+            take_profit_quantities = []
+            document.querySelectorAll(".stepsell-table__row.stepsell-table__body.flexbox.RUBYDEV_flexbox").forEach((e,i)=>{
+                take_profit_quantities_inner = []
+                take_profit_quantities_inner[0] = parseFloat(e.querySelectorAll("span")[1].innerText)
+                take_profit_quantities_inner[1] = parseFloat(e.querySelector("div:nth-child(3)").innerText.replace("%",""))
+                take_profit_quantities.push(take_profit_quantities_inner)   
+            })
+
+            let data = {
+                trade_type:[...chooseSmartTrade.querySelectorAll("label")].filter(e=>e.classList.contains('active'))[0].innerHTML,
+                symbol: selectedPair.value,
+                amount: parseFloat(document.querySelector(".buy_units_val").value),
+                price: buy_type.getAttribute("buy_type")!='cond.'? parseFloat(document.querySelector(".buy_price_val").value||0):parseFloat(document.querySelector(".trigger_price_val").value),
+                triggerPrice: buy_type.getAttribute("buy_type")=='cond.'? parseFloat(document.querySelector(".buy_price_val").value):parseFloat(document.querySelector(".trigger_price_val").value),
+                buy_type: buy_type.getAttribute("buy_type")=='cond.'?cond_buy_type.getAttribute("cond_buy_type"):buy_type.getAttribute("buy_type"),
+                take_profits: take_profit_quantities,
+                take_profit: take_profit_switch.checked,
+                stop_loss: stop_loss_switch.checked,
+                trailing_deviation: parseFloat(document.querySelector(".take_profit_trailing_take_profit").value),
+                exchange: selectedExchangeMain.value,
+                tpTriggerType:document.querySelector(".takeProfitGroup").getAttribute("order_type"),
+                tpTriggerPxType:tpTriggerPxType.value,
+                stop_loss_type:stop_loss_type.getAttribute("stop_loss_type"),
+                stop_loss_trigger_price:document.querySelector("#stop_loss_trigger_price").value,
+                stop_loss_price:stop_loss_order_price.value||0,
+                stop_loss_price_percent:document.querySelector(".stop_loss_price").value,
+                trailing_take_profit: trailing_take_profit_bool.checked,
+                trailing_stop_loss: trailing_stop_loss_bool.checked,
+                stop_loss_time_out: stop_loss_time_out.checked,
+                stop_loss_time_out_time: stop_loss_time_out_time.value,
+            }
+
+            await fetch(`/api/v1/smart_trades/edit/${editTrade.getAttribute("idNum")}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+            .then(res=>res.json())
+            .then(response => {
+                if (response.ok) {
+                    // the request was successful, handle the response here
+                    swal('Success', response.message, 'success');
+                } else {
+                    // the server returned an error status code, handle the error here
+                    swal('Failed', response.message, 'error');
+                }
+                createTrade.parentElement.classList.remove("hidden")
+                editTrade.parentElement.classList.add("hidden")
+            })
+            .catch(error => {
+                // a network error occurred, handle the error here
+                console.error('Network error:', error);
+            })
+            .finally(()=>{
+                this.innerHTML = oldHTML
+                this.removeAttribute("disabled")
+            });
+        })
+
+
+
+        async function editSmartTrade(id){
+            document.querySelector("#loading").querySelector("div").classList.remove("d-none")
+            document.querySelector("#loading").querySelector("div").classList.remove("animate__fadeOut")
+            document.querySelector("#loading").querySelector("div").classList.add("animate__fadeIn")
+            createTrade.parentElement.classList.add("hidden")
+            editTrade.parentElement.classList.remove("hidden")
+            editTrade.setAttribute("idNum",id)
+            await fetch(`/api/v1/smart_trades/${id}`)
+            .then(res=>res.json())
+            .then(res=>{
+                console.log(res.smart_trade)
+                
+                smartTrade.setAttribute("total_target_volumes",100)
+
+                if(parseFloat(smartTrade.getAttribute("total_target_volumes"))>=100){
+                    smartTrade_takeProfit.classList.add("hidden")
+                }
+                document.querySelector(".stepsell-table").innerHTML = `
+                <div class="stepsell-table__row stepsell-table__header flexbox RUBYDEV_flexbox">
+                    <div></div>
+                    <div>Price</div>
+                    <div>Quantity</div>
+                    <div></div>
+                </div>`
+                for (let x of res.smart_trade.take_profit_quantities)
+                document.querySelector(".stepsell-table").insertAdjacentHTML('beforeend',`
+                    <div class="stepsell-table__row stepsell-table__body flexbox RUBYDEV_flexbox" style="align-items:center;">
+                        <div><span style="background: rgb(35, 198, 200);"></span></div>
+                        <div>
+                            <div class="number-bitcoin"></div>
+                            <span>${x[0]}</span>&nbsp;${res.smart_trade.quote_currency}
+                        </div>
+                        <div>${x[1]}%</div>
+                        <div class="RUBYDEV_max_width_fit_content"></div>
+                        <div>
+                            <button type="button" class="btn btn-xs btn-danger" onclick="removeTP(this)">X</button>
+                        </div>
+                    </div>
+                `);
+
+                [...chooseSmartTrade.querySelectorAll("label")].filter(e=>e.classList.contains('active'))[0].innerHTML = res.smart_trade.trade_type
+                document.querySelector(".buy_units_val").value = res.smart_trade.amount
+                document.querySelector(".buy_price_val").value = res.smart_trade.buy_price
+                document.querySelector(".trigger_price_val").value = res.smart_trade.buy_trigger_price
+
+                
+
+                if (res.smart_trade.order_type.includes("cond")){
+                    buy_type.setAttribute("buy_type",'cond.')
+                    cond_buy_type.getAttribute("cond_buy_type",res.smart_trade.order_type)
+                }
+                else buy_type.getAttribute("buy_type",res.smart_trade.order_type)
+
+                document.querySelector(".stop_loss_price_range").value = res.smart_trade.stop_loss
+                document.querySelector(".take_profit_trailing_take_profit").value = res.smart_trade.trailing_deviation
+                document.querySelector(".takeProfitGroup").setAttribute("order_type",res.smart_trade.tpTriggerType)
+                tpTriggerPxType.value = res.smart_trade.tpTriggerPxType
+                stop_loss_type.setAttribute("stop_loss_type",res.smart_trade.stop_loss_type)
+                stop_loss_order_price.value = res.smart_trade.stop_loss_price
+                document.querySelector(".stop_loss_price").value = res.smart_trade.stop_loss_price_percent
+                trailing_take_profit_bool.checked = res.smart_trade.trailing_take_profit
+                trailing_stop_loss_bool.checked = res.smart_trade.trailing_stop_loss
+                stop_loss_time_out.checked = res.smart_trade.stop_loss_time_out
+                stop_loss_time_out_time.value = res.smart_trade.stop_loss_time_out_time
+                if(res.smart_trade.take_profit){
+                    set_take_profit.closest(".card-overlay").classList.add("hidden")
+                    set_take_profit.closest(".card-overlay").nextElementSibling.querySelector("input").checked = true
+                    set_take_profit.closest(".card-overlay").nextElementSibling.querySelector("input").setAttribute("checked",true)
+                }
+                else{
+                    set_take_profit.closest(".card-overlay").classList.remove("hidden")
+                    set_take_profit.closest(".card-overlay").nextElementSibling.querySelector("input").checked = false
+                    set_take_profit.closest(".card-overlay").nextElementSibling.querySelector("input").removeAttribute("checked")
+                }
+                if(res.smart_trade.stop_loss){
+                    set_stop_loss.closest(".card-overlay").classList.add("hidden")
+                    set_stop_loss.closest(".card-overlay").nextElementSibling.querySelector("input").checked = true
+                    set_stop_loss.closest(".card-overlay").nextElementSibling.querySelector("input").setAttribute("checked",true)
+                }
+                else{
+                    set_stop_loss.closest(".card-overlay").classList.remove("hidden")
+                    set_stop_loss.closest(".card-overlay").nextElementSibling.querySelector("input").checked = false
+                    set_stop_loss.closest(".card-overlay").nextElementSibling.querySelector("input").removeAttribute("checked")
+                }
+                if(res.smart_trade.stop_loss_time_out){
+                    stop_loss_time_out_time.removeAttribute("disabled")
+                }
+                else{
+                    stop_loss_time_out_time.setAttribute("disabled","disabled")
+                }
+                if(res.smart_trade.trailing_take_profit){
+                    document.querySelector(".take_profit_trailing_take_profit").removeAttribute("disabled")
+                    document.querySelector(".take_profit_trailing_take_profit_range").removeAttribute("disabled")
+                }
+                else{
+                    document.querySelector(".take_profit_trailing_take_profit").setAttribute("disabled","disabled")
+                    document.querySelector(".take_profit_trailing_take_profit_range").setAttribute("disabled","disabled")
+                }
+            })
+            .finally(()=>{
+                document.querySelector("#loading").querySelector("div").classList.add("animate__fadeOut")
+                document.querySelector("#loading").querySelector("div").classList.remove("animate__fadeIn")
+                setTimeout(function(){
+                    document.querySelector("#loading").querySelector("div").classList.add("d-none")
+                },1000)
+            });
+        }
+
+        async function cancelSmartTrade(id){
+            document.querySelector("#loading").querySelector("div").classList.remove("d-none")
+            document.querySelector("#loading").querySelector("div").classList.remove("animate__fadeOut")
+            document.querySelector("#loading").querySelector("div").classList.add("animate__fadeIn")
+            await fetch(`/api/v1/smart_trades/cancel/${id}`, {
+                method: 'POST',
+            })
+            .then(res=>res.json())
+            .then(response => {
+                if (response.ok) {
+                    // the request was successful, handle the response here
+                    swal('Success', response.message, 'success');
+                } else {
+                    // the server returned an error status code, handle the error here
+                    swal('Failed', response.message, 'error');
+                }
+            })
+            .catch(error => {
+                // a network error occurred, handle the error here
+                console.error('Network error:', error);
+            })
+            .finally(()=>{
+                document.querySelector("#loading").querySelector("div").classList.add("animate__fadeOut")
+                document.querySelector("#loading").querySelector("div").classList.remove("animate__fadeIn")
+                setTimeout(function(){
+                    document.querySelector("#loading").querySelector("div").classList.add("d-none")
+                },1000)
+            });
+        }
+
+        async function openSmartTrade(id){
+            document.querySelector("#loading").querySelector("div").classList.remove("d-none")
+            document.querySelector("#loading").querySelector("div").classList.remove("animate__fadeOut")
+            document.querySelector("#loading").querySelector("div").classList.add("animate__fadeIn")
+            await fetch(`/api/v1/smart_trades/open/${id}`, {
+                method: 'POST',
+            })
+            .then(res=>res.json())
+            .then(response => {
+                if (response.ok) {
+                    // the request was successful, handle the response here
+                    swal('Success', response.message, 'success');
+                } else {
+                    // the server returned an error status code, handle the error here
+                    swal('Failed', response.message, 'error');
+                }
+            })
+            .catch(error => {
+                // a network error occurred, handle the error here
+                console.error('Network error:', error);
+            })
+            .finally(()=>{
+                document.querySelector("#loading").querySelector("div").classList.add("animate__fadeOut")
+                document.querySelector("#loading").querySelector("div").classList.remove("animate__fadeIn")
+                setTimeout(function(){
+                    document.querySelector("#loading").querySelector("div").classList.add("d-none")
+                },1000)
+            });
+        }
+
+        async function closeSmartTrade(id){
+            document.querySelector("#loading").querySelector("div").classList.remove("d-none")
+            document.querySelector("#loading").querySelector("div").classList.remove("animate__fadeOut")
+            document.querySelector("#loading").querySelector("div").classList.add("animate__fadeIn")
+            await fetch(`/api/v1/smart_trades/close/${id}`, {
+                method: 'POST',
+            })
+            .then(res=>res.json())
+            .then(response => {
+                if (response.ok) {
+                    // the request was successful, handle the response here
+                    swal('Success', response.message, 'success');
+                } else {
+                    // the server returned an error status code, handle the error here
+                    swal('Failed', response.message, 'error');
+                }
+            })
+            .catch(error => {
+                // a network error occurred, handle the error here
+                console.error('Network error:', error);
+            })
+            .finally(()=>{
+                document.querySelector("#loading").querySelector("div").classList.add("animate__fadeOut")
+                document.querySelector("#loading").querySelector("div").classList.remove("animate__fadeIn")
+                setTimeout(function(){
+                    document.querySelector("#loading").querySelector("div").classList.add("d-none")
+                },1000)
+            });
+        }
+
+        async function getOpenOrders(side,limit){
+            await fetch(`/openOrders?symbol=${selectedPair.value.split("/")[0]}${selectedPair.value.split("/")[1]}&exchange=${selectedExchangeMain.value}&side=${side}`)
+            .then(res=>res.json())
+            .then(res=>{
+                if(side=="sell"){
+                    sell_orders.innerHTML = "";
+                    [...res].reverse().filter((_,i)=>i<limit).forEach(e=>{
+                        sell_orders.insertAdjacentHTML('beforeend',`
+                            <div class="cup__row cup__row--minus">
+                                <div class="cup__progress" style="width: 50%;"></div>
+                                <button class="button button_link button_color-info" type="button"><span class="button__text">${e.price.toFixed(4)}</span></button>
+                                <div class="cup__cell">${(e.price*e.amount).toFixed(4)}</div>
+                                <div class="cup__cell">${e.amount.toFixed(4)}</div>
+                            </div>
+                        `)
+                    })
+                }
+                else{
+                    buy_orders.innerHTML = ""
+;                    [...res].reverse().filter((_,i)=>i<limit).forEach(e=>{     
+                        buy_orders.insertAdjacentHTML('beforeend',`
+                            <div class="cup__row cup__row--plus">
+                                <div class="cup__progress" style="width: 30%;"></div>
+                                <button class="button button_link button_color-info" type="button"><span class="button__text">${e.price.toFixed(3)}</span></button>
+                                <div class="cup__cell">${(e.price*e.amount).toFixed(1)}</div>
+                                <div class="cup__cell">${e.amount.toFixed(3)}</div>
+                            </div>
+                        `)
+                    }) 
+                }
+            })
+            .catch(error => {
+                // a network error occurred, handle the error here
+                console.error('Network error:', error);
+            });   
+        }
+
+        async function getlastTrades(limit){
+            await fetch(`/lastTrades?symbol=${selectedPair.value.replace("/","")}&exchange=${selectedExchangeMain.value}`)
+            .then(res=>res.json())
+            .then(res=>{
+                last_trades.innerHTML = "";
+                [...res].reverse().filter((_,i)=>i<limit).forEach(e=>{
+                    last_trades.insertAdjacentHTML('beforeend',`
+                        <div class="cup__row">
+                            <div style="color:${e.side=='buy'?'rgba(26, 160, 83,1)':'rgba(192, 50, 33, 1)'}" class="cup__cell">${e.price.toFixed(1)}</div>
+                            <div class="cup__cell">${(e.price*e.amount).toFixed(1)}</div>
+                            <div class="cup__cell">${e.amount.toFixed(3)}</div>
+                        </div>
+                    `)
+                })
+            })
+            .catch(error => {
+                // a network error occurred, handle the error here
+                console.error('Network error:', error);
+            });   
+        }
+        
+        market_interval = null;
+
+        document.querySelector("#order_type")?.addEventListener("change",function(){
+            if(this.value=="market"){
+                document.querySelector('#price_input').setAttribute("disabled","disabled")
+                market_interval = setInterval(function(){
+                    document.querySelector('#price_input').value = document.body.getAttribute("live_price")
+                },100)
+            }else{
+                document.querySelector('#price_input').removeAttribute("disabled")
+                clearInterval(market_interval)
+            }
+        })
+
+        /*setInterval(async function(){
+            if(document.querySelector("#selectedPair").value&&document.querySelector("#selectedMarket").value){
+
+            }
+        },200)*/
+        order_book_history()
+        async function order_book_history(){
+            await fetch(`/api/v1/order_book_history?exchange=${selectedExchangeMain.value}&pair=${selectedPair.value.split("/")[0]}&market=${selectedPair.value.split("/")[1]}`)
+            .finally(()=>{
+                order_book_history()
+            })
+        }
+
+        last_trades_history()
+        async function last_trades_history(){
+            await fetch(`/api/v1/last_trades_history?exchange=${selectedExchangeMain.value}&pair=${selectedPair.value.split("/")[0]}&market=${selectedPair.value.split("/")[1]}`)
+            .finally(()=>{
+                last_trades_history()
+            })
+        }
+
+        live_price_history()
+        async function live_price_history(){
+            await fetch(`/api/v1/live_price?exchange=${selectedExchangeMain.value}&pair=${selectedPair.value.split("/")[0]}&market=${selectedPair.value.split("/")[1]}`)
+            .finally(()=>{
+                live_price_history()
+            })
+        }
+
+        live_crypto_data()
+        async function live_crypto_data(){
+            await fetch(`/api/v1/live_crypto_data?exchange=${selectedExchangeMain.value}&pair=${selectedPair.value.split("/")[0]}&market=${selectedPair.value.split("/")[1]}`)
+            .then(res=>res.json())
+            .then(res=>{
+                document.querySelector("#crypto_price").innerHTML = res['price'].toFixed(2)
+                document.querySelector("#crypto_24hvolume").innerHTML = res['data'][0].toFixed(2)
+                document.querySelector("#crypto_24hturnover").innerHTML = res['data'][1].toFixed(2)
+                document.querySelector("#crypto_24hhigh").innerHTML = res['data'][2].toFixed(2)
+                document.querySelector("#crypto_24hlow").innerHTML = res['data'][3].toFixed(2)
+                document.querySelector("#crypto_24hchange").innerHTML = (res['data'][4]*100).toFixed(2)+"%"
+            })
+            .finally(()=>{
+                live_crypto_data()
+            })
+        }
+
+        
+
+        indicators()
+        async function indicators(){
+            await fetch(`/api/v1/indicators?exchange=${selectedExchangeMain.value}&pair=${selectedPair.value.split("/")[0]}&market=${selectedPair.value.split("/")[1]}&interval=${localStorage.getItem('interval')||"15m"}`)
+            .finally(()=>{
+                indicators()
+            })
+        }
+
+        setInterval(() => {
+            document.querySelectorAll(".market_curr").forEach(e=>{
+                e.innerHTML = selectedPair.value.split("/")[1]
+            })
+            
+            document.querySelectorAll(".quote_curr").forEach(e=>{
+                e.innerHTML = selectedPair.value.split("/")[0]
+            })
+        }, 300);
+
+        trailing_take_profit_bool.addEventListener("change",function(){
+            if(!this.checked){
+                document.querySelector(".take_profit_trailing_take_profit_range").setAttribute("disabled","disabled")
+                document.querySelector(".take_profit_trailing_take_profit").setAttribute("disabled","disabled")
+            }
+            else{
+                document.querySelector(".take_profit_trailing_take_profit_range").removeAttribute("disabled")
+                document.querySelector(".take_profit_trailing_take_profit").removeAttribute("disabled")
+            }
+        })
+
+        stop_loss_time_out.addEventListener("change",function(){
+            if(!this.checked){
+                stop_loss_time_out_time.setAttribute("disabled","disabled")
+            }
+            else{
+                stop_loss_time_out_time.removeAttribute("disabled")
+            }
+        })
+
+        get_indicators_signals()
+
+        async function get_indicators_signals(){
+            await fetch(`/api/v1/indicators_signals?exchange=${selectedExchangeMain.value}&interval=${localStorage.getItem('interval')||"15m"}`)
+            .then(res=>res.json())
+            .then(res=>{
+                top_signals_buy.innerHTML = `<tr class="header-hvDpy38G">
+                                                <th class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">Symbol</th>
+                                                <th class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">Signal</th>
+                                            </tr>`
+                top_signals_sell.innerHTML = `<tr class="header-hvDpy38G">
+                                                <th class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">Symbol</th>
+                                                <th class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">Signal</th>
+                                            </tr>`
+                for(let x of res[0].slice(0,10)){
+                    top_signals_buy.insertAdjacentHTML("beforeend",`
+                        <tr class="row-hvDpy38G" style="">
+                            <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">
+                                <span>${x.symbol}</span>
+                            </td>
+                            <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G"><span class="text-success">buy ${x.buy_percentage.toFixed(0)}%</span></td>
+                        </tr>
+                    `)
+                }
+                for(let x of res[1].slice(0,10)){
+                    top_signals_sell.insertAdjacentHTML("beforeend",`
+                        <tr class="row-hvDpy38G" style="">
+                            <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G">
+                                <span>${x.symbol}</span>
+                            </td>
+                            <td class="cell-hvDpy38G largePadding-hvDpy38G phoneLandscape-hvDpy38G tabletVertical-hvDpy38G tabletLandscape-hvDpy38G"><span class="text-danger">sell ${x.sell_percentage.toFixed(0)}%</span></td>
+                        </tr>
+                    `)
+                }
+                
+            })
+            .finally(()=>{
+                get_indicators_signals()
+            })
+        }
+
+        //////////////////////////////////////////////////////////
+
+        set_take_profit.addEventListener("click",function(){
+            this.closest(".card-overlay").classList.add("hidden")
+            this.closest(".card-overlay").nextElementSibling.querySelector("input").checked = true
+            this.closest(".card-overlay").nextElementSibling.querySelector("input").setAttribute("checked",true)
+        })
+
+        set_stop_loss.addEventListener("click",function(){
+            this.closest(".card-overlay").classList.add("hidden")
+            this.closest(".card-overlay").nextElementSibling.querySelector("input").checked = true
+            this.closest(".card-overlay").nextElementSibling.querySelector("input").setAttribute("checked",true)
+        })
+
+        document.querySelectorAll(".removeOverlay").forEach(e=>{
+            e.addEventListener("change",function(){
+                this.closest(".card").querySelector(".card-overlay").classList.remove("hidden")
+            })
+        })
+        
+
+        async function getLiveBalance(){
+            await fetch(`/api/v1/live_balance?exchange=${selectedExchangeMain.value}&symbol=${[...chooseSmartTrade.querySelectorAll("label")].filter(e=>e.classList.contains('active'))[0].innerHTML.toLowerCase()=="smart buy" || [...chooseSmartTrade.querySelectorAll("label")].filter(e=>e.classList.contains('active'))[0].innerHTML.toLowerCase() == "smart trade"?selectedPair.value.split("/")[1]:selectedPair.value.split("/")[0]}`)
+            .then(res=>res.json())
+            .then(res=>{
+                balance.innerHTML = res.toFixed(2) + " " + ([...chooseSmartTrade.querySelectorAll("label")].filter(e=>e.classList.contains('active'))[0].innerHTML.toLowerCase()=="smart buy" || [...chooseSmartTrade.querySelectorAll("label")].filter(e=>e.classList.contains('active'))[0].innerHTML.toLowerCase() == "smart trade"?selectedPair.value.split("/")[1]:selectedPair.value.split("/")[0])
+                
+            })
+            .finally(()=>{
+                getLiveBalance()
+            })
+        }
+        getLiveBalance()
+
+        async function getLiveBalance2(){
+            await fetch(`/api/v1/live_balance?exchange=${selectedExchangeMain.value}&symbol=${selectedPair.value.split("/")[1]}`)
+            .then(res=>res.json())
+            .then(res=>{
+                balance2.innerHTML = res.toFixed(2) + " " + selectedPair.value.split("/")[1]
+            })
+            .finally(()=>{
+                getLiveBalance2()
+            })
+        }
+        getLiveBalance2()
+
+        async function getLiveBalance3(){
+            await fetch(`/api/v1/live_balance?exchange=${selectedExchangeMain.value}&symbol=${selectedPair.value.split("/")[0]}`)
+            .then(res=>res.json())
+            .then(res=>{
+                balance3.innerHTML = res.toFixed(2) + " " + selectedPair.value.split("/")[0]
+            })
+            .finally(()=>{
+                getLiveBalance3()
+            })
+        }
+        getLiveBalance3()
+        
+
+
+        
+
+    </script>
+  </body>
+</html>
+{% endblock %}
