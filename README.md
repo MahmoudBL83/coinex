@@ -414,8 +414,6 @@ Update the user's IP check settings.
 }
 ```
 
-Certainly! Here's the updated API documentation for the `smartTrade` section:
-
 ## Smart Trade
 
 ### Get Smart Trades
