@@ -1305,5 +1305,47 @@ Cancel an existing order on the exchange.
 - **Notes:**
   - Returns a list of all available trading pairs.
 
+## Notifications
+### Mark Notifications as Read
+- **Route:** `/api/v1/read_notifications/`
+- **Method:** `GET`
+- **Response:**
+  - Marks all unread notifications for the authenticated user as read.
+  - No additional data is returned.
+
+### Get Notifications
+- **Route:** `/api/v1/get_notifications/`
+- **Method:** `GET`
+- **Response:**
+  ```json
+  [
+      {
+          "id": 1,
+          "message": "Notification message",
+          "read": true,
+          "date": "2022-01-14T12:34:56"
+      },
+      {
+          "id": 2,
+          "message": "Another notification",
+          "read": false,
+          "date": "2022-01-13T10:45:30"
+      }
+  ]
+  ```
+  - Returns a list of notifications for the authenticated user.
+  - Each notification includes an ID, message, read status, and date.
+
+### Get Unread Notifications Count
+- **Route:** `/api/v1/get_notifications_count/`
+- **Method:** `GET`
+- **Response:**
+  ```json
+  3
+  ```
+  - Returns the count of unread notifications for the authenticated user.
+  - Provides a numeric value indicating the number of unread notifications.
+
 ```
+
 
