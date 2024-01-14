@@ -414,6 +414,263 @@ Update the user's IP check settings.
 }
 ```
 
-## Disclaimer
+Certainly! Here's the updated API documentation for the `smartTrade` section:
 
-The API documentation is subject to change, and additional endpoints may be added or existing ones modified for better functionality. Always refer to the latest documentation for accurate information.
+## Smart Trade
+
+### Get Smart Trades
+
+#### `GET /api/v1/smart_trades/`
+
+Retrieve all smart trades for the current user.
+
+##### Response
+```json
+{
+  "smart_trades": [
+    {
+      "id": 1,
+      "trade_type": "Smart Trade",
+      "exchange": "Binance",
+      "base_currency": "BTC",
+      "quote_currency": "USDT",
+      "units": 1.0,
+      "amount": 100.0,
+      "buy_price": 40000.0,
+      "buy_trigger_price": 38000.0,
+      "stop_loss": true,
+      "take_profit": true,
+      "tpTriggerType": "market",
+      "order_type": "limit",
+      "buy_order_id": "12345",
+      "trailing_order_id": "54321",
+      "stop_loss_id": "67890",
+      "last_take_profit_id": "98765",
+      "trailing_take_profit": true,
+      "trailing_deviation": 0.03,
+      "trailing_stop_loss": true,
+      "stop_loss_price_percent": 2.0,
+      "stop_loss_price": 37000.0,
+      "stop_loss_type": "limit",
+      "stop_loss_time_out": true,
+      "stop_loss_time_out_time": 10,
+      "deal_started": true,
+      "move_to_break_even": true,
+      "isActive": true,
+      "last_price": 41000.0,
+      "bought_price": 40000.0,
+      "use_assets": true,
+      "total_profit": 50.0
+    },
+    ...
+  ]
+}
+```
+
+### Create Smart Trade
+
+#### `POST /api/v1/smart_trades/`
+
+Create a new smart trade.
+
+##### Request
+```json
+{
+  "trade_type": "Smart Trade",
+  "exchange": "Binance",
+  "symbol": "BTC/USDT",
+  "price": 40000.0,
+  "triggerPrice": 38000.0,
+  "buy_type": "limit",
+  "amount": 100.0,
+  "take_profits": true,
+  "tpTriggerType": "market",
+  "tpTriggerPxType": "absolute",
+  "stop_loss": true,
+  "take_profit": true,
+  "stop_loss_type": "limit",
+  "stop_loss_price_percent": 2.0,
+  "stop_loss_price": 37000.0,
+  "trailing_take_profit": true,
+  "trailing_stop_loss": true,
+  "trailing_deviation": 0.03,
+  "stop_loss_time_out": true,
+  "stop_loss_time_out_time": 10,
+  "exchange": "Binance",
+  "move_to_break_even": true,
+  "use_assets": true
+}
+```
+
+##### Response
+```json
+{
+  "message": "Smart Trade executed successfully.",
+  "ok": true
+}
+```
+
+### Edit Smart Trade
+
+#### `POST /api/v1/smart_trades/edit/<int:smart_trade_id>`
+
+Edit an existing smart trade.
+
+##### Request
+```json
+{
+  "trade_type": "Smart Trade",
+  "symbol": "BTC/USDT",
+  "price": 42000.0,
+  "triggerPrice": 40000.0,
+  "buy_type": "limit",
+  "amount": 150.0,
+  "take_profits": true,
+  "tpTriggerType": "market",
+  "stop_loss": true,
+  "take_profit": true,
+  "stop_loss_type": "limit",
+  "stop_loss_price_percent": 2.5,
+  "stop_loss_price": 38000.0,
+  "trailing_take_profit": true,
+  "trailing_stop_loss": true,
+  "trailing_deviation": 0.02,
+  "stop_loss_time_out": true,
+  "stop_loss_time_out_time": 15,
+  "exchange": "Binance",
+  "move_to_break_even": true,
+  "use_assets": true
+}
+```
+
+##### Response
+```json
+{
+  "message": "Smart trade edited successfully",
+  "ok": true
+}
+```
+
+### Open Smart Trade
+
+#### `POST /api/v1/smart_trades/open/<int:smart_trade_id>`
+
+Open a previously closed smart trade.
+
+##### Response
+```json
+{
+  "message": "Smart trade opened successfully",
+  "ok": true
+}
+```
+
+### Run Smart Trade
+
+#### `POST /api/v1/smart_trades/run/<int:smart_trade_id>`
+
+Run a smart trade again.
+
+##### Response
+```json
+{
+  "message": "Smart trade ran again successfully",
+  "ok": true
+}
+```
+
+### Close Smart Trade
+
+#### `POST /api/v1/smart_trades/close/<int:smart_trade_id>`
+
+Close a smart trade.
+
+##### Response
+```json
+{
+  "message": "Smart trade closed successfully",
+  "ok": true
+}
+```
+
+### Cancel Smart Trade
+
+#### `POST /api/v1/smart_trades/cancel/<int:smart_trade_id>`
+
+Cancel a smart trade.
+
+##### Response
+```json
+{
+  "message": "Smart trade cancelled successfully",
+  "ok": true
+}
+```
+
+### Get Smart Trade by ID
+
+#### `GET /api/v1/smart_trades/<int:id>`
+
+Retrieve a smart trade by ID.
+
+##### Response
+```json
+{
+  "smart_trade": {
+    "id": 1,
+    "trade_type": "Smart Trade",
+    "exchange": "Binance",
+    "base_currency": "BTC",
+    "quote_currency": "USDT",
+    "units": 1.0,
+    ...
+  }
+}
+```
+
+### Update Smart Trade
+
+#### `PUT /api/v1/smart_trades/<int:id>`
+
+Update a smart trade by ID.
+
+##### Request
+```json
+{
+  "name": "Updated Smart Trade Name",
+  "strategy": "Updated Smart Trade Strategy",
+  "exchange": "Updated Exchange",
+  ...
+}
+```
+
+##### Response
+```json
+{
+  "smart_trade": {
+    "id": 1,
+    "name": "Updated Smart Trade Name",
+    "strategy": "Updated Smart Trade Strategy",
+    "exchange": "Updated Exchange",
+    ...
+  }
+}
+```
+
+### Delete Smart Trade
+
+#### `DELETE
+
+ /api/v1/smart_trades/<int:id>`
+
+Delete a smart trade by ID.
+
+##### Response
+```json
+{
+  "message": "Smart trade with ID 1 has been deleted",
+  "ok": true
+}
+```
+
+Please ensure to replace placeholder values with actual data when making requests.
