@@ -1,12 +1,14 @@
-Certainly! Here's the rearranged API documentation:
-
 # API Documentation for Crypto Bots Web App
 
-## Register
+## Authentication
 
-### `POST /register`
+### Register
 
-#### Request
+#### `POST /register`
+
+Register a new user.
+
+##### Request
 ```json
 {
   "email": "user@example.com",
@@ -17,7 +19,7 @@ Certainly! Here's the rearranged API documentation:
 }
 ```
 
-#### Response
+##### Response
 ```json
 {
   "message": "Registration successful. Please check your email to verify your account.",
@@ -25,11 +27,13 @@ Certainly! Here's the rearranged API documentation:
 }
 ```
 
-## Login
+### Login
 
-### `POST /login`
+#### `POST /login`
 
-#### Request
+Log in to the web app.
+
+##### Request
 ```json
 {
   "admin": true,
@@ -38,7 +42,7 @@ Certainly! Here's the rearranged API documentation:
 }
 ```
 
-#### Response
+##### Response
 ```json
 {
   "message": "Admin logged in successfully",
@@ -46,18 +50,20 @@ Certainly! Here's the rearranged API documentation:
 }
 ```
 
-## Verify OTP
+### Verify OTP
 
-### `POST /verify-otp`
+#### `POST /verify-otp`
 
-#### Request
+Verify the OTP (One-Time Password) after login.
+
+##### Request
 ```json
 {
   "otp": "123456"
 }
 ```
 
-#### Response
+##### Response
 ```json
 {
   "access_token": "your_access_token",
@@ -65,38 +71,44 @@ Certainly! Here's the rearranged API documentation:
 }
 ```
 
-## Resend OTP
+### Resend OTP
 
-### `GET /resend_otp`
+#### `GET /resend_otp`
 
-#### Response
+Resend the OTP.
+
+##### Response
 ```json
 {
   "message": "OTP resent"
 }
 ```
 
-## Verify Email
+### Verify Email
 
-### `GET /verify_email/:token`
+#### `GET /verify_email/:token`
 
-#### Response
+Verify the user's email address.
+
+##### Response
 ```
 Email verification successful. You can now log in.
 ```
 
-## Reset Password
+### Reset Password
 
-### `POST /reset_password`
+#### `POST /reset_password`
 
-#### Request
+Request to reset the password.
+
+##### Request
 ```json
 {
   "email": "user@example.com"
 }
 ```
 
-#### Response
+##### Response
 ```json
 {
   "message": "Instructions sent to email",
@@ -104,9 +116,11 @@ Email verification successful. You can now log in.
 }
 ```
 
-### `POST /reset_password/:token`
+#### `POST /reset_password/:token`
 
-#### Request
+Reset the password using the token received via email.
+
+##### Request
 ```json
 {
   "password": "new_password",
@@ -114,7 +128,7 @@ Email verification successful. You can now log in.
 }
 ```
 
-#### Response
+##### Response
 ```json
 {
   "message": "Your Password has been changed",
@@ -122,32 +136,40 @@ Email verification successful. You can now log in.
 }
 ```
 
-## Logout
+### Logout
 
-### `GET /logout`
+#### `GET /logout`
 
-#### Response
+Logout from the web app.
+
+##### Response
 Redirects to the exchanges page.
 
-## Logout (API Version)
+### Logout (API Version)
 
-### `POST /api/v1/logout`
+#### `POST /api/v1/logout`
 
-#### Response
+Logout from the API.
+
+##### Response
 Redirects to the exchanges page.
 
-## Logout Admin
+### Logout Admin
 
-### `GET /logout_admin`
+#### `GET /logout_admin`
 
-#### Response
+Logout the admin user.
+
+##### Response
 Redirects to the login page.
 
-## Send Mail from Admin
+### Send Mail from Admin
 
-### `POST /send_mail_from_admin`
+#### `POST /send_mail_from_admin`
 
-#### Request
+Send an email from the admin.
+
+##### Request
 ```json
 {
   "subject": "Email Subject",
@@ -156,7 +178,7 @@ Redirects to the login page.
 }
 ```
 
-#### Response
+##### Response
 ```json
 {
   "message": "Email sent successfully",
@@ -164,8 +186,234 @@ Redirects to the login page.
 }
 ```
 
-```
-Note: Replace placeholders like `:token` and `your_access_token` with actual values.
+## User Dashboard
+
+### User Info
+
+#### `GET /api/v1/user_stats/`
+
+Retrieve user statistics and information.
+
+##### Response
+```json
+{
+  "exchanges": [...],
+  "open_orders": [...],
+  "balance_history": "...",
+  "transactions": [...],
+  "balance_usd": 1000.00,
+  "balance_btc": 0.05,
+  "profit_monthly_btc": 0.02,
+  "profit_monthly_usd": 200.00,
+  "profit_daily_btc": 0.001,
+  "profit_daily_usd": 10.00,
+  "profit_monthly_percent_btc": 10.00,
+  "profit_monthly_percent_usd": 5.00,
+  "profit_daily_percent_btc": 2.00,
+  "profit_daily_percent_usd": 1.00,
+  "profit_overall_btc": 0.05,
+  "profit_overall_usd": 500.00,
+  "sharpe_ratio": 1.2,
+  "sortino_ratio": 1.5,
+  "deviation": 0.03,
+  "not_supported_trans": [...]
+}
 ```
 
-Feel free to adjust the documentation based on your specific requirements and add more details as needed.
+### Edit User Info
+
+#### `POST /api/v1/edit_user_info/`
+
+Edit user profile image.
+
+##### Request
+```json
+"base64_encoded_image"
+```
+
+### Reset Stats
+
+#### `GET /api/v1/reset_stats`
+
+Reset user statistics.
+
+##### Response
+```json
+{
+  "message": "your stats have been reset",
+  "ok": true
+}
+```
+
+### Assets
+
+#### `GET /api/v1/assets`
+
+Retrieve user assets.
+
+##### Response
+```json
+[
+  {
+    "currency": "BTC",
+    "free": 0.1,
+    "used": 0.05,
+    "total": 0.15,
+    "price": 40000.00,
+    "eqUSD": 6000.00
+  },
+  {
+    "currency": "ETH",
+    "free": 1.5,
+    "used": 0.5,
+    "total": 2.0,
+    "price": 3000.00,
+    "eqUSD": 6000.00
+  },
+  ...
+]
+```
+
+## Knowledge Base
+
+### Knowledge Base
+
+#### `POST /knowledge_base`
+
+Retrieve knowledge base articles.
+
+##### Response
+```json
+{
+  "posts": [...],
+  "categories": [...]
+}
+```
+
+### Knowledge Base by Category
+
+#### `POST /knowledge_base_cat/:category_id`
+
+Retrieve knowledge base articles by category.
+
+##### Response
+```json
+{
+  "posts": [...],
+  "category": {...},
+  "articles": [...],
+  "ok": true,
+  "message": "success"
+}
+```
+
+### Knowledge Base Post
+
+#### `POST /knowledge_base_post/:post_id`
+
+Retrieve a knowledge base article by post ID.
+
+
+
+##### Response
+```json
+{
+  "post": {...},
+  "posts": [...],
+  "ok": true,
+  "message": "success"
+}
+```
+
+## User Profile and Settings
+
+### User Profile
+
+#### `GET /user/profile`
+
+Retrieve user profile information.
+
+### User Privacy Settings
+
+#### `GET /user/setting`
+
+Retrieve user privacy settings.
+
+## Additional APIs
+
+### Get Data
+
+#### `GET /getData/`
+
+Retrieve data for autocomplete functionality.
+
+### Order Book History
+
+#### `GET /api/v1/order_book_history`
+
+Retrieve order book history.
+
+### Last Trades History
+
+#### `GET /api/v1/last_trades_history`
+
+Retrieve last trades history.
+
+### Live Balance
+
+#### `GET /api/v1/live_balance`
+
+Retrieve live balance for a specific symbol.
+
+### Live Balance JSON
+
+#### `GET /api/v1/live_balance_json`
+
+Retrieve live balance in JSON format.
+
+### Live Price
+
+#### `GET /api/v1/live_price`
+
+Retrieve live price for a specific symbol.
+
+### Market Table
+
+#### `GET /api/v1/market_table`
+
+Retrieve the market table.
+
+### Live Crypto Data
+
+#### `GET /api/v1/live_crypto_data`
+
+Retrieve live cryptocurrency data.
+
+### Indicators
+
+#### `GET /api/v1/indicators`
+
+Retrieve indicators for a specific symbol.
+
+### Indicators Signals
+
+#### `GET /api/v1/indicators_signals`
+
+Retrieve indicators signals for a given interval and exchange.
+
+### User Settings IP Check
+
+#### `POST /api/v1/user_settings/ip_check`
+
+Update the user's IP check settings.
+
+##### Request
+```json
+{
+  "isActive": true
+}
+```
+
+## Disclaimer
+
+The API documentation is subject to change, and additional endpoints may be added or existing ones modified for better functionality. Always refer to the latest documentation for accurate information.
