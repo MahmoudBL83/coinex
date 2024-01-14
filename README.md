@@ -670,5 +670,312 @@ Delete a smart trade by ID.
   "ok": true
 }
 ```
+## Bots
 
-Please ensure to replace placeholder values with actual data when making requests.
+### Get Bots
+
+#### `GET /bots/`
+
+Retrieve all bots for the current user.
+
+##### Response
+```json
+{
+  "bots": [
+    {
+      "id": 1,
+      "name": "Bot1",
+      "base_currency": "BTC",
+      "quote_currency": "USDT",
+      "exchange": "Binance",
+      "strategy": "Long",
+      "symbol": "BTC/USDT",
+      "units": 1.0,
+      "amount": 100.0,
+      "isActive": true,
+      "deal_started": false,
+      "take_profit": 0.02,
+      "tp_type": "Percent %",
+      "trailing_take_profit": true,
+      "trailing_deviation": 0.03,
+      "trailing_stop_loss": true,
+      "stop_loss": true,
+      "stop_loss_price_percent": 2.0,
+      "stop_loss_price": 37000.0,
+      "stop_loss_type": "limit",
+      "stop_loss_time_out": true,
+      "stop_loss_time_out_time": 10,
+      "Close_deal_after_timeout": true,
+      "timeout": 3600,
+      "exchange": "Binance",
+      "cooldown_between_deals": 30,
+      "min_volume": 10.0,
+      "max_price": 50000.0,
+      "min_price": 30000.0,
+      "min_profit": "Conditions",
+      "min_profit_type": "Percent %",
+      "min_profit_percent": 1.5,
+      "close_deal_action": 1,
+      "safety_orders_size": 0.1,
+      "safety_orders_size_scale": 2.0,
+      "safety_orders_deviation": 0.02,
+      "safety_orders_deviation_scale": 1.5,
+      "safety_orders_count": 3,
+      "safety_orders_count_max_active": 1,
+      "safety_orders_size_type": 1,
+      "min_volume": 10.0,
+      "max_price": 50000.0,
+      "min_price": 30000.0,
+      "min_profit": "Conditions",
+      "min_profit_type": "Percent %",
+      "min_profit_percent": 1.5,
+      "close_deal_action": 1,
+      "cooldown_between_deals": 30,
+      "open_deals_and_stop": 1,
+      "timeout_type": 2,
+      "amount_type": 2
+    },
+    ...
+  ]
+}
+```
+
+### Create Bot
+
+#### `POST /api/v1/create_bot/`
+
+Create a new bot.
+
+##### Request
+```json
+{
+  "name": "Bot1",
+  "pair_type": "single",
+  "symbols": ["BTC/USDT", "ETH/USDT"],
+  "exchange_name": "Binance",
+  "amount": 100.0,
+  "amount_type": 2,
+  "start_order_type": "market",
+  "symbol": "BTC/USDT",
+  "strategy": "Long",
+  "conds": ["Condition1", "Condition2"],
+  "tp_type": "Percent %",
+  "tp_percent": 2.0,
+  "tp_percent_type": "Absolute",
+  "profit_currency": "USDT",
+  "tp_conds": ["Condition3", "Condition4"],
+  "trailing_take_profit": true,
+  "trailing_deviation": 0.03,
+  "trailing_stop_loss": true,
+  "stop_loss": true,
+  "stop_loss_price_percent": 2.0,
+  "stop_loss_time_out": true,
+  "stop_loss_time_out_time": 10,
+  "Close_deal_after_timeout": true,
+  "timeout": 3600,
+  "safety_orders_size": 0.1,
+  "safety_orders_size_scale": 2.0,
+  "safety_orders_deviation": 0.02,
+  "safety_orders_deviation_scale": 1.5,
+  "safety_orders_count": 3,
+  "safety_orders_count_max_active": 1,
+  "safety_orders_size_type": 1,
+  "min_volume": 10.0,
+  "max_price": 50000.0,
+  "min_price": 30000.0,
+  "min_profit": "Conditions",
+  "min_profit_type": "Percent %",
+  "min_profit_percent": 1.5,
+  "close_deal_action": 1,
+  "cooldown_between_deals": 30,
+  "open_deals_and_stop": 1,
+  "timeout_type": 2
+}
+```
+
+##### Response
+```json
+{
+  "message": "Bot created successfully. Bot ID: 1",
+  "ok": true
+}
+```
+
+### Edit Bot
+
+#### `POST /api/v1/edit_bot/`
+
+Edit an existing bot.
+
+##### Request
+```json
+{
+  "bot_id": 1,
+  "name": "Bot1",
+  "symbol": "BTC/USDT",
+  "strategy": "Long",
+  "stop_loss": true,
+  "stop_loss_price_percent": 2.0,
+  "trailing_take_profit": true,
+  "trailing_deviation": 0.03,
+  "trailing_stop_loss": true,
+  "stop_loss_time_out": true,
+  "stop_loss_time_out_time": 10,
+  "Close_deal_after_timeout": true,
+  "timeout": 3600,
+  "tp_type": "Percent %",
+  "tp_percent": 2.5,
+  "tp_percent_type": "Absolute",
+  "safety_orders_size": 0.2,
+  "safety_orders_size_scale": 2.5,
+  "safety_orders_deviation": 0.04,
+  "safety_orders_deviation_scale": 1.8,
+  "safety_orders_count": 4,
+  "safety_orders_count_max_active": 2,
+  "safety_orders_size_type": 2,
+  "min_volume": 15.0,
+  "max_price": 55000.0,
+  "min_price": 35000.0,
+  "min_profit": "Conditions",
+  "min_profit_type": "Percent %",
+  "min_profit_percent": 2.0,
+  "close_deal_action": 2,
+  "cooldown_between_deals": 45,
+  "open_deals_and_stop": 2,
+  "timeout_type": 3
+}
+```
+
+##### Response
+```json
+{
+  "message": "Bot edited successfully",
+  "ok": true
+}
+```
+
+### Toggle Bot
+
+#### `POST /api/v1/toggle_bot/`
+
+Toggle the state of an existing bot.
+
+##### Request
+```json
+{
+  "bot_id": 1,
+  "state": true
+}
+```
+
+##### Response
+```json
+{
+  "message": "Bot state toggled successfully",
+  "ok": true
+}
+```
+
+### Delete Bot
+
+#### `POST /api/v1/delete_bot/`
+
+Delete an existing bot.
+
+##### Request
+```json
+{
+  "bot_id": 
+
+1
+}
+```
+
+##### Response
+```json
+{
+  "message": "Bot deleted successfully",
+  "ok": true
+}
+```
+
+### Get Bot Stats
+
+#### `GET /api/v1/get_bot_stats/`
+
+Get statistics and details of a specific bot.
+
+##### Request
+- Query Parameter: `bot_id` (Bot ID)
+
+##### Response
+```json
+{
+  "name": "Bot1",
+  "symbol": "BTC/USDT",
+  "isActive": true,
+  "deal_started": false,
+  "take_profit": 0.02,
+  "tp_type": "Percent %",
+  "tp_percent_type": "Absolute",
+  "tp_percent": 2.5,
+  "trailing_take_profit": true,
+  "trailing_stop_loss": true,
+  "units": 2.0,
+  "amount": 200.0,
+  "sell_price": 40000.0,
+  "stop_loss_price": 39000.0,
+  "buy_price": 38000.0,
+  "stop_loss": true,
+  "take_profit": true,
+  "Close_deal_after_timeout": true,
+  "timeout": 3600,
+  "stop_loss_price_percent": 2.0,
+  "stop_loss_time_out": true,
+  "stop_loss_time_out_time": 10,
+  "exchange": "Binance",
+  "base_currency": "BTC",
+  "quote_currency": "USDT",
+  "strategy": "Long",
+  "id": 1,
+  "tp_price": 1000.0,
+  "price_now": 1050.0,
+  "total_trades": 10,
+  "total_profit": 50.0,
+  "close_deal_action": 2,
+  "min_volume": 15.0,
+  "max_price": 55000.0,
+  "min_price": 35000.0,
+  "min_profit": "Conditions",
+  "min_profit_type": "Percent %",
+  "min_profit_percent": 2.0,
+  "open_deals_and_stop": 2,
+  "trailing_deviation": 0.03,
+  "trailing_stop_loss": true,
+  "cooldown_between_deals": 45,
+  "safety_orders_size_type": 2,
+  "amount_type": 2,
+  "timeout_type": 3,
+  "conds": ["Condition1", "Condition2"],
+  "tp_conds": ["Condition3", "Condition4"],
+  "pair_type": "single",
+  "start_order_type": "market"
+}
+```
+
+### Run Bot
+
+#### `POST /api/v1/run_bot/`
+
+Run an existing bot.
+
+##### Request
+- Query Parameter: `bot_id` (Bot ID)
+
+##### Response
+```json
+{
+  "message": "Bot started successfully",
+  "ok": true
+}
+```
