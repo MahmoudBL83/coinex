@@ -1042,4 +1042,268 @@ Cancel an existing order on the exchange.
   }
 }
 ```
+# Crypto Bot WebApp API Documentation
+
+## Deposit
+- **Route:** `/api/v1/deposit/`
+- **Method:** `POST`, `GET`
+- **Authentication:** JWT required
+- **Parameters:**
+  - `symbol` (string): The symbol of the coin to deposit.
+  - `network` (string): The network of the coin to deposit.
+- **Response:**
+  ```json
+  {
+      "message": "successful deposit",
+      "ok": true,
+      "deposit": {
+          "info": {
+              "currency": "BTC",
+              "amount": "0.0001",
+              "txid": "5f7a0a9c03aa675e4a06f5b0",
+              "address": "3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy",
+              "type": "withdrawal",
+              "timestamp": "1601817600000",
+              "status": "success"
+          }
+      }
+  }
+  ```
+- **Notes:**
+  - Initiates a deposit with the exchange.
+
+## Get All Deposits
+- **Route:** `/api/v1/deposits/`
+- **Method:** `POST`, `GET`
+- **Authentication:** JWT required
+- **Response:**
+  ```json
+  [
+      {
+          "info": {
+              "currency": "BTC",
+              "amount": "0.0001",
+              "txid": "5f7a0a9c03aa675e4a06f5b0",
+              "address": "3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy",
+              "type": "withdrawal",
+              "timestamp": "1601817600000",
+              "status": "success"
+          }
+      }
+  ]
+  ```
+- **Notes:**
+  - Returns a list of all deposits.
+
+## Transfer
+- **Route:** `/api/v1/transfer/`
+- **Method:** `POST`, `GET`
+- **Authentication:** JWT required
+- **Parameters:**
+  - `amount` (float): The amount to transfer.
+  - `side` (string): The side of the transfer (funding or spot).
+  - `symbol` (string): The symbol of the coin to transfer.
+- **Response:**
+  ```json
+  {
+      "message": "Transfer successful. ID: 123",
+      "ok": true
+  }
+  ```
+- **Notes:**
+  - Initiates a transfer between spot and funding.
+
+## Convert
+- **Route:** `/api/v1/convert/`
+- **Method:** `POST`, `GET`
+- **Authentication:** JWT required
+- **Parameters:**
+  - `amount` (float): The amount to convert.
+  - `order_type` (string): The type of order (market or limit).
+  - `source_asset` (string): The source asset symbol.
+  - `target_asset` (string): The target asset symbol.
+  - `side` (string): The side of the conversion (1 for sell, 0 for buy).
+- **Response:**
+  ```json
+  {
+      "message": "Conversion order created on exchange.",
+      "ok": true,
+      "order": {
+          "id": 123,
+          "status": "open"
+      }
+  }
+  ```
+- **Notes:**
+  - Creates a conversion order on the exchange.
+
+## Withdraw
+- **Route:** `/api/v1/withdraw/`
+- **Method:** `POST`, `GET`
+- **Authentication:** JWT required
+- **Parameters:**
+  - `amount` (float): The amount to withdraw.
+  - `recipient_address` (string): The recipient's address.
+  - `currency` (string): The currency symbol.
+  - `network` (string): The network for the withdrawal.
+- **Response:**
+  ```json
+  {
+      "message": "Withdrawal successful.",
+      "ok": true
+  }
+  ```
+- **Notes:**
+  - Initiates a withdrawal from the exchange.
+
+## Get All Withdrawals
+- **Route:** `/api/v1/withdrawals/`
+- **Method:** `POST`, `GET`
+- **Authentication:** JWT required
+- **Response:**
+  ```json
+  [
+      {
+          "info": {
+              "currency": "BTC",
+              "amount": "0.0001",
+              "txid": "5f7a0a9c03aa675e4a06f5b0",
+              "address": "3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy",
+              "type": "withdrawal",
+              "timestamp": "1601817600000",
+              "status": "success"
+          }
+      }
+  ]
+  ```
+- **Notes:**
+  - Returns a list of all withdrawals.
+
+## Get Currencies
+- **Route:** `/api/v1/currencies/<exchange_name>`
+- **Method:** `POST`, `GET`
+- **Authentication:** JWT required
+- **Response:**
+  ```json
+  {
+      "active": true,
+      "code": "ETHW",
+      "deposit": true,
+      "fee": 0.01,
+      "id": "ETHW",
+      "limits": {
+          "amount": {
+              "max": null,
+              "min": null
+          },
+          "deposit": {
+              "max": null,
+              "min": 0
+          },
+          "withdraw": {
+              "max": null,
+              "min": 0.01
+          }
+      },
+      "name": "ETHW",
+      "networks": {
+          "ETHW": {
+              "active": true,
+              "deposit": true,
+              "fee": 0.01,
+              "id": "ETHW",
+              "info": {
+                  "chain": "ETHW",
+                  "chainDeposit": "1",
+                  "chainType": "ETHW",
+                  "chainWithdraw": "1",
+                  "confirmation": "50",
+                  "depositMin": "0",
+                  "minAccuracy": "8",
+                  "withdrawFee": "0.01",
+                  "withdrawMin": "0.01",
+                  "withdrawPercentageFee": "0"
+              },
+              "limits": {
+                  "deposit": {
+                      "max": null,
+                      "min": 0
+                  },
+                  "withdraw": {
+                      "max": null,
+                      "min": 0.01
+                  }
+              },
+              "network": "ETHW",
+              "precision": 1e-8,
+              "withdraw": true
+          }
+      },
+      "precision": 1e-8,
+      "withdraw": true
+  }
+  ```
+- **Notes:**
+  - Returns information about supported currencies.
+
+## Get Fees
+- **Route:** `/api/v1/fees`
+- **Method:** `POST`, `GET`
+- **Authentication:** JWT required
+- **Parameters:**
+  - `code` (string): The currency code.
+- **Response:**
+  ```json
+  {
+      "BTC": {
+
+
+          "deposit": 0.001,
+          "withdrawal": 0.002
+      }
+  }
+  ```
+- **Notes:**
+  - Returns deposit and withdrawal fees for the specified currency.
+
+## Get Markets
+- **Route:** `/api/v1/markets/<exchange_name>`
+- **Method:** `POST`, `GET`
+- **Authentication:** JWT required
+- **Response:**
+  ```json
+  {
+      "base": {
+          "1INCH": "1INCH",
+          "1SOL": "1SOL",
+          "3P": "3P",
+          ...
+      },
+      "quote": {
+          "BRZ": "BRZ",
+          "BTC": "BTC",
+          ...
+      }
+  }
+  ```
+- **Notes:**
+  - Returns a list of available trading pairs.
+
+## Get All Markets
+- **Route:** `/api/v1/all_markets/<exchange_name>`
+- **Method:** `POST`, `GET`
+- **Authentication:** JWT required
+- **Response:**
+  ```json
+  [
+      "1INCH/BTC",
+      "1SOL/BTC",
+      "3P/BTC",
+      ...
+  ]
+  ```
+- **Notes:**
+  - Returns a list of all available trading pairs.
+
+```
 
