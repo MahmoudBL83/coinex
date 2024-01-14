@@ -979,3 +979,67 @@ Run an existing bot.
   "ok": true
 }
 ```
+## Orders
+
+### Place Order
+
+#### `POST /api/v1/order/`
+
+Place a new order on the exchange.
+
+##### Request
+```json
+{
+  "symbol": "BTC/USDT",
+  "type": "limit",
+  "order_price": 40000.0,
+  "trigger_price": 41000.0,
+  "amount": 1.0,
+  "side": "buy"
+}
+```
+
+##### Response
+```json
+{
+  "message": "The operation was successful",
+  "ok": true,
+  "order": {
+    "id": "123456789",
+    "symbol": "BTC/USDT",
+    "type": "limit",
+    "price": 40000.0,
+    "amount": 1.0,
+    "side": "buy",
+    "status": "open"
+  }
+}
+```
+
+### Cancel Order
+
+#### `POST /api/v1/order/cancel`
+
+Cancel an existing order on the exchange.
+
+##### Request
+```json
+{
+  "id": "123456789",
+  "symbol": "BTC/USDT"
+}
+```
+
+##### Response
+```json
+{
+  "message": "The order with id 123456789 has been cancelled",
+  "ok": true,
+  "order": {
+    "id": "123456789",
+    "symbol": "BTC/USDT",
+    "status": "canceled"
+  }
+}
+```
+
